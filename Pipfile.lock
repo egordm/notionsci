@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dc65c28d8c3086cb0b0a40c2026a8f20742f50e5ba25c622533e4bdd8d7fb72b"
+            "sha256": "3c3ce394f6b3de3a31308b5274d40d1995dcc12b4d2a0be14b1ef3c57591e158"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -22,6 +22,14 @@
                 "sha256:ae57a67583e5ff8b4af47666ff5651c3732d45fd26c929253748e796af860374"
             ],
             "version": "==3.3.0"
+        },
+        "appdirs": {
+            "hashes": [
+                "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41",
+                "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"
+            ],
+            "index": "pypi",
+            "version": "==1.4.4"
         },
         "bibtexparser": {
             "hashes": [
@@ -108,7 +116,6 @@
                 "sha256:14475042e284991034cb48e06f6851428fb14c4dc953acd9be9a5e95c7b6dd7a",
                 "sha256:467fbad99067910785144ce333826c71fb0e63a425657295239737f7ecd125f3"
             ],
-            "markers": "python_version >= '3'",
             "version": "==3.2"
         },
         "mypy-extensions": {
