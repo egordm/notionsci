@@ -12,6 +12,7 @@ Pyzotero = "*"
 simple-parsing = "*"
 tqdm = "*"
 pyyaml = "*"
+dataclass-dict-convert = "*"
 
 [requires]
 python_version = "3.8"

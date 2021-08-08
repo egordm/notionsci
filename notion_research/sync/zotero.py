@@ -9,5 +9,7 @@ def sync():
 
 
 @sync.command()
-def zotero():
+@click.option('-db', '--database')
+def zotero(database: str):
     print(config)
+    print(database)
