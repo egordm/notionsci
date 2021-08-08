@@ -5,13 +5,15 @@ from notion_client import Client
 from pyzotero import zotero
 from simple_parsing import Serializable
 
+from notion_research.connections.notion import NotionClient
+
 
 @dataclass
 class NotionConfig(Serializable):
     token: str
 
-    def client(self):
-        return Client(auth=self.token)
+    def client(self) -> NotionClient:
+        return NotionClient(client=Client(auth=self.token))
 
 
 @dataclass

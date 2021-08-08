@@ -1,6 +1,6 @@
 import unittest
 
-from notion_research.connections.notion.database import DatabaseResult
+from notion_research.connections.notion.common import QueryResult
 
 
 class TestNotion(unittest.TestCase):
@@ -64,7 +64,7 @@ class TestNotion(unittest.TestCase):
              'url': 'https://www.notion.so/Hello-5beaf7fce6b34c19b656391551e29d6d'}], 'next_cursor': None,
                 'has_more': False}
 
-        result = DatabaseResult.from_dict(data)
+        result = QueryResult.from_dict(data)
         u = 0
 
 
