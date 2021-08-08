@@ -6,6 +6,7 @@ from pyzotero import zotero
 from simple_parsing import Serializable
 
 from notion_research.connections.notion import NotionClient
+from notion_research.connections.zotero.client import ZoteroClient
 
 
 @dataclass
@@ -22,8 +23,8 @@ class ZoteroConfig(Serializable):
     library_type: str
     library_id: str
 
-    def client(self):
-        return zotero.Zotero(self.library_id, self.library_type, self.library_id);
+    def client(self) -> ZoteroClient:
+        return ZoteroClient(client=zotero.Zotero(self.library_id, self.library_type, self.token))
 
 
 @dataclass

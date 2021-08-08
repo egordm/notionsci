@@ -5,7 +5,6 @@ from notion_client import Client
 
 from notion_research.connections.notion.common import ID, SortObject, QueryFilter, QueryResult, Database, Page, \
     format_query_args
-from notion_research.utils import filter_none_dict
 
 
 class NotionNotAttachedException(Exception):

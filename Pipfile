@@ -13,6 +13,7 @@ simple-parsing = "*"
 tqdm = "*"
 pyyaml = "*"
 dataclass-dict-convert = "*"
+dt = "*"
 
 [requires]
 python_version = "3.8"

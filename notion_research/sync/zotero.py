@@ -14,12 +14,16 @@ def sync():
 @click.option('-db', '--database')
 def zotero(database: str):
     database = config.connections.notion.client().database(database)
-    items = {
-        item.get_property('ID').value(): item.get_property('Modified At').value()
-        for item in tqdm(iter_items(database.query_all(
-            sorts=[SortObject(property='Modified At', direction=SortDirection.descending)]
-        )))
-    }
+    # notion_items = {
+    #     item.get_property('ID').value(): item.get_property('Modified At').value()
+    #     for item in tqdm(iter_items(database.query_all(
+    #         sorts=[SortObject(property='Modified At', direction=SortDirection.descending)]
+    #     )), desc='Loading existing Notion items')
+    # }
+
+    zotero_items = config.connections.zotero.client().all_items_tree()
+
+    # zotero
 
     print(config)
     print(database)

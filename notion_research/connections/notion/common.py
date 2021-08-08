@@ -129,6 +129,7 @@ CreatedByConfig = Dict
 LastEditedTimeConfig = dt.datetime
 LastEditedByConfig = Dict
 
+
 def object_to_text_value(raw_value: Any):
     if isinstance(raw_value, list):
         return ' '.join([object_to_text_value(v) for v in raw_value])
@@ -256,7 +257,7 @@ class Database(ContentObject):
     object: str = 'database'
 
 
-def result_from_dict_convertor():
+def result_from_dict_converter():
     def wrap(val: List[dict]):
         result = []
 
@@ -272,7 +273,7 @@ def result_from_dict_convertor():
     return wrap
 
 
-def result_to_dict_convertor():
+def result_to_dict_converter():
     def wrap(val: List[Union[Page, Database]]):
         return [item.to_dict() for item in val]
 
@@ -282,11 +283,11 @@ def result_to_dict_convertor():
 @dataclass_dict_convert(
     dict_letter_case=snakecase,
     custom_from_dict_convertors={
-        'results': result_from_dict_convertor()
+        'results': result_from_dict_converter()
     },
     custom_to_dict_convertors={
-        'results': result_to_dict_convertor()
-    }
+        'results': result_to_dict_converter()
+    },
 )
 @dataclass
 class QueryResult:
