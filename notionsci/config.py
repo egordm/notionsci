@@ -72,4 +72,5 @@ def load_config() -> Config:
     return config
 
 
-config = load_config()
+config: Config = load_config()
+

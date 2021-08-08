@@ -4,6 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+bumpversion = {version = "*"}
+twine = {version = "*"}
+pipenv-to-requirements = "*"
+pipenv-setup = "*"
+black = "*"
 
 [packages]
 notion-client = "*"
@@ -18,3 +23,6 @@ appdirs = "*"
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true

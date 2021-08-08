@@ -2,6 +2,7 @@ import logging
 
 import click
 
+import notionsci.general.config
 from notionsci import sync
 
 
@@ -12,3 +13,4 @@ def cli(verbose):
 
 
 cli.add_command(sync.sync)
+cli.add_command(notionsci.general.config.config)
