@@ -32,9 +32,11 @@ class Library:
 @dataclass_dict_convert(dict_letter_case=camelcase)
 @dataclass
 class Meta:
-    created_by_user: User
+    created_by_user: Optional[User] = None
     parsed_date: Optional[str] = None
     creator_summary: Optional[str] = None
+    num_items: Optional[int] = None
+    num_collections: Optional[int] = None
     num_children: Optional[int] = None
 
 
@@ -95,6 +97,7 @@ class ItemData:
 
     parent_item: Optional[ID] = None
     tags: Optional[List[str]] = None
+    collections: Optional[List[ID]] = None
     relations: Optional[Dict] = None
     properties: Optional[Dict[str, Any]] = None
 
@@ -153,6 +156,42 @@ class Item:
     data: ItemData
 
     children: Optional[Dict[ID, ItemData]] = None
+
+    @property
+    def title(self):
+        return self.data.title
+
+
+@dataclass_dict_convert(dict_letter_case=camelcase)
+@dataclass
+class CollectionData:
+    key: ID
+    version: int
+    name: str
+    parent_collection: Optional[ID] = None
+    relations: Optional[Dict] = None
+
+    @property
+    def title(self):
+        return self.name
+
+
+@dataclass_dict_convert(dict_letter_case=camelcase)
+@dataclass
+class Collection:
+    key: ID
+    version: int
+    library: Library
+    links: Links
+    meta: Meta
+    data: CollectionData
+
+    children: Optional[Dict[ID, CollectionData]] = None
+    items: Optional[Dict[ID, ItemData]] = None
+
+    @property
+    def title(self):
+        return self.data.title
 
 
 @dataclass_dict_convert(dict_letter_case=camelcase)

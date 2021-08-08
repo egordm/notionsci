@@ -21,7 +21,8 @@ def zotero(database: str):
     #     )), desc='Loading existing Notion items')
     # }
 
-    zotero_items = config.connections.zotero.client().all_items_tree()
+    zotero_items = config.connections.zotero.client().all_items_grouped()
+    zotero_collections = config.connections.zotero.client().all_collections_grouped()
 
     # zotero
 

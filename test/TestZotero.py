@@ -1,6 +1,6 @@
 import unittest
 
-from notion_research.connections.zotero.common import Item
+from notion_research.connections.zotero.common import Item, Collection
 from utils import load_asset_json
 
 
@@ -14,3 +14,11 @@ class TestZotero(unittest.TestCase):
         ]
         u = 0
 
+    def test_parse_collections(self):
+        data = load_asset_json('zotero_collections.json')
+
+        result = [
+            Collection.from_dict(i)
+            for i in data
+        ]
+        u = 0
