@@ -1,6 +1,6 @@
 import unittest
 
-from notion_research.connections.notion.common import QueryResult
+from notionsci.connections.notion.common import QueryResult
 from utils import load_asset_json
 
 

@@ -3,8 +3,8 @@ from typing import Optional, List, Dict
 
 from pyzotero.zotero import Zotero
 
-from notion_research.connections.notion import NotionNotAttachedException
-from notion_research.connections.zotero.common import SearchParameters, SearchPagination, Item, ID, Collection
+from notionsci.connections.notion import NotionNotAttachedException
+from notionsci.connections.zotero.common import SearchParameters, SearchPagination, Item, ID, Collection
 
 
 class ZoteroNotAttachedException(Exception):

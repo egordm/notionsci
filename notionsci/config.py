@@ -5,8 +5,8 @@ from notion_client import Client
 from pyzotero import zotero
 from simple_parsing import Serializable
 
-from notion_research.connections.notion import NotionClient
-from notion_research.connections.zotero.client import ZoteroClient
+from notionsci.connections.notion import NotionClient
+from notionsci.connections.zotero.client import ZoteroClient
 
 
 @dataclass

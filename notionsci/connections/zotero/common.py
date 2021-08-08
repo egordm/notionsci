@@ -6,7 +6,7 @@ from typing import Dict, Any, List, Optional
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import camelcase
 
-from notion_research.utils import filter_none_dict
+from notionsci.utils import filter_none_dict
 
 ID = str
 

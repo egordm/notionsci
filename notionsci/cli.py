@@ -2,7 +2,7 @@ import logging
 
 import click
 
-from notion_research import sync
+from notionsci import sync
 
 
 @click.group()

@@ -3,11 +3,11 @@ from typing import Dict, Optional
 import click
 from tqdm import tqdm
 
-from notion_research.config import config
-from notion_research.connections.notion import SortDirection, SortObject, iter_items, Page, Parent, Property
-from notion_research.connections.zotero.common import Item, ID, Collection
-from notion_research.connections.zotero.helpers import build_inherency_tree, generate_citekey
-from notion_research.utils import key_by, flatten
+from notionsci.config import config
+from notionsci.connections.notion import SortDirection, SortObject, iter_items, Page, Parent, Property
+from notionsci.connections.zotero.common import Item, ID, Collection
+from notionsci.connections.zotero.helpers import build_inherency_tree, generate_citekey
+from notionsci.utils import key_by, flatten
 
 
 @click.group()

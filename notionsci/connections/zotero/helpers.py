@@ -1,7 +1,7 @@
 import re
 from typing import List, Iterable, Dict, Set
 
-from notion_research.connections.zotero.common import ID, Collection, Item
+from notionsci.connections.zotero.common import ID, Collection, Item
 
 
 def build_inherency_tree(collections: Iterable[Collection]) -> Dict[ID, Set[ID]]:

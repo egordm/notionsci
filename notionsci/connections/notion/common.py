@@ -6,7 +6,7 @@ from typing import Optional, List, Dict, Union, Any
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notion_research.utils import filter_none_dict, ExplicitNone
+from notionsci.utils import filter_none_dict, ExplicitNone
 
 Color = str
 ID = str
