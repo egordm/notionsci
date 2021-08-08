@@ -1,7 +1,7 @@
 import datetime as dt
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional
 
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import camelcase
@@ -79,6 +79,13 @@ class ItemType(Enum):
     webpage = 'webpage'
 
 
+@dataclass_dict_convert(dict_letter_case=camelcase)
+@dataclass
+class Tag:
+    tag: str
+    type: Optional[int] = None
+
+
 def ignore_unknown(field):
     pass
 
@@ -96,10 +103,13 @@ class ItemData:
     date_modified: dt.datetime
 
     parent_item: Optional[ID] = None
-    tags: Optional[List[str]] = None
+    tags: Optional[List[Tag]] = None
     collections: Optional[List[ID]] = None
     relations: Optional[Dict] = None
     properties: Optional[Dict[str, Any]] = None
+
+    def get(self, property: str, default=None):
+        return self.properties[property] if property in self.properties else default
 
     @property
     def title(self):
@@ -109,6 +119,34 @@ class ItemData:
             if self.item_type == ItemType.note:
                 return self.properties['note']
             raise Exception('Title not found')
+
+    @property
+    def authors(self):
+        if 'creators' in self.properties:
+            creators = list(map(lambda x: x['lastName'], self.properties['creators']))
+            if len(creators) == 1:
+                return creators[0]
+            elif len(creators) == 2:
+                return ' and '.join(creators)
+            elif len(creators) > 2:
+                return f'{creators[0]} et al.'
+        return ''
+
+    @property
+    def date(self):
+        return self.get('date', '')
+
+    @property
+    def abstract(self):
+        return self.get('abstractNote', '')
+
+    @property
+    def url(self):
+        return self.get('url', None)
+
+    @property
+    def publication(self):
+        return self.get('publicationTitle', '')
 
 
 def item_from_dict_converter():
@@ -160,6 +198,18 @@ class Item:
     @property
     def title(self):
         return self.data.title
+
+    @property
+    def authors(self):
+        return self.meta.creator_summary if self.meta.creator_summary else self.data.authors
+
+    @property
+    def date(self):
+        return self.meta.parsed_date if self.meta.parsed_date else self.data.date
+
+    @property
+    def year(self):
+        return self.meta.parsed_date.split('-')[0] if self.meta.parsed_date else ''
 
 
 @dataclass_dict_convert(dict_letter_case=camelcase)

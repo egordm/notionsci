@@ -5,6 +5,7 @@ from notion_client import Client
 
 from notion_research.connections.notion.common import ID, SortObject, QueryFilter, QueryResult, Database, Page, \
     format_query_args
+from notion_research.utils import strip_none_field
 
 
 class NotionNotAttachedException(Exception):
@@ -68,6 +69,18 @@ class NotionDatabase(NotionApiMixin, Database):
 class NotionClient(NotionApiMixin):
     def database(self, id: ID) -> NotionDatabase:
         return NotionDatabase(client=self.client, id=id)
+
+    def update_page(self, page: Page) -> Page:
+        args = strip_none_field(page.to_dict())
+        result = self.client.pages.update(page.id, **args)
+        page = Page.from_dict(result)
+        return page
+
+    def create_page(self, page: Page) -> Page:
+        args = strip_none_field(page.to_dict())
+        result = self.client.pages.create(**args)
+        page = Page.from_dict(result)
+        return page
 
     def search(
             self,

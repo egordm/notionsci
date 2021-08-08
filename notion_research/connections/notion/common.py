@@ -6,7 +6,7 @@ from typing import Optional, List, Dict, Union, Any
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notion_research.utils import filter_none_dict
+from notion_research.utils import filter_none_dict, ExplicitNone
 
 Color = str
 ID = str
@@ -33,7 +33,7 @@ class Annotation:
 @dataclass
 class TextObject:
     content: str
-    link: Optional[Dict]
+    link: Optional[Dict] = None
 
     def get_text(self) -> str:
         return self.content
@@ -60,9 +60,9 @@ class MentionObject:
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class RichText:
-    plain_text: str
-    annotations: Annotation
     type: RichTextType
+    plain_text: Optional[str] = None
+    annotations: Optional[str] = None
     href: Optional[str] = None
     text: Optional[TextObject] = None
     equation: Optional[EquationObject] = None
@@ -78,6 +78,15 @@ class RichText:
 
     def text_value(self) -> str:
         return self.raw_value().get_text()
+
+    @staticmethod
+    def from_text(text: str) -> 'RichText':
+        return RichText(
+            type=RichTextType.text,
+            text=TextObject(
+                content=text
+            )
+        )
 
 
 class PropertyType(Enum):
@@ -105,9 +114,9 @@ class PropertyType(Enum):
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class SelectConfig:
-    id: str
     name: str
-    color: Color
+    id: Optional[str] = None
+    color: Optional[Color] = None
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -128,6 +137,7 @@ CreatedTimeConfig = dt.datetime
 CreatedByConfig = Dict
 LastEditedTimeConfig = dt.datetime
 LastEditedByConfig = Dict
+UrlConfig = str
 
 
 def object_to_text_value(raw_value: Any):
@@ -141,8 +151,8 @@ def object_to_text_value(raw_value: Any):
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class Property:
-    id: str
     type: PropertyType
+    id: Optional[str] = None
     name: Optional[str] = None
 
     title: Optional[List[TitleConfig]] = None
@@ -154,7 +164,7 @@ class Property:
     people: Optional[PeopleConfig] = None
     files: Optional[Dict] = None
     checkbox: Optional[CheckboxConfig] = None
-    url: Optional[Dict] = None
+    url: Optional[UrlConfig] = None
     email: Optional[EmailConfig] = None
     phone_number: Optional[Dict] = None
     formula: Optional[Dict] = None
@@ -209,11 +219,49 @@ class Property:
     def value(self):
         return object_to_text_value(self.raw_value())
 
+    @staticmethod
+    def as_title(text: str) -> 'Property':
+        return Property(
+            type=PropertyType.title,
+            title=[RichText.from_text(text)]
+        )
+
+    @staticmethod
+    def as_url(text: str) -> 'Property':
+        return Property(
+            type=PropertyType.url,
+            url=text if text else ExplicitNone()
+        )
+
+    @staticmethod
+    def as_rich_text(text: str) -> 'Property':
+        return Property(
+            type=PropertyType.rich_text,
+            rich_text=[RichText.from_text(text or '')]
+        )
+
+    @staticmethod
+    def as_select(value: str) -> 'Property':
+        return Property(
+            type=PropertyType.select,
+            select=SelectConfig(name=value)
+        )
+
+    @staticmethod
+    def as_multi_select(values: List[str]) -> 'Property':
+        return Property(
+            type=PropertyType.multi_select,
+            multi_select=[
+                SelectConfig(name=value)
+                for value in values
+            ]
+        )
+
 
 class ParentType(Enum):
-    DATABASE = 'database'
-    PAGE = 'page'
-    WORKSPACE = 'workspace'
+    database = 'database'
+    page = 'page'
+    workspace = 'workspace'
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -223,6 +271,10 @@ class Parent:
     database_id: Optional[ID] = None
     page_id: Optional[ID] = None
     workspace: Optional[bool] = None
+
+    @staticmethod
+    def database(id: ID) -> 'Parent':
+        return Parent(type=ParentType.database, database_id=id)
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -238,6 +290,12 @@ class ContentObject:
 
     def get_property(self, name: str) -> Property:
         return self.properties[name]
+
+    def extend_properties(self, properties: Dict[str, Property]):
+        self.properties = {
+            **self.properties,
+            **properties
+        }
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)

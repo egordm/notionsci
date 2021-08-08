@@ -139,7 +139,8 @@ class ZoteroClient(ZoteroApiMixin):
                 parent.children[child_key] = child
                 known_children.add(child_key)
 
-        for k in known_children:
-            del collections[k]
+        if delete_children:
+            for k in known_children:
+                del collections[k]
 
         return list(collections.values())
