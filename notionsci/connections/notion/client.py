@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, List, Iterator, Union
+from typing import Optional, List, Iterator
 
 from notion_client import Client
 
@@ -32,11 +32,6 @@ class NotionApiMixin:
         return self.client
 
 
-def iter_items(iter: Iterator[QueryResult]) -> Iterator[Union[Page, Database]]:
-    for result in iter:
-        yield from result.results
-
-
 @dataclass
 class NotionDatabase(NotionApiMixin, Database):
     def query(
@@ -55,14 +50,14 @@ class NotionDatabase(NotionApiMixin, Database):
             self,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None
-    ):
+    ) -> Iterator[Page]:
         args = dict(filter=filter, sorts=sorts, page_size=100)
         done = False
         while not done:
             result = self.query(**args)
             done = not result.has_more
             args['start_cursor'] = result.next_cursor
-            yield result
+            yield from result.results
 
 
 @dataclass

@@ -4,9 +4,8 @@ import click
 from tqdm import tqdm
 
 from notionsci.config import config
-from notionsci.connections.notion import SortDirection, SortObject, iter_items, Page, Parent, Property
-from notionsci.connections.zotero.common import Item, ID, Collection
-from notionsci.connections.zotero.helpers import build_inherency_tree, generate_citekey
+from notionsci.connections.notion import SortDirection, SortObject, Page, Parent, Property
+from notionsci.connections.zotero import Item, ID, Collection, build_inherency_tree, generate_citekey
 from notionsci.utils import key_by, flatten
 
 
@@ -23,9 +22,9 @@ def zotero(database: str, force: bool = False):
     database = notion.database(database)
 
     print('Loading existing Notion items')
-    notion_items: Dict[ID, Page] = key_by(tqdm(iter_items(database.query_all(
+    notion_items: Dict[ID, Page] = key_by(tqdm(database.query_all(
         sorts=[SortObject(property='Modified At', direction=SortDirection.descending)]
-    )), leave=False), lambda x: x.get_property('ID').value())
+    ), leave=False), lambda x: x.get_property('ID').value())
 
     print('Loading existing Zotero items')
     zotero_items: Dict[ID, Item] = key_by(
@@ -53,8 +52,8 @@ def zotero(database: str, force: bool = False):
         properties = {
             'ID': Property.as_rich_text(item.key),
             'Type': Property.as_select(item.data.item_type.value),
-            'Cite Key': Property.as_rich_text(generate_citekey(item)),
-            'Title': Property.as_title(item.title),
+            'Cite Key': Property.as_title(generate_citekey(item)),
+            'Title': Property.as_rich_text(item.title),
             'Authors': Property.as_rich_text(item.authors),
             'Publication Date': Property.as_rich_text(item.date),
             'Abstract': Property.as_rich_text(item.data.abstract),
