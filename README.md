@@ -5,13 +5,12 @@
         <b>Collection of scientific app/tool syncs for <a href="https://developers.notion.com">Notion API</a></b>
     </p>
     <p>
-        <a href="https://pypi.org/project/notionsci"><img src="https://img.shields.io/pypi/v/notion-client.svg" alt="PyPI"></a>
+        <a href="https://pypi.org/project/notionsci"><img src="https://img.shields.io/pypi/v/notionsci.svg" alt="PyPI"></a>
         <a href="Pipfile"><img src="https://img.shields.io/pypi/pyversions/notionsci" alt="Supported Python Versions"></a>
         <a href="LICENSE"><img src="https://img.shields.io/github/license/EgorDm/notionsci" alt="License"></a>
         <a href="https://github.com/ambv/black"><img src="https://img.shields.io/badge/code%20style-black-black" alt="Code style"></a>
         <br/>
-        <a href="https://github.com/EgorDm/notionsci/actions/workflows/quality.yml"><img src="https://github.com/ramnes/notion-sdk-py/actions/workflows/quality.yml/badge.svg" alt="Code Quality"></a>
-        <a href="https://github.com/EgorDm/notionsci/actions/workflows/docs.yml"><img src="https://github.com/ramnes/notion-sdk-py/actions/workflows/docs.yml/badge.svg" alt="Docs"></a>
+        <a href="https://github.com/EgorDm/notionsci/actions/workflows/test.yml"><img src="https://github.com/EgorDm/notionsci/actions/workflows/test.yml/badge.svg" alt="Test"></a>
     </p>
     <br/>
 </div>
