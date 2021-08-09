@@ -32,6 +32,3 @@ publish-test: check-package
 
 publish-prod: check-package
 	pipenv run twine upload dist/*
-
-publish-travis: check-package
-	pipenv run twine upload dist/* -u $$PYPI_USERNAME -p $$PYPI_PASSWORD
