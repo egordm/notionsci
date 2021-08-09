@@ -12,7 +12,7 @@ setup:
 	pipenv install --dev --three
 
 clean:
-	rm -rf dist build requirements.txt requirements-dev.txt notionsci.egg-info AUTHORS ChangeLog
+	rm -rf dist build requirements.txt requirements-dev.txt notionsci.egg-info
 
 #---- Packaging ----
 

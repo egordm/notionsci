@@ -5,7 +5,7 @@
         <b>Collection of scientific app/tool syncs for <a href="https://developers.notion.com">Notion API</a></b>
     </p>
     <p>
-        <a href="https://pypi.org/project/notion-client"><img src="https://img.shields.io/pypi/v/notion-client.svg" alt="PyPI"></a>
+        <a href="https://pypi.org/project/notionsci"><img src="https://img.shields.io/pypi/v/notion-client.svg" alt="PyPI"></a>
         <a href="Pipfile"><img src="https://img.shields.io/pypi/pyversions/notionsci" alt="Supported Python Versions"></a>
         <a href="LICENSE"><img src="https://img.shields.io/github/license/EgorDm/notionsci" alt="License"></a>
         <a href="https://github.com/ambv/black"><img src="https://img.shields.io/badge/code%20style-black-black" alt="Code style"></a>
