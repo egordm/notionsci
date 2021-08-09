@@ -55,7 +55,7 @@ connections:
 > [→ Learn more about authorization](https://www.zotero.org/support/dev/web_api/v3/basics#authentication).
 
 Built-in commands allow you to sync your citations to a Notion table. 
-Start by forking the following [the template references page](https://ink-porch-b0f.notion.site/da043e6adba64b5b9deba02557f5f28b?v=fc76715f54134879b7dae635ffee7546).
+Start by forking the following [the template references page](https://efficacious-alarm-7cc.notion.site/c07599f91c9d4e91ad2cfc6b30472cc5?v=b034106aaea847c2865643a32d755a21).
 
 Extract the database uuid from the url. (TODO: Elaborate)
 
