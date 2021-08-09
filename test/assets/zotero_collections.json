@@ -1,0 +1,74 @@
+[
+  {
+    "key": "123456",
+    "version": 49,
+    "library": {
+      "type": "group",
+      "id": 123456,
+      "name": "Research",
+      "links": {
+        "alternate": {
+          "href": "https://www.zotero.org/groups/123456",
+          "type": "text/html"
+        }
+      }
+    },
+    "links": {
+      "self": {
+        "href": "https://api.zotero.org/groups/123456/collections/123456",
+        "type": "application/json"
+      },
+      "alternate": {
+        "href": "https://www.zotero.org/groups/123456/collections/123456",
+        "type": "text/html"
+      }
+    },
+    "meta": {
+      "numCollections": 0,
+      "numItems": 6
+    },
+    "data": {
+      "key": "123456",
+      "version": 49,
+      "name": "Test 1",
+      "parentCollection": false,
+      "relations": {}
+    }
+  },
+  {
+    "key": "ABCDEF",
+    "version": 49,
+    "library": {
+      "type": "group",
+      "id": 123456,
+      "name": "Research",
+      "links": {
+        "alternate": {
+          "href": "https://www.zotero.org/groups/123456",
+          "type": "text/html"
+        }
+      }
+    },
+    "links": {
+      "self": {
+        "href": "https://api.zotero.org/groups/123456/collections/ABCDEF",
+        "type": "application/json"
+      },
+      "alternate": {
+        "href": "https://www.zotero.org/groups/123456/collections/ABCDEF",
+        "type": "text/html"
+      }
+    },
+    "meta": {
+      "numCollections": 2,
+      "numItems": 0
+    },
+    "data": {
+      "key": "ABCDEF",
+      "version": 49,
+      "name": "Test 2",
+      "parentCollection": "123456",
+      "relations": {}
+    }
+  }
+]

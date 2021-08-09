@@ -9,6 +9,7 @@ twine = {version = "*"}
 pipenv-to-requirements = "*"
 pipenv-setup = "*"
 black = "*"
+pbr = "*"
 
 [packages]
 notion-client = "*"
@@ -26,3 +27,6 @@ python_version = "3.8"
 
 [pipenv]
 allow_prereleases = true
+
+[scripts]
+test = "python -m unittest discover -s test -p \"Test*.py\""

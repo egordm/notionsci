@@ -2,7 +2,7 @@
 <div align="center">
     <h1>NotionSci</h1>
     <p>
-        <b>Collection of scientific application syncs for <a href="https://developers.notion.com">Notion API</a></b>
+        <b>Collection of scientific app/tool syncs for <a href="https://developers.notion.com">Notion API</a></b>
     </p>
     <p>
         <a href="https://pypi.org/project/notion-client"><img src="https://img.shields.io/pypi/v/notion-client.svg" alt="PyPI"></a>
@@ -23,7 +23,7 @@ This cli is meant to allow syncing of scienfic/reasearch tools to notion. (Such 
 ## Installation
 <!-- markdownlint-enable -->
 ```shell
-pip install notionsy
+pip install notionsci
 ```
 
 ## Usage
@@ -34,7 +34,20 @@ pip install notionsy
 Generate initial configuration and fill the **integration token** and other connection api keys.
 
 ```bash
-notionsy config
+notionsci config
+```
+
+The config.yml should be created at `~/.config/notionsci` (linux) 
+and `/Library/Application Support/notionsci` (Mac OS X).
+
+```yaml
+connections:
+  notion:
+    token: 'token'
+  zotero:
+    library_id: '123456'
+    library_type: 'user'
+    token: 'token'
 ```
 
 ### Zotero Connection
@@ -48,5 +61,5 @@ Start by forking the following [the template references page](https://ink-porch-
 Extract the database uuid from the url. (TODO: Elaborate)
 
 ```bash
-notionsy sync zotero -db=<db uuid>
+notionsci sync zotero -db=<db uuid>
 ```

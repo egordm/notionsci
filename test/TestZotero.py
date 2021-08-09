@@ -9,10 +9,12 @@ class TestZotero(unittest.TestCase):
         data = load_asset_json("zotero_items.json")
 
         result = [Item.from_dict(i) for i in data]
-        u = 0
 
     def test_parse_collections(self):
         data = load_asset_json("zotero_collections.json")
 
         result = [Collection.from_dict(i) for i in data]
-        u = 0
+
+
+if __name__ == "__main__":
+    unittest.main()

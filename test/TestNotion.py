@@ -9,4 +9,7 @@ class TestNotion(unittest.TestCase):
         data = load_asset_json("notion_database_items.json")
 
         result = QueryResult.from_dict(data)
-        u = 0
+
+
+if __name__ == "__main__":
+    unittest.main()

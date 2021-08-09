@@ -1,0 +1,128 @@
+[
+  {
+    "key": "123457",
+    "version": 46,
+    "library": {
+      "type": "group",
+      "id": 123456,
+      "name": "Research",
+      "links": {
+        "alternate": {
+          "href": "https://www.zotero.org/groups/123456",
+          "type": "text/html"
+        }
+      }
+    },
+    "links": {
+      "self": {
+        "href": "https://api.zotero.org/groups/123456/items/123457",
+        "type": "application/json"
+      },
+      "alternate": {
+        "href": "https://www.zotero.org/groups/123456/items/123457",
+        "type": "text/html"
+      },
+      "up": {
+        "href": "https://api.zotero.org/groups/123456/items/PDZHIRVW",
+        "type": "application/json"
+      }
+    },
+    "meta": {
+      "createdByUser": {
+        "id": 123459,
+        "username": "johndoe",
+        "name": "",
+        "links": {
+          "alternate": {
+            "href": "https://www.zotero.org/johndoe",
+            "type": "text/html"
+          }
+        }
+      },
+      "numChildren": 0
+    },
+    "data": {
+      "key": "123457",
+      "version": 46,
+      "parentItem": "PDZHIRVW",
+      "itemType": "attachment",
+      "linkMode": "imported_url",
+      "title": "Lorem ipsum dolor sit amet",
+      "accessDate": "2020-12-23T20:01:14Z",
+      "url": "https://google.com",
+      "note": "",
+      "contentType": "application/pdf",
+      "charset": "",
+      "filename": "Lorem ipsum dolor sit amet/pdf",
+      "md5": null,
+      "mtime": null,
+      "tags": [],
+      "relations": {},
+      "dateAdded": "2021-08-08T11:40:04Z",
+      "dateModified": "2021-08-08T11:40:04Z"
+    }
+  },
+  {
+    "key": "123458",
+    "version": 46,
+    "library": {
+      "type": "group",
+      "id": 123456,
+      "name": "Research",
+      "links": {
+        "alternate": {
+          "href": "https://www.zotero.org/groups/123456",
+          "type": "text/html"
+        }
+      }
+    },
+    "links": {
+      "self": {
+        "href": "https://api.zotero.org/groups/123456/items/123458",
+        "type": "application/json"
+      },
+      "alternate": {
+        "href": "https://www.zotero.org/groups/123456/items/123458",
+        "type": "text/html"
+      },
+      "up": {
+        "href": "https://api.zotero.org/groups/123456/items/9JJEZW72",
+        "type": "application/json"
+      }
+    },
+    "meta": {
+      "createdByUser": {
+        "id": 123459,
+        "username": "johndoe",
+        "name": "",
+        "links": {
+          "alternate": {
+            "href": "https://www.zotero.org/johndoe",
+            "type": "text/html"
+          }
+        }
+      },
+      "numChildren": 0
+    },
+    "data": {
+      "key": "123458",
+      "version": 46,
+      "parentItem": "9JJEZW72",
+      "itemType": "attachment",
+      "linkMode": "imported_url",
+      "title": "Lorem ipsum dolor sit amet",
+      "accessDate": "2020-12-11T21:46:34Z",
+      "url": "https://google.com/",
+      "note": "",
+      "contentType": "text/html",
+      "charset": "utf-8",
+      "filename": "Lorem ipsum dolor sit amet",
+      "md5": null,
+      "mtime": null,
+      "tags": [],
+      "relations": {},
+      "dateAdded": "2021-08-08T11:40:04Z",
+      "dateModified": "2021-08-08T11:40:04Z"
+    }
+  }
+]
