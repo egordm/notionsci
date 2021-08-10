@@ -111,5 +111,3 @@ class NotionClient(NotionApiMixin):
         )
 
 
-def parse_uuid(ctx, param, value):
-    return f'{value[:8]}-{value[8:12]}-{value[12:16]}-{value[16:20]}-{value[20:]}'

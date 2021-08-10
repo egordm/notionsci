@@ -126,6 +126,12 @@ class DateValue:
     end: Optional[str]
 
 
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class RelationItem:
+    id: ID
+
+
 TitleValue = List[RichText]
 RichTextValue = List[RichText]
 NumberValue = int
@@ -138,6 +144,7 @@ CreatedByValue = Dict
 LastEditedTimeValue = dt.datetime
 LastEditedByValue = Dict
 UrlValue = str
+RelationValue = List[RelationItem]
 
 
 def object_to_text_value(raw_value: Any):
@@ -167,7 +174,7 @@ class Property:
     email: Optional[EmailValue] = None
     phone_number: Optional[Dict] = None
     formula: Optional[Dict] = None
-    relation: Optional[Dict] = None
+    relation: Optional[RelationValue] = None
     rollup: Optional[Dict] = None
     created_time: Optional[CreatedTimeValue] = None
     created_by: Optional[CreatedByValue] = None
@@ -255,11 +262,26 @@ class Property:
             ]
         )
 
+    @staticmethod
+    def as_relation(relations: RelationValue) -> 'Property':
+        return Property(
+            type=PropertyType.relation,
+            relation=relations
+        )
+
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class SelectDef:
     options: List[SelectValue]
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class RelationDef:
+    database_id: ID
+    synced_property_name: Optional[str] = None
+    synced_property_id: Optional[str] = None
 
 
 TitleDef = Dict
@@ -297,7 +319,7 @@ class PropertyDef:
     email: Optional[EmailDef] = None
     phone_number: Optional[Dict] = None
     formula: Optional[Dict] = None
-    relation: Optional[Dict] = None
+    relation: Optional[RelationDef] = None
     rollup: Optional[Dict] = None
     created_time: Optional[CreatedTimeDef] = None
     created_by: Optional[CreatedByDef] = None
@@ -323,6 +345,10 @@ class PropertyDef:
     @staticmethod
     def as_multi_select() -> 'PropertyDef':
         return PropertyDef(type=PropertyType.multi_select, multi_select=SelectDef(options=[]))
+
+    @staticmethod
+    def as_last_edited_time() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.last_edited_time, last_edited_time={})
 
 
 class ParentType(Enum):
@@ -386,7 +412,6 @@ class Database(ContentObject):
     object: str = 'database'
     title: Optional[TitleValue] = None
     properties: Dict[str, PropertyDef] = field(default_factory=dict)
-
 
 
 def result_from_dict_converter():
