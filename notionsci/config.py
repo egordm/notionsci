@@ -1,7 +1,9 @@
 import logging
 import os
+import sys
 from dataclasses import dataclass
 
+import click
 from appdirs import user_config_dir
 from notion_client import Client
 from pyzotero import zotero
@@ -9,6 +11,11 @@ from simple_parsing import Serializable
 
 from notionsci.connections.notion import NotionClient
 from notionsci.connections.zotero.client import ZoteroClient
+
+CONFIG_VERSION = 1
+APP_NAME = "notionsci"
+DEFAULT_PROFLE = "default"
+OVERRIDE_CONFIG_NAME = 'config.yml'
 
 
 @dataclass
@@ -39,24 +46,29 @@ class Connections(Serializable):
 
 @dataclass
 class Config(Serializable):
+    version: int = CONFIG_VERSION
     connections: Connections = Connections()
-
-
-APP_NAME = "notionsci"
-CONFIG_NAME = "config.yml"
 
 
 def load_config() -> Config:
     logging.basicConfig(level=logging.INFO)
 
+    profile_arg = next(filter(lambda x: x.startswith('--profile='), sys.argv), None)
+    if profile_arg:
+        sys.argv.remove(profile_arg)
+        profile_arg = profile_arg.replace('--profile=', '')
+
+    profile = profile_arg or os.getenv('PROFILE', None) or DEFAULT_PROFLE
+    config_name = f'{profile}.yml'
+
     # Determine correct config location
-    if os.path.exists(CONFIG_NAME):
-        config_path = CONFIG_NAME
-        logging.info(f"Using overridden {CONFIG_NAME} in the current directory")
+    if os.path.exists(OVERRIDE_CONFIG_NAME):
+        config_path = OVERRIDE_CONFIG_NAME
+        logging.info(f"Using overridden {OVERRIDE_CONFIG_NAME} in the current directory")
     else:
-        config_path = os.path.join(user_config_dir(APP_NAME), CONFIG_NAME)
+        config_path = os.path.join(user_config_dir(APP_NAME), config_name)
         if not os.path.exists(config_path):
-            logging.info(f"No default config detected.")
+            logging.info(f"No {profile} config detected.")
             logging.info(f"Creating default config in: {config_path}")
             logging.info(f"Please update the api tokens")
             os.makedirs(os.path.dirname(config_path), exist_ok=True)
