@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, List, Iterator
+from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 
 from notion_client import Client
 
@@ -32,50 +32,62 @@ class NotionApiMixin:
         return self.client
 
 
+def traverse_pagination(args: dict, query_fn: Callable[[Dict], Any]) -> Iterator[Any]:
+    done = False
+    while not done:
+        result = query_fn(**args)
+        done = not result.has_more
+        args['start_cursor'] = result.next_cursor
+        yield from result.results
+
+
 @dataclass
-class NotionDatabase(NotionApiMixin, Database):
-    def query(
+class NotionClient(NotionApiMixin):
+    def page_get(self, id: ID) -> Page:
+        result = self.client.pages.retrieve(id)
+        return Database.from_dict(result)
+
+    def page_update(self, page: Page) -> Page:
+        args = strip_none_field(page.to_dict())
+        result = self.client.pages.update(page.id, **args)
+        return Page.from_dict(result)
+
+    def page_create(self, page: Page) -> Page:
+        args = strip_none_field(page.to_dict())
+        result = self.client.pages.create(**args)
+        return Page.from_dict(result)
+
+    def database_get(self, id: ID) -> Database:
+        result = self.client.databases.retrieve(id)
+        return Database.from_dict(result)
+
+    def database_create(self, database: Database) -> Database:
+        args = strip_none_field(database.to_dict())
+        result = self.client.databases.create(**args)
+        return Database.from_dict(result)
+
+    def database_query(
             self,
+            id: ID,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None,
             start_cursor: str = None,
             page_size: int = None
     ) -> QueryResult:
         args = format_query_args(filter=filter, sorts=sorts, start_cursor=start_cursor, page_size=page_size)
-        result_raw = self._client().databases.query(self.id, **args)
-        result = QueryResult.from_dict(result_raw)
-        return result
+        result_raw = self._client().databases.query(id, **args)
+        return QueryResult.from_dict(result_raw)
 
-    def query_all(
+    def database_query_all(
             self,
+            id: ID,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None
     ) -> Iterator[Page]:
-        args = dict(filter=filter, sorts=sorts, page_size=100)
-        done = False
-        while not done:
-            result = self.query(**args)
-            done = not result.has_more
-            args['start_cursor'] = result.next_cursor
-            yield from result.results
-
-
-@dataclass
-class NotionClient(NotionApiMixin):
-    def database(self, id: ID) -> NotionDatabase:
-        return NotionDatabase(client=self.client, id=id)
-
-    def update_page(self, page: Page) -> Page:
-        args = strip_none_field(page.to_dict())
-        result = self.client.pages.update(page.id, **args)
-        page = Page.from_dict(result)
-        return page
-
-    def create_page(self, page: Page) -> Page:
-        args = strip_none_field(page.to_dict())
-        result = self.client.pages.create(**args)
-        page = Page.from_dict(result)
-        return page
+        return traverse_pagination(
+            args=dict(filter=filter if filter else None, sorts=sorts, page_size=100),
+            query_fn=lambda **args: self.database_query(id, **args)
+        )
 
     def search(
             self,
@@ -86,18 +98,18 @@ class NotionClient(NotionApiMixin):
     ) -> QueryResult:
         args = format_query_args(filter=filter, sorts=sorts, start_cursor=start_cursor, page_size=page_size)
         result_raw = self.client.search(**args)
-        result = QueryResult.from_dict(result_raw)
-        return result
+        return QueryResult.from_dict(result_raw)
 
     def search_all(
             self,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None
-    ):
-        args = dict(filter=filter if filter else None, sorts=sorts, page_size=100)
-        done = False
-        while not done:
-            result = self.search(**args)
-            done = not result.has_more
-            args['start_cursor'] = result.next_cursor
-            yield result
+    ) -> Iterator[Union[Page, Database]]:
+        return traverse_pagination(
+            args=dict(filter=filter if filter else None, sorts=sorts, page_size=100),
+            query_fn=lambda **args: self.search(**args)
+        )
+
+
+def parse_uuid(ctx, param, value):
+    return f'{value[:8]}-{value[8:12]}-{value[12:16]}-{value[16:20]}-{value[20:]}'

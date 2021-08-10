@@ -113,7 +113,7 @@ class PropertyType(Enum):
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class SelectConfig:
+class SelectValue:
     name: str
     id: Optional[str] = None
     color: Optional[Color] = None
@@ -121,23 +121,23 @@ class SelectConfig:
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class DateConfig:
+class DateValue:
     start: str
     end: Optional[str]
 
 
-TitleConfig = RichText
-RichTextConfig = RichText
-NumberConfig = int
-MultiSelectConfig = List[SelectConfig]
-PeopleConfig = List[Dict]
-EmailConfig = str
-CheckboxConfig = bool
-CreatedTimeConfig = dt.datetime
-CreatedByConfig = Dict
-LastEditedTimeConfig = dt.datetime
-LastEditedByConfig = Dict
-UrlConfig = str
+TitleValue = List[RichText]
+RichTextValue = List[RichText]
+NumberValue = int
+MultiSelectValue = List[SelectValue]
+PeopleValue = List[Dict]
+EmailValue = str
+CheckboxValue = bool
+CreatedTimeValue = dt.datetime
+CreatedByValue = Dict
+LastEditedTimeValue = dt.datetime
+LastEditedByValue = Dict
+UrlValue = str
 
 
 def object_to_text_value(raw_value: Any):
@@ -153,28 +153,26 @@ def object_to_text_value(raw_value: Any):
 class Property:
     type: PropertyType
     id: Optional[str] = None
-    name: Optional[str] = None
 
-    title: Optional[List[TitleConfig]] = None
-    rich_text: Optional[List[RichTextConfig]] = None
-    number: Optional[NumberConfig] = None
-    select: Optional[SelectConfig] = None
-    multi_select: Optional[MultiSelectConfig] = None
-    date: Optional[DateConfig] = None
-    people: Optional[PeopleConfig] = None
+    title: Optional[TitleValue] = None
+    rich_text: Optional[RichTextValue] = None
+    number: Optional[NumberValue] = None
+    select: Optional[SelectValue] = None
+    multi_select: Optional[MultiSelectValue] = None
+    date: Optional[DateValue] = None
+    people: Optional[PeopleValue] = None
     files: Optional[Dict] = None
-    checkbox: Optional[CheckboxConfig] = None
-    url: Optional[UrlConfig] = None
-    email: Optional[EmailConfig] = None
+    checkbox: Optional[CheckboxValue] = None
+    url: Optional[UrlValue] = None
+    email: Optional[EmailValue] = None
     phone_number: Optional[Dict] = None
     formula: Optional[Dict] = None
     relation: Optional[Dict] = None
     rollup: Optional[Dict] = None
-
-    created_time: Optional[CreatedTimeConfig] = None
-    created_by: Optional[CreatedByConfig] = None
-    last_edited_time: Optional[LastEditedTimeConfig] = None
-    last_edited_by: Optional[LastEditedByConfig] = None
+    created_time: Optional[CreatedTimeValue] = None
+    created_by: Optional[CreatedByValue] = None
+    last_edited_time: Optional[LastEditedTimeValue] = None
+    last_edited_by: Optional[LastEditedByValue] = None
 
     def raw_value(self):
         if self.type == PropertyType.title:
@@ -244,7 +242,7 @@ class Property:
     def as_select(value: str) -> 'Property':
         return Property(
             type=PropertyType.select,
-            select=SelectConfig(name=value)
+            select=SelectValue(name=value)
         )
 
     @staticmethod
@@ -252,15 +250,84 @@ class Property:
         return Property(
             type=PropertyType.multi_select,
             multi_select=[
-                SelectConfig(name=value)
+                SelectValue(name=value)
                 for value in values
             ]
         )
 
 
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class SelectDef:
+    options: List[SelectValue]
+
+
+TitleDef = Dict
+RichTextDef = Dict
+NumberDef = Dict
+PeopleDef = List[Dict]
+EmailDef = Dict
+CheckboxDef = Dict
+CreatedTimeDef = Dict
+CreatedByDef = Dict
+LastEditedTimeDef = Dict
+LastEditedByDef = Dict
+UrlDef = Dict
+DateDef = Dict
+MultiSelectDef = SelectDef
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class PropertyDef:
+    type: PropertyType
+    id: Optional[str] = None
+    name: Optional[str] = None
+
+    title: Optional[TitleDef] = None
+    rich_text: Optional[RichTextDef] = None
+    number: Optional[NumberDef] = None
+    select: Optional[SelectDef] = None
+    multi_select: Optional[MultiSelectDef] = None
+    date: Optional[DateDef] = None
+    people: Optional[PeopleDef] = None
+    files: Optional[Dict] = None
+    checkbox: Optional[CheckboxDef] = None
+    url: Optional[UrlDef] = None
+    email: Optional[EmailDef] = None
+    phone_number: Optional[Dict] = None
+    formula: Optional[Dict] = None
+    relation: Optional[Dict] = None
+    rollup: Optional[Dict] = None
+    created_time: Optional[CreatedTimeDef] = None
+    created_by: Optional[CreatedByDef] = None
+    last_edited_time: Optional[LastEditedTimeDef] = None
+    last_edited_by: Optional[LastEditedByDef] = None
+
+    @staticmethod
+    def as_title() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.title, title={})
+
+    @staticmethod
+    def as_url() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.url, url={})
+
+    @staticmethod
+    def as_rich_text() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.rich_text, rich_text={})
+
+    @staticmethod
+    def as_select() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.select, select=SelectDef(options=[]))
+
+    @staticmethod
+    def as_multi_select() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.multi_select, multi_select=SelectDef(options=[]))
+
+
 class ParentType(Enum):
     database = 'database'
-    page = 'page'
+    page_id = 'page_id'
     workspace = 'workspace'
 
 
@@ -271,6 +338,10 @@ class Parent:
     database_id: Optional[ID] = None
     page_id: Optional[ID] = None
     workspace: Optional[bool] = None
+
+    @staticmethod
+    def page(id: ID) -> 'Parent':
+        return Parent(type=ParentType.page_id, page_id=id)
 
     @staticmethod
     def database(id: ID) -> 'Parent':
@@ -313,6 +384,9 @@ class Page(ContentObject):
 @dataclass
 class Database(ContentObject):
     object: str = 'database'
+    title: Optional[TitleValue] = None
+    properties: Dict[str, PropertyDef] = field(default_factory=dict)
+
 
 
 def result_from_dict_converter():

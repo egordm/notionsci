@@ -4,25 +4,54 @@ import click
 from tqdm import tqdm
 
 from notionsci.config import config
-from notionsci.connections.notion import SortDirection, SortObject, Page, Parent, Property
+from notionsci.connections.notion import SortDirection, SortObject, Page, Parent, Property, PropertyDef, Database, \
+    RichText, parse_uuid
 from notionsci.connections.zotero import Item, ID, Collection, build_inherency_tree, generate_citekey
 from notionsci.utils import key_by, flatten
 
 
 @click.group()
-def sync():
+def zotero():
     pass
 
 
-@sync.command()
-@click.option('-db', '--database')
-@click.option('--force', is_flag=True, default=False)
-def zotero(database: str, force: bool = False):
+@zotero.command()
+@click.argument('template', type=click.Choice(['references', 'collections']))
+@click.option('-p', '--page', callback=parse_uuid, required=True)
+def template(template, page):
     notion = config.connections.notion.client()
-    database = notion.database(database)
+
+    if template == 'references':
+        click.echo('Creating References Database')
+        database = Database(
+            parent=Parent.page(page),
+            title=[RichText.from_text('Zotero References')],
+            properties={
+                'ID': PropertyDef.as_rich_text(),
+                'Type': PropertyDef.as_select(),
+                'Cite Key': PropertyDef.as_title(),
+                'Title': PropertyDef.as_rich_text(),
+                'Authors': PropertyDef.as_rich_text(),
+                'Publication Date': PropertyDef.as_rich_text(),
+                'Abstract': PropertyDef.as_rich_text(),
+                'URL': PropertyDef.as_url(),
+                'Publication': PropertyDef.as_rich_text(),
+                'Tags': PropertyDef.as_multi_select(),
+                'Collections': PropertyDef.as_multi_select()
+            }
+        )
+        notion.database_create(database)
+
+
+@zotero.command()
+@click.option('--force', is_flag=True, default=False)
+@click.option('-d', '--database', callback=parse_uuid, required=True)
+def refs(database: str, force: bool):
+    notion = config.connections.notion.client()
 
     print('Loading existing Notion items')
-    notion_items: Dict[ID, Page] = key_by(tqdm(database.query_all(
+    notion_items: Dict[ID, Page] = key_by(tqdm(notion.database_query_all(
+        database,
         sorts=[SortObject(property='Modified At', direction=SortDirection.descending)]
     ), leave=False), lambda x: x.get_property('ID').value())
 
@@ -69,14 +98,14 @@ def zotero(database: str, force: bool = False):
 
         if page:
             page.extend_properties(properties)
-            page = notion.update_page(page)
+            page = notion.page_update(page)
             tqdm.write(f'Updated: {page.get_property("Title").value()}')
         else:
             page = Page(
                 parent=Parent.database(database.id),
                 properties=properties
             )
-            page = notion.create_page(page)
+            page = notion.page_create(page)
             tqdm.write(f'Created: {page.get_property("Title").value()}')
 
     # Delete non existing items
@@ -87,6 +116,5 @@ def zotero(database: str, force: bool = False):
     for key in tqdm(items_to_delete, desc='Syncing citations', leave=False):
         page = notion_items[key]
         page.archived = True
-        page = notion.update_page(page)
+        page = notion.page_update(page)
         tqdm.write(f'Deleted: {page.get_property("Title").value()}')
-
