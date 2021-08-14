@@ -350,6 +350,14 @@ class PropertyDef:
     def as_last_edited_time() -> 'PropertyDef':
         return PropertyDef(type=PropertyType.last_edited_time, last_edited_time={})
 
+    @staticmethod
+    def as_date() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.date, date={})
+
+    @staticmethod
+    def as_relation(database: ID) -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.relation, relation=RelationDef(database))
+
 
 class ParentType(Enum):
     database = 'database'

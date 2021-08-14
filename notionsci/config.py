@@ -16,7 +16,7 @@ from notionsci.connections.zotero.client import ZoteroClient
 CONFIG_VERSION = 1
 APP_NAME = "notionsci"
 DEFAULT_PROFLE = "default"
-OVERRIDE_CONFIG_NAME = 'config.yml'
+OVERRIDE_CONFIG_NAME = "config.yml"
 
 
 @dataclass
@@ -66,18 +66,20 @@ class Config(Serializable):
 def load_config() -> Config:
     logging.basicConfig(level=logging.INFO)
 
-    profile_arg = next(filter(lambda x: x.startswith('--profile='), sys.argv), None)
+    profile_arg = next(filter(lambda x: x.startswith("--profile="), sys.argv), None)
     if profile_arg:
         sys.argv.remove(profile_arg)
-        profile_arg = profile_arg.replace('--profile=', '')
+        profile_arg = profile_arg.replace("--profile=", "")
 
-    profile = profile_arg or os.getenv('PROFILE', None) or DEFAULT_PROFLE
-    config_name = f'{profile}.yml'
+    profile = profile_arg or os.getenv("PROFILE", None) or DEFAULT_PROFLE
+    config_name = f"{profile}.yml"
 
     # Determine correct config location
     if os.path.exists(OVERRIDE_CONFIG_NAME):
         config_path = OVERRIDE_CONFIG_NAME
-        logging.info(f"Using overridden {OVERRIDE_CONFIG_NAME} in the current directory")
+        logging.info(
+            f"Using overridden {OVERRIDE_CONFIG_NAME} in the current directory"
+        )
     else:
         config_path = os.path.join(user_config_dir(APP_NAME), config_name)
         if not os.path.exists(config_path):

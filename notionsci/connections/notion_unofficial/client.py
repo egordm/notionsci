@@ -1,7 +1,9 @@
 import uuid
 from time import sleep
+from typing import Iterator, List
 
 from notion.client import NotionClient, Block
+from notion.space import Space
 
 from notionsci.connections.notion import ID
 from notionsci.connections.notion_unofficial.common import op_list_after_block, op_parent_block, op_user_permission, \
@@ -69,7 +71,7 @@ class NotionUnofficialClient(NotionClient):
             # Wait until the duplication task finishes
             self.wait_for_task(task_id)
 
-    def duplicate_page(self, source_id: ID, parent: Block):
+    def duplicate_page(self, source_id: ID, parent: Block) -> Block:
         """
         Duplicates source page to a new child page of the given parent
         """
@@ -87,3 +89,42 @@ class NotionUnofficialClient(NotionClient):
         ])
 
         self.submit_duplicate_task(source_id, block_id)
+
+        return self.get_block(block_id)
+
+    def get_spaces(self) -> Iterator[Space]:
+        """
+        Returns a list of spaces user has access to
+        """
+        response: dict = self.post('getSpaces', {}).json()
+        for data in response.values():
+            for space_id, space in data['space'].items():
+                yield self.get_space(space_id)
+
+    def get_trash(self, space: Space):
+        results = self.post('search', {
+            "type": "BlocksInSpace",
+            "query": "",
+            "filters": {
+                "isDeletedOnly": True,
+                "excludeTemplates": False,
+                "isNavigableOnly": True,
+                "requireEditPermissions": False,
+                "ancestors": [],
+                "createdBy": [],
+                "editedBy": [],
+                "lastEditedTime": {},
+                "createdTime": {}
+            },
+            "sort": "Relevance",
+            "limit": 1000,
+            "spaceId": space.id,
+            "source": "trash"
+        }).json().get('results', [])
+
+        for item in results:
+            yield item['id']
+
+    def delete_blocks(self, ids: List[ID]):
+        for id in ids:
+            self.post("deleteBlocks", {"blockIds": [id], "permanentlyDelete": True})

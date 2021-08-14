@@ -21,7 +21,8 @@ pyyaml = "*"
 dataclass-dict-convert = "*"
 dt = "*"
 appdirs = "*"
-notion = "*"
+notion = {editable = true, git = "https://github.com/EgorDm/notion-py.git"}
+inquirer = "*"
 
 [requires]
 python_version = "3.7"

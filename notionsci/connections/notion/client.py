@@ -45,7 +45,7 @@ def traverse_pagination(args: dict, query_fn: Callable[[Dict], Any]) -> Iterator
 class NotionClient(NotionApiMixin):
     def page_get(self, id: ID) -> Page:
         result = self.client.pages.retrieve(id)
-        return Database.from_dict(result)
+        return Page.from_dict(result)
 
     def page_update(self, page: Page) -> Page:
         args = strip_none_field(page.to_dict())

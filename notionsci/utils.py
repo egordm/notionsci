@@ -9,7 +9,9 @@ def filter_dict(fn: Callable[[dict], bool], d: dict) -> dict:
 filter_none_dict = partial(filter_dict, lambda x: x is not None)
 
 
-def key_by(items: Iterable[Any], key: Union[Callable[[Any], Any], str]) -> Dict[Any, Any]:
+def key_by(
+    items: Iterable[Any], key: Union[Callable[[Any], Any], str]
+) -> Dict[Any, Any]:
     if isinstance(key, str):
         attr = key
         key = lambda x: getattr(x, attr)

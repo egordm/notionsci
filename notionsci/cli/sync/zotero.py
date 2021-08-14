@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from notionsci.config import config
 from notionsci.connections.notion import SortDirection, SortObject, Page, Parent, Property, PropertyDef, Database, \
-    RichText, parse_uuid_callback, RelationItem
+    RichText, parse_uuid_callback, RelationItem, parse_uuid
 from notionsci.connections.zotero import Item, ID, Collection, build_inherency_tree, generate_citekey
 from notionsci.utils import key_by, flatten
 
@@ -16,15 +16,34 @@ def zotero():
     pass
 
 
+TEMPLATES = ['references', 'collections']
+
+
+# TODO: template must be called with notion_unofficial
+# TODO: check if properties exist and throw proper error
 @zotero.command()
-@click.argument('template', type=click.Choice(['references', 'collections']))
+@click.argument('templates', type=click.Choice(['all', *TEMPLATES]), nargs=-1)
 @click.option('-p', '--page', callback=parse_uuid_callback, required=True)
-def template(template, page):
+def template(templates: list[str], page):
+    if 'all' in templates:
+        templates = TEMPLATES
+
     notion = config.connections.notion.client()
 
-    if template == 'references':
+    if 'collections' in templates:
+        click.echo('Creating Collections Database')
+        collection = notion.database_create(Database(
+            parent=Parent.page(page),
+            title=[RichText.from_text('Zotero Collections')],
+            properties={
+                'ID': PropertyDef.as_rich_text(),
+                'Name': PropertyDef.as_title(),
+                'Modified At': PropertyDef.as_date(),
+            }
+        ))
+    if 'references' in templates:
         click.echo('Creating References Database')
-        database = Database(
+        notion.database_create(Database(
             parent=Parent.page(page),
             title=[RichText.from_text('Zotero References')],
             properties={
@@ -39,12 +58,9 @@ def template(template, page):
                 'Publication': PropertyDef.as_rich_text(),
                 'Tags': PropertyDef.as_multi_select(),
                 'Collections': PropertyDef.as_multi_select(),
-                'Modified At': PropertyDef.as_last_edited_time()
+                'Modified At': PropertyDef.as_date(),
             }
-        )
-        notion.database_create(database)
-    if template == 'collections':
-        click.echo('Creating Collections Database')
+        ))
 
 
 def notion_fetch_all_pages(database: ID) -> Dict[ID, Page]:
@@ -63,12 +79,18 @@ def zotero_fetch_collections(delete_children=False) -> Dict[ID, Collection]:
 @zotero.command()
 @click.option('--force', is_flag=True, default=False)
 @click.option('-d', '--database', callback=parse_uuid_callback, required=True)
-def refs(database: ID, force: bool):
+@click.option('-c', '--collections', callback=lambda c, p, x: parse_uuid(x) if x else x, required=False)
+def refs(database: ID, collections: ID, force: bool):
     notion = config.connections.notion.client()
     zotero = config.connections.zotero.client()
 
     print('Loading existing Notion items')
     notion_pages: Dict[ID, Page] = notion_fetch_all_pages(database)
+
+    notion_collection_pages = {}
+    if collections:
+        print('Loading existing Notion collection items')
+        notion_collection_pages: Dict[ID, Page] = notion_fetch_all_pages(collections)
 
     print('Loading existing Zotero items')
     zotero_items: Dict[ID, Item] = key_by(zotero.all_items_grouped(), 'key')
@@ -106,6 +128,11 @@ def refs(database: ID, force: bool):
                 zotero_collections[col_key].title
                 for col_key in item_collections
                 if col_key in zotero_collections
+            ]),
+            'Parents': Property.as_relation([
+                RelationItem(notion_collection_pages[k].id)
+                for k in (item.data.collections or [])
+                if k in notion_collection_pages
             ])
         }
 
@@ -191,5 +218,3 @@ def collections(database: ID, force: bool):
             page = notion.page_create(page)
             click.echo(f'Created: {page.get_property("Name").value()}')
         zotero_notion_ids[key] = page.id
-
-
