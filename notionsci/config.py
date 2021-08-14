@@ -10,12 +10,24 @@ from pyzotero import zotero
 from simple_parsing import Serializable
 
 from notionsci.connections.notion import NotionClient
+from notionsci.connections.notion_unofficial import NotionUnofficialClient
 from notionsci.connections.zotero.client import ZoteroClient
 
 CONFIG_VERSION = 1
 APP_NAME = "notionsci"
 DEFAULT_PROFLE = "default"
 OVERRIDE_CONFIG_NAME = 'config.yml'
+
+
+@dataclass
+class NotionUnofficialConfig(Serializable):
+    token_v2: str = ""
+
+    def client(self) -> NotionUnofficialClient:
+        return NotionUnofficialClient(token_v2=self.token_v2)
+
+    def is_available(self):
+        return not not self.token_v2
 
 
 @dataclass
@@ -40,6 +52,7 @@ class ZoteroConfig(Serializable):
 
 @dataclass
 class Connections(Serializable):
+    notion_unofficial: NotionUnofficialConfig = NotionUnofficialConfig()
     notion: NotionConfig = NotionConfig()
     zotero: ZoteroConfig = ZoteroConfig()
 

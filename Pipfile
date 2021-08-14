@@ -21,6 +21,7 @@ pyyaml = "*"
 dataclass-dict-convert = "*"
 dt = "*"
 appdirs = "*"
+notion = "*"
 
 [requires]
 python_version = "3.7"
