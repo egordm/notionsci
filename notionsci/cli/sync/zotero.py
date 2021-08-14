@@ -1,15 +1,12 @@
 import uuid
-from typing import Dict
 
 import click
-from tqdm import tqdm
 
 from notionsci.cli.notion import duplicate
-from notionsci.sync.zotero import RefsOneWaySync, CollectionsOneWaySync
 from notionsci.config import config
-from notionsci.connections.notion import SortDirection, SortObject, Page, parse_uuid, parse_uuid_callback
-from notionsci.connections.zotero import ID, Collection
-from notionsci.utils import key_by
+from notionsci.connections.notion import parse_uuid, parse_uuid_callback
+from notionsci.connections.zotero import ID
+from notionsci.sync.zotero import RefsOneWaySync, CollectionsOneWaySync
 
 
 @click.group()
@@ -39,19 +36,6 @@ def template(ctx: click.Context, parent: ID):
     refs_db = next(filter(lambda x: 'References' in x.title, children), None)
     if refs_db:
         click.echo(f'Found references database ({parse_uuid(refs_db.id)})')
-
-
-def notion_fetch_all_pages(database: ID) -> Dict[ID, Page]:
-    notion = config.connections.notion.client()
-    return key_by(tqdm(notion.database_query_all(
-        database,
-        sorts=[SortObject(property='Modified At', direction=SortDirection.descending)]
-    ), leave=False), lambda x: x.get_property('ID').value())
-
-
-def zotero_fetch_collections(delete_children=False) -> Dict[ID, Collection]:
-    zotero = config.connections.zotero.client()
-    return key_by(zotero.all_collections_grouped(delete_children=delete_children), lambda i: i.key)
 
 
 @zotero.command()
