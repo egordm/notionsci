@@ -71,11 +71,11 @@ class NotionUnofficialClient(NotionClient):
             # Wait until the duplication task finishes
             self.wait_for_task(task_id)
 
-    def duplicate_page(self, source_id: ID, parent: Block) -> Block:
+    def duplicate_page(self, source_id: ID, parent: Block, block_uuid: ID = None) -> Block:
         """
         Duplicates source page to a new child page of the given parent
         """
-        block_id = str(uuid.uuid4())
+        block_id = block_uuid or str(uuid.uuid4())
         space_id = parent.space_info['spaceId']
         user_id = self.current_user.id
         parent_block_id = parent.id

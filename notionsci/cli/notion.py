@@ -13,7 +13,8 @@ def notion():
 @notion.command()
 @click.argument('source', callback=parse_uuid_callback)
 @click.argument('parent', callback=parse_uuid_callback)
-def duplicate(source: ID, parent: ID):
+@click.option('--target_id', callback=parse_uuid_callback, required=False, default=None)
+def duplicate(source: ID, parent: ID, target_id: ID):
     unotion = config.connections.notion_unofficial.client()
 
     source_block = unotion.get_block(source)
@@ -24,7 +25,7 @@ def duplicate(source: ID, parent: ID):
     if not parent_block:
         raise Exception(f'Parent page with uuid {parent} does not exist ')
 
-    result_block = unotion.duplicate_page(source, parent_block)
+    result_block = unotion.duplicate_page(source, parent_block, target_id)
     click.echo(f'Successfully duplicated {source_block.title} as {result_block.id}')
 
 

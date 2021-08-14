@@ -1,12 +1,14 @@
+import uuid
 from collections import deque
 from typing import Dict, Optional, List
 
 import click
 from tqdm import tqdm
 
+from notionsci.cli.notion import duplicate
 from notionsci.config import config
-from notionsci.connections.notion import SortDirection, SortObject, Page, Parent, Property, PropertyDef, Database, \
-    RichText, parse_uuid_callback, RelationItem, parse_uuid
+from notionsci.connections.notion import SortDirection, SortObject, Page, Parent, Property, \
+    RelationItem, parse_uuid, parse_uuid_callback
 from notionsci.connections.zotero import Item, ID, Collection, build_inherency_tree, generate_citekey
 from notionsci.utils import key_by, flatten
 
@@ -16,51 +18,28 @@ def zotero():
     pass
 
 
-TEMPLATES = ['references', 'collections']
-
-
-# TODO: template must be called with notion_unofficial
 # TODO: check if properties exist and throw proper error
 @zotero.command()
-@click.argument('templates', type=click.Choice(['all', *TEMPLATES]), nargs=-1)
-@click.option('-p', '--page', callback=parse_uuid_callback, required=True)
-def template(templates: list[str], page):
-    if 'all' in templates:
-        templates = TEMPLATES
+@click.argument('parent', callback=parse_uuid_callback, required=True)
+@click.pass_context
+def template(ctx: click.Context, parent: ID):
+    # Duplicate the block
+    source = parse_uuid_callback(None, None, config.templates.zotero_template)
+    target_id = str(uuid.uuid4())
+    ctx.invoke(duplicate, source=source, parent=parent, target_id=target_id)
 
-    notion = config.connections.notion.client()
+    # Extract the children from the command
+    unotion = config.connections.notion_unofficial.client()
+    page = unotion.get_block(target_id)
+    children = list(page.children)
 
-    if 'collections' in templates:
-        click.echo('Creating Collections Database')
-        collection = notion.database_create(Database(
-            parent=Parent.page(page),
-            title=[RichText.from_text('Zotero Collections')],
-            properties={
-                'ID': PropertyDef.as_rich_text(),
-                'Name': PropertyDef.as_title(),
-                'Modified At': PropertyDef.as_date(),
-            }
-        ))
-    if 'references' in templates:
-        click.echo('Creating References Database')
-        notion.database_create(Database(
-            parent=Parent.page(page),
-            title=[RichText.from_text('Zotero References')],
-            properties={
-                'ID': PropertyDef.as_rich_text(),
-                'Type': PropertyDef.as_select(),
-                'Cite Key': PropertyDef.as_title(),
-                'Title': PropertyDef.as_rich_text(),
-                'Authors': PropertyDef.as_rich_text(),
-                'Publication Date': PropertyDef.as_rich_text(),
-                'Abstract': PropertyDef.as_rich_text(),
-                'URL': PropertyDef.as_url(),
-                'Publication': PropertyDef.as_rich_text(),
-                'Tags': PropertyDef.as_multi_select(),
-                'Collections': PropertyDef.as_multi_select(),
-                'Modified At': PropertyDef.as_date(),
-            }
-        ))
+    collections_db = next(filter(lambda x: 'Collections' in x.title, children), None)
+    if collections_db:
+        click.echo(f'Found collection database ({parse_uuid(collections_db.id)})')
+
+    refs_db = next(filter(lambda x: 'References' in x.title, children), None)
+    if refs_db:
+        click.echo(f'Found references database ({parse_uuid(refs_db.id)})')
 
 
 def notion_fetch_all_pages(database: ID) -> Dict[ID, Page]:
