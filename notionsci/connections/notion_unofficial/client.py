@@ -117,7 +117,7 @@ class NotionUnofficialClient(NotionClient):
                 "createdTime": {}
             },
             "sort": "Relevance",
-            "limit": 1000,
+            "limit": 20,
             "spaceId": space.id,
             "source": "trash"
         }).json().get('results', [])

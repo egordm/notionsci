@@ -1,3 +1,5 @@
+.PHONY: test clean
+
 test: lint-check
 	pipenv run test
 

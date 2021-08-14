@@ -1,0 +1,1840 @@
+{
+    "object": "list",
+    "results": [
+        {
+            "object": "page",
+            "id": "36179661-bad9-4677-abbb-262809e235c0",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "31fc812d-bfee-44c2-8044-4cf5f4e5e088",
+                            "name": "Reinforcement Learning",
+                            "color": "green"
+                        }
+                    ]
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "YHGZV8LU",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "YHGZV8LU",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Learn what protein folding is, why it's important and how our AI system AlphaFold is working to solve this grand scientific challenge.",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Learn what protein folding is, why it's important and how our AI system AlphaFold is working to solve this grand scientific challenge.",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "AlphaFold",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "AlphaFold",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "d2f0cf94-b18a-4b1e-aa03-27807377b103"
+                        }
+                    ]
+                },
+                "URL": {
+                    "id": "ql^e",
+                    "type": "url",
+                    "url": "https://deepmind.com/research/case-studies/alphafold"
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "89decdfc-6822-427c-bcf2-f91c518ca64f",
+                        "name": "webpage",
+                        "color": "gray"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Alphafold",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Alphafold",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Alphafold-36179661bad94677abbb262809e235c0"
+        },
+        {
+            "object": "page",
+            "id": "1b58ef2e-788f-4b00-a944-7e2550f874b7",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "31fc812d-bfee-44c2-8044-4cf5f4e5e088",
+                            "name": "Reinforcement Learning",
+                            "color": "green"
+                        }
+                    ]
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "2020-12-24",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "2020-12-24",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "YC5UMYGU",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "YC5UMYGU",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Constructing agents with planning capabilities has long been one of the main challenges in the pursuit of artificial intelligence. Tree-based planning methods have enjoyed huge success in challenging domains, such as chess and Go, where a perfect simulator is available. However, in real-world problems the dynamics governing the environment are often complex and unknown. In this work we present the MuZero algorithm which, by combining a tree-based search with a learned model, achieves superhuman performance in a range of challenging and visually complex domains, without any knowledge of their underlying dynamics. MuZero learns a model that, when applied iteratively, predicts the quantities most directly relevant to planning: the reward, the action-selection policy, and the value function. When evaluated on 57 different Atari games - the canonical video game environment for testing AI techniques, in which model-based planning approaches have historically struggled - our new algorithm achieved a new state of the art. When evaluated on Go, chess and shogi, without any knowledge of the game rules, MuZero matched the superhuman performance of the AlphaZero algorithm that was supplied with the game rules.",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Constructing agents with planning capabilities has long been one of the main challenges in the pursuit of artificial intelligence. Tree-based planning methods have enjoyed huge success in challenging domains, such as chess and Go, where a perfect simulator is available. However, in real-world problems the dynamics governing the environment are often complex and unknown. In this work we present the MuZero algorithm which, by combining a tree-based search with a learned model, achieves superhuman performance in a range of challenging and visually complex domains, without any knowledge of their underlying dynamics. MuZero learns a model that, when applied iteratively, predicts the quantities most directly relevant to planning: the reward, the action-selection policy, and the value function. When evaluated on 57 different Atari games - the canonical video game environment for testing AI techniques, in which model-based planning approaches have historically struggled - our new algorithm achieved a new state of the art. When evaluated on Go, chess and shogi, without any knowledge of the game rules, MuZero matched the superhuman performance of the AlphaZero algorithm that was supplied with the game rules.",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "5af65cf0-2a07-4111-93b5-724d4a2e8a64",
+                            "name": "Computer Science - Machine Learning",
+                            "color": "brown"
+                        },
+                        {
+                            "id": "83b8f7b8-4a49-42d3-a4fd-003617679dc9",
+                            "name": "Statistics - Machine Learning",
+                            "color": "default"
+                        }
+                    ]
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "d2f0cf94-b18a-4b1e-aa03-27807377b103"
+                        }
+                    ]
+                },
+                "URL": {
+                    "id": "ql^e",
+                    "type": "url",
+                    "url": "http://arxiv.org/abs/1911.08265"
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Nature",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Nature",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "2e3f013b-65fe-4bdd-8ec1-57421019bb9b",
+                        "name": "journalArticle",
+                        "color": "orange"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Schrittwieser et al.",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Schrittwieser et al.",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "schrittwieserMasteringAtariGo2020",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "schrittwieserMasteringAtariGo2020",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/schrittwieserMasteringAtariGo2020-1b58ef2e788f4b00a9447e2550f874b7"
+        },
+        {
+            "object": "page",
+            "id": "16372b9e-b39e-42cb-b48f-2d2e6bfca35b",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "6ce76ac4-50d0-41c6-86c8-2f3078161771",
+                            "name": "Graphics",
+                            "color": "yellow"
+                        },
+                        {
+                            "id": "ea2af41f-d4ae-4c9e-a1bb-f472babf314a",
+                            "name": "2D",
+                            "color": "pink"
+                        }
+                    ]
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "2013",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "2013",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "5VDJL4P4",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "5VDJL4P4",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Dashed stroked paths are a widely-used feature found in the vast majority of vector drawing software and libraries. They allow, for example, highlighting a given path such as the cur- rent selection in drawing software or distinguishing curves in the case of a scientific plotting package. This paper introduces a shader-based method for rendering arbitrary dash patterns along any continuous polyline (smooth or broken). The proposed method does not tessellate individual dash patterns and allows for fast and nearly accurate rendering of any user-defined dash pattern and caps. Benchmarks indicates a slowdown ratio between 1.1 and 2.1 with an increased memory consumption between 3 and 6. Furthermore, the method can be used for solid thick polylines with correct caps and joins with only a slowdown of factor 1.1.",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Dashed stroked paths are a widely-used feature found in the vast majority of vector drawing software and libraries. They allow, for example, highlighting a given path such as the cur- rent selection in drawing software or distinguishing curves in the case of a scientific plotting package. This paper introduces a shader-based method for rendering arbitrary dash patterns along any continuous polyline (smooth or broken). The proposed method does not tessellate individual dash patterns and allows for fast and nearly accurate rendering of any user-defined dash pattern and caps. Benchmarks indicates a slowdown ratio between 1.1 and 2.1 with an increased memory consumption between 3 and 6. Furthermore, the method can be used for solid thick polylines with correct caps and joins with only a slowdown of factor 1.1.",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Shader-Based Antialiased Dashed Stroked Polylines",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Shader-Based Antialiased Dashed Stroked Polylines",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "0054d081-97a3-4e8d-8ee5-ae624dd13a32"
+                        }
+                    ]
+                },
+                "URL": {
+                    "id": "ql^e",
+                    "type": "url",
+                    "url": "https://www.semanticscholar.org/paper/Shader-Based-Antialiased-Dashed-Stroked-Polylines-Rougier/5ec28762c868b410b8388181d63a17469c38b26c"
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "undefined",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "undefined",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "2e3f013b-65fe-4bdd-8ec1-57421019bb9b",
+                        "name": "journalArticle",
+                        "color": "orange"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Rougier",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Rougier",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "rougierShaderbasedAntialiasedDashed2013",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "rougierShaderbasedAntialiasedDashed2013",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/rougierShaderbasedAntialiasedDashed2013-16372b9eb39e42cbb48f2d2e6bfca35b"
+        },
+        {
+            "object": "page",
+            "id": "3ec56882-cfb6-44aa-ad2f-e42b78f1e14f",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "ZKBYTT2Q",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "ZKBYTT2Q",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Shader-Based Antialiased, Dashed, Stroked Polylines (JCGT)",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Shader-Based Antialiased, Dashed, Stroked Polylines (JCGT)",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": []
+                },
+                "URL": {
+                    "id": "ql^e",
+                    "type": "url",
+                    "url": "http://jcgt.org/published/0002/02/08/"
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "89decdfc-6822-427c-bcf2-f91c518ca64f",
+                        "name": "webpage",
+                        "color": "gray"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "ShaderbasedAntialiasedDashed",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "ShaderbasedAntialiasedDashed",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/ShaderbasedAntialiasedDashed-3ec56882cfb644aaad2fe42b78f1e14f"
+        },
+        {
+            "object": "page",
+            "id": "67866cc5-3fe9-4c78-ae5f-71587911bd8e",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "6ce76ac4-50d0-41c6-86c8-2f3078161771",
+                            "name": "Graphics",
+                            "color": "yellow"
+                        },
+                        {
+                            "id": "cf0dbbaa-031c-4e37-8437-aa2b32c90e42",
+                            "name": "Path Tracing",
+                            "color": "brown"
+                        }
+                    ]
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "MRYXVIZU",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "MRYXVIZU",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Interactive Path Tracing and Reconstruction of Sparse Volumes | Proceedings of the ACM on Computer Graphics and Interactive Techniques",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Interactive Path Tracing and Reconstruction of Sparse Volumes | Proceedings of the ACM on Computer Graphics and Interactive Techniques",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "308d7d88-d3ea-40ec-a9e7-bf461a956b9d"
+                        }
+                    ]
+                },
+                "URL": {
+                    "id": "ql^e",
+                    "type": "url",
+                    "url": "https://dl.acm.org/doi/10.1145/3451256"
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "89decdfc-6822-427c-bcf2-f91c518ca64f",
+                        "name": "webpage",
+                        "color": "gray"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "InteractivePathTracing",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "InteractivePathTracing",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/InteractivePathTracing-67866cc53fe94c78ae5f71587911bd8e"
+        },
+        {
+            "object": "page",
+            "id": "f0c06f3c-ee08-475e-a0ed-ec720d3f1ec5",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "31fc812d-bfee-44c2-8044-4cf5f4e5e088",
+                            "name": "Reinforcement Learning",
+                            "color": "green"
+                        }
+                    ]
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "2017-08-28",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "2017-08-28",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "3WME7ZA4",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "3WME7ZA4",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a \"surrogate\" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a \"surrogate\" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Proximal Policy Optimization Algorithms",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Proximal Policy Optimization Algorithms",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "5af65cf0-2a07-4111-93b5-724d4a2e8a64",
+                            "name": "Computer Science - Machine Learning",
+                            "color": "brown"
+                        }
+                    ]
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "d2f0cf94-b18a-4b1e-aa03-27807377b103"
+                        }
+                    ]
+                },
+                "URL": {
+                    "id": "ql^e",
+                    "type": "url",
+                    "url": "http://arxiv.org/abs/1707.06347"
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "arXiv:1707.06347 [cs]",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "arXiv:1707.06347 [cs]",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "2e3f013b-65fe-4bdd-8ec1-57421019bb9b",
+                        "name": "journalArticle",
+                        "color": "orange"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Schulman et al.",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Schulman et al.",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "schulmanProximalPolicyOptimization2017",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "schulmanProximalPolicyOptimization2017",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/schulmanProximalPolicyOptimization2017-f0c06f3cee08475ea0edec720d3f1ec5"
+        },
+        {
+            "object": "page",
+            "id": "dc946802-3a23-4134-a243-1d0d931b1904",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "31fc812d-bfee-44c2-8044-4cf5f4e5e088",
+                            "name": "Reinforcement Learning",
+                            "color": "green"
+                        }
+                    ]
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "2018-11-13",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "2018-11-13",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "E4WRQSKY",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "E4WRQSKY",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "The significantly expanded and updated new edition of a widely used text on reinforcement learning, one of the most active research areas in artificial intelligence.",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "The significantly expanded and updated new edition of a widely used text on reinforcement learning, one of the most active research areas in artificial intelligence.",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Reinforcement Learning: An Introduction",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Reinforcement Learning: An Introduction",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "d2f0cf94-b18a-4b1e-aa03-27807377b103"
+                        }
+                    ]
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "fd18cf7c-d232-4ace-8ffb-6987ff8d80fc",
+                        "name": "book",
+                        "color": "pink"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Sutton and Barto",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Sutton and Barto",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "suttonReinforcementLearningAn2018",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "suttonReinforcementLearningAn2018",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/suttonReinforcementLearningAn2018-dc9468023a234134a2431d0d931b1904"
+        },
+        {
+            "object": "page",
+            "id": "0c9226b6-426c-4530-9f9c-9082fd97b6d4",
+            "created_time": "2021-08-14T22:37:00.000Z",
+            "last_edited_time": "2021-08-14T22:37:00.000Z",
+            "parent": {
+                "type": "database_id",
+                "database_id": "c07599f9-1c9d-4e91-ad2c-fc6b30472cc5"
+            },
+            "archived": false,
+            "properties": {
+                "Collections": {
+                    "id": "<z<h",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "378711ec-00ab-40f9-b8ad-722954ee4a46",
+                            "name": "Geometry",
+                            "color": "pink"
+                        },
+                        {
+                            "id": "6ce76ac4-50d0-41c6-86c8-2f3078161771",
+                            "name": "Graphics",
+                            "color": "yellow"
+                        }
+                    ]
+                },
+                "Publication Date": {
+                    "id": ">`^n",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "ID": {
+                    "id": "DYdM",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "PBCREJF3",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "PBCREJF3",
+                            "href": null
+                        }
+                    ]
+                },
+                "Abstract": {
+                    "id": "HWjD",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Title": {
+                    "id": "KiCA",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Monte Carlo geometry processing: a grid-free approach to PDE-based methods on volumetric domains: ACM Transactions on Graphics: Vol 39, No 4",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Monte Carlo geometry processing: a grid-free approach to PDE-based methods on volumetric domains: ACM Transactions on Graphics: Vol 39, No 4",
+                            "href": null
+                        }
+                    ]
+                },
+                "Modified At": {
+                    "id": "cIsS",
+                    "type": "last_edited_time",
+                    "last_edited_time": "2021-08-14T22:37:00.000Z"
+                },
+                "Tags": {
+                    "id": "cTE:",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Collection Refs": {
+                    "id": "jOIl",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "dae0fa00-9dd3-45ed-883a-1d7c0517b73f"
+                        }
+                    ]
+                },
+                "URL": {
+                    "id": "ql^e",
+                    "type": "url",
+                    "url": "https://dl.acm.org/doi/abs/10.1145/3386569.3392374"
+                },
+                "Synced At": {
+                    "id": "rYrn",
+                    "type": "date",
+                    "date": {
+                        "start": "2021-08-15T00:37:00.000+00:00",
+                        "end": null
+                    }
+                },
+                "Publication": {
+                    "id": "wAY{",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Type": {
+                    "id": "yoVy",
+                    "type": "select",
+                    "select": {
+                        "id": "89decdfc-6822-427c-bcf2-f91c518ca64f",
+                        "name": "webpage",
+                        "color": "gray"
+                    }
+                },
+                "Authors": {
+                    "id": "~ovq",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "",
+                            "href": null
+                        }
+                    ]
+                },
+                "Cite Key": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "MonteCarloGeometry",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "MonteCarloGeometry",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/MonteCarloGeometry-0c9226b6426c45309f9c9082fd97b6d4"
+        }
+    ],
+    "next_cursor": null,
+    "has_more": false
+}

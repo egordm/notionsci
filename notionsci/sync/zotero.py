@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Optional, Dict, List, TypeVar, Set
 
+import pytz
+
 from notionsci.connections.notion import Page, ID, NotionClient, SortObject, SortDirection, Property, \
     Parent, RelationItem
 from notionsci.connections.zotero import Item, ZoteroClient, generate_citekey, Collection, build_inherency_tree
@@ -36,7 +38,8 @@ class ZoteroNotionOneWaySync(Sync[A, Page], ABC):
             return Action.delete(ActionTarget.B, a, b)
         if b is None:
             return Action.push(ActionTarget.B if a else ActionTarget.B, a, b)
-        if a.updated_at() > b.get_property('Synced At').value() or self.force:
+        if a.updated_at().replace(tzinfo=pytz.utc) > b.get_property('Synced At').value().replace(tzinfo=pytz.utc) \
+                or self.force:
             return Action.push(ActionTarget.B, a, b)
 
         return Action.ignore()

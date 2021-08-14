@@ -1,3 +1,5 @@
+import time
+
 import click
 import inquirer
 
@@ -57,9 +59,14 @@ def clear_trash(space):
 
     click.echo(f'Cleaning Trash for Space: {space.name}')
     for i in range(1000):
-        click.echo(f'- Cleaning page: {i}')
-        trash = list(unotion.get_trash(space))
-        if len(trash) == 0:
-            break
+        try:
+            click.echo(f'- Cleaning page: {i}')
+            trash = list(unotion.get_trash(space))
+            if len(trash) == 0:
+                break
 
-        unotion.delete_blocks(trash)
+            unotion.delete_blocks(trash)
+            time.sleep(5)
+        except:
+            time.sleep(10)
+            pass

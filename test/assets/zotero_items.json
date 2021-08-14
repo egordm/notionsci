@@ -1,128 +1,898 @@
 [
-  {
-    "key": "123457",
-    "version": 46,
-    "library": {
-      "type": "group",
-      "id": 123456,
-      "name": "Research",
-      "links": {
-        "alternate": {
-          "href": "https://www.zotero.org/groups/123456",
-          "type": "text/html"
-        }
-      }
-    },
-    "links": {
-      "self": {
-        "href": "https://api.zotero.org/groups/123456/items/123457",
-        "type": "application/json"
-      },
-      "alternate": {
-        "href": "https://www.zotero.org/groups/123456/items/123457",
-        "type": "text/html"
-      },
-      "up": {
-        "href": "https://api.zotero.org/groups/123456/items/PDZHIRVW",
-        "type": "application/json"
-      }
-    },
-    "meta": {
-      "createdByUser": {
-        "id": 123459,
-        "username": "johndoe",
-        "name": "",
+    {
+        "key": "ZHUGQS4P",
+        "version": 17,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
         "links": {
-          "alternate": {
-            "href": "https://www.zotero.org/johndoe",
-            "type": "text/html"
-          }
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/ZHUGQS4P",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/ZHUGQS4P",
+                "type": "text/html"
+            },
+            "up": {
+                "href": "https://api.zotero.org/groups/4397015/items/YC5UMYGU",
+                "type": "application/json"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 0
+        },
+        "data": {
+            "key": "ZHUGQS4P",
+            "version": 17,
+            "parentItem": "YC5UMYGU",
+            "itemType": "note",
+            "note": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dignissim ut nulla id auctor. Proin sollicitudin, tellus ut euismod accumsan, dui justo venenatis massa, sed maximus neque ante ac turpis. Donec congue eros ex, at vulputate libero auctor eu. Sed sed leo lobortis, luctus libero ac, hendrerit arcu. In cursus nisi ac mauris efficitur placerat. Nullam et aliquet ipsum. Fusce euismod, odio consectetur pretium porta, urna urna tempor dolor, non varius leo mi vitae orci. Integer a ligula non dui mollis suscipit non at diam. Nam bibendum enim libero, sodales elementum mi laoreet sed. Mauris ut ligula ut dui rhoncus sagittis in et metus. Nullam lacinia, libero non rhoncus semper, mi nibh lacinia lacus, a fermentum nibh diam vel purus. Duis porttitor magna eget ultrices lobortis. Nulla rhoncus orci ante, id maximus tellus commodo non. Nunc mollis ipsum a luctus elementum. Praesent libero turpis, feugiat vel arcu vel, egestas condimentum sem. Donec arcu ligula, molestie at mi id, mollis tincidunt diam.</p>\n<p>Pellentesque ut accumsan nisl, a pulvinar turpis. Nullam interdum pulvinar enim, sed ornare nulla eleifend ac. Nunc accumsan luctus mollis. Morbi semper sem libero, sed lacinia purus suscipit id. Mauris bibendum scelerisque imperdiet. Nulla at tempus lectus, eget consectetur nisi. Sed vulputate lorem felis, eget egestas est vestibulum ac. Morbi porttitor interdum dolor eget varius. Sed arcu massa, ullamcorper varius euismod maximus, aliquam eu risus. Quisque sit amet bibendum enim. Integer finibus et diam ac aliquet. Nam suscipit, elit vel egestas accumsan, elit tellus convallis tortor, non porta eros purus porttitor lectus. Morbi ligula tortor, feugiat vel nibh non, mattis placerat nibh. Cras congue, arcu eget varius malesuada, sem turpis lobortis ligula, vehicula auctor urna enim quis libero. Curabitur elementum ut dolor vitae laoreet.</p>",
+            "tags": [],
+            "relations": {},
+            "dateAdded": "2021-08-14T18:43:26Z",
+            "dateModified": "2021-08-14T18:43:53Z"
         }
-      },
-      "numChildren": 0
     },
-    "data": {
-      "key": "123457",
-      "version": 46,
-      "parentItem": "PDZHIRVW",
-      "itemType": "attachment",
-      "linkMode": "imported_url",
-      "title": "Lorem ipsum dolor sit amet",
-      "accessDate": "2020-12-23T20:01:14Z",
-      "url": "https://google.com",
-      "note": "",
-      "contentType": "application/pdf",
-      "charset": "",
-      "filename": "Lorem ipsum dolor sit amet/pdf",
-      "md5": null,
-      "mtime": null,
-      "tags": [],
-      "relations": {},
-      "dateAdded": "2021-08-08T11:40:04Z",
-      "dateModified": "2021-08-08T11:40:04Z"
-    }
-  },
-  {
-    "key": "123458",
-    "version": 46,
-    "library": {
-      "type": "group",
-      "id": 123456,
-      "name": "Research",
-      "links": {
-        "alternate": {
-          "href": "https://www.zotero.org/groups/123456",
-          "type": "text/html"
-        }
-      }
-    },
-    "links": {
-      "self": {
-        "href": "https://api.zotero.org/groups/123456/items/123458",
-        "type": "application/json"
-      },
-      "alternate": {
-        "href": "https://www.zotero.org/groups/123456/items/123458",
-        "type": "text/html"
-      },
-      "up": {
-        "href": "https://api.zotero.org/groups/123456/items/9JJEZW72",
-        "type": "application/json"
-      }
-    },
-    "meta": {
-      "createdByUser": {
-        "id": 123459,
-        "username": "johndoe",
-        "name": "",
+    {
+        "key": "N6MCDPLA",
+        "version": 15,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
         "links": {
-          "alternate": {
-            "href": "https://www.zotero.org/johndoe",
-            "type": "text/html"
-          }
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/N6MCDPLA",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/N6MCDPLA",
+                "type": "text/html"
+            },
+            "up": {
+                "href": "https://api.zotero.org/groups/4397015/items/PBCREJF3",
+                "type": "application/json"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 0
+        },
+        "data": {
+            "key": "N6MCDPLA",
+            "version": 15,
+            "parentItem": "PBCREJF3",
+            "itemType": "note",
+            "note": "<h1>Note 1</h1>\n<h2>Note 1</h2>\n<h3>Note 1</h3>\n<p>note 2</p>",
+            "tags": [],
+            "relations": {},
+            "dateAdded": "2021-08-14T18:42:47Z",
+            "dateModified": "2021-08-14T18:42:53Z"
         }
-      },
-      "numChildren": 0
     },
-    "data": {
-      "key": "123458",
-      "version": 46,
-      "parentItem": "9JJEZW72",
-      "itemType": "attachment",
-      "linkMode": "imported_url",
-      "title": "Lorem ipsum dolor sit amet",
-      "accessDate": "2020-12-11T21:46:34Z",
-      "url": "https://google.com/",
-      "note": "",
-      "contentType": "text/html",
-      "charset": "utf-8",
-      "filename": "Lorem ipsum dolor sit amet",
-      "md5": null,
-      "mtime": null,
-      "tags": [],
-      "relations": {},
-      "dateAdded": "2021-08-08T11:40:04Z",
-      "dateModified": "2021-08-08T11:40:04Z"
+    {
+        "key": "FI7NFL6R",
+        "version": 15,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/FI7NFL6R",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/FI7NFL6R",
+                "type": "text/html"
+            },
+            "up": {
+                "href": "https://api.zotero.org/groups/4397015/items/PBCREJF3",
+                "type": "application/json"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 0
+        },
+        "data": {
+            "key": "FI7NFL6R",
+            "version": 15,
+            "parentItem": "PBCREJF3",
+            "itemType": "note",
+            "note": "<h1>Note 1</h1>\n<h2>Note 1</h2>\n<h3>Note 1</h3>\n<p>note 2</p>",
+            "tags": [],
+            "relations": {},
+            "dateAdded": "2021-08-14T18:42:10Z",
+            "dateModified": "2021-08-14T18:42:45Z"
+        }
+    },
+    {
+        "key": "JDGLKHXE",
+        "version": 15,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/JDGLKHXE",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/JDGLKHXE",
+                "type": "text/html"
+            },
+            "up": {
+                "href": "https://api.zotero.org/groups/4397015/items/5VDJL4P4",
+                "type": "application/json"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 0
+        },
+        "data": {
+            "key": "JDGLKHXE",
+            "version": 15,
+            "parentItem": "5VDJL4P4",
+            "itemType": "note",
+            "note": "<h1>Test note 1</h1>\n<p>abcdef</p>\n<p><strong>Hello World</strong></p>\n<p>\u00a0</p>\n<p>\u00a0</p>",
+            "tags": [],
+            "relations": {},
+            "dateAdded": "2021-08-14T18:41:32Z",
+            "dateModified": "2021-08-14T18:42:07Z"
+        }
+    },
+    {
+        "key": "5VDJL4P4",
+        "version": 14,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/5VDJL4P4",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/5VDJL4P4",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "creatorSummary": "Rougier",
+            "parsedDate": "2013",
+            "numChildren": 1
+        },
+        "data": {
+            "key": "5VDJL4P4",
+            "version": 14,
+            "itemType": "journalArticle",
+            "title": "Shader-Based Antialiased Dashed Stroked Polylines",
+            "creators": [
+                {
+                    "creatorType": "author",
+                    "firstName": "N.",
+                    "lastName": "Rougier"
+                }
+            ],
+            "abstractNote": "Dashed stroked paths are a widely-used feature found in the vast majority of vector drawing software and libraries. They allow, for example, highlighting a given path such as the cur- rent selection in drawing software or distinguishing curves in the case of a scientific plotting package. This paper introduces a shader-based method for rendering arbitrary dash patterns along any continuous polyline (smooth or broken). The proposed method does not tessellate individual dash patterns and allows for fast and nearly accurate rendering of any user-defined dash pattern and caps. Benchmarks indicates a slowdown ratio between 1.1 and 2.1 with an increased memory consumption between 3 and 6. Furthermore, the method can be used for solid thick polylines with correct caps and joins with only a slowdown of factor 1.1.",
+            "publicationTitle": "undefined",
+            "volume": "",
+            "issue": "",
+            "pages": "",
+            "date": "2013",
+            "series": "",
+            "seriesTitle": "",
+            "seriesText": "",
+            "journalAbbreviation": "",
+            "language": "en",
+            "DOI": "",
+            "ISSN": "",
+            "shortTitle": "",
+            "url": "https://www.semanticscholar.org/paper/Shader-Based-Antialiased-Dashed-Stroked-Polylines-Rougier/5ec28762c868b410b8388181d63a17469c38b26c",
+            "accessDate": "2021-08-09T21:50:22Z",
+            "archive": "",
+            "archiveLocation": "",
+            "libraryCatalog": "www.semanticscholar.org",
+            "callNumber": "",
+            "rights": "",
+            "extra": "",
+            "tags": [],
+            "collections": [
+                "BCQQFQ2N"
+            ],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:50:22Z",
+            "dateModified": "2021-08-09T21:50:22Z"
+        }
+    },
+    {
+        "key": "ZKBYTT2Q",
+        "version": 14,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/ZKBYTT2Q",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/ZKBYTT2Q",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 0
+        },
+        "data": {
+            "key": "ZKBYTT2Q",
+            "version": 14,
+            "itemType": "webpage",
+            "title": "Shader-Based Antialiased, Dashed, Stroked Polylines (JCGT)",
+            "creators": [],
+            "abstractNote": "",
+            "websiteTitle": "",
+            "websiteType": "",
+            "date": "",
+            "shortTitle": "",
+            "url": "http://jcgt.org/published/0002/02/08/",
+            "accessDate": "2021-08-09T21:48:59Z",
+            "language": "",
+            "rights": "",
+            "extra": "",
+            "tags": [],
+            "collections": [],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:48:59Z",
+            "dateModified": "2021-08-09T21:48:59Z"
+        }
+    },
+    {
+        "key": "MRYXVIZU",
+        "version": 11,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/MRYXVIZU",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/MRYXVIZU",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 0
+        },
+        "data": {
+            "key": "MRYXVIZU",
+            "version": 11,
+            "itemType": "webpage",
+            "title": "Interactive Path Tracing and Reconstruction of Sparse Volumes | Proceedings of the ACM on Computer Graphics and Interactive Techniques",
+            "creators": [],
+            "abstractNote": "",
+            "websiteTitle": "",
+            "websiteType": "",
+            "date": "",
+            "shortTitle": "",
+            "url": "https://dl.acm.org/doi/10.1145/3451256",
+            "accessDate": "2021-08-09T21:48:23Z",
+            "language": "",
+            "rights": "",
+            "extra": "",
+            "tags": [],
+            "collections": [
+                "8GZBJRLY"
+            ],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:48:23Z",
+            "dateModified": "2021-08-09T21:48:23Z"
+        }
+    },
+    {
+        "key": "PBCREJF3",
+        "version": 9,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/PBCREJF3",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/PBCREJF3",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 2
+        },
+        "data": {
+            "key": "PBCREJF3",
+            "version": 9,
+            "itemType": "webpage",
+            "title": "Monte Carlo geometry processing: a grid-free approach to PDE-based methods on volumetric domains: ACM Transactions on Graphics: Vol 39, No 4",
+            "creators": [],
+            "abstractNote": "",
+            "websiteTitle": "",
+            "websiteType": "",
+            "date": "",
+            "shortTitle": "",
+            "url": "https://dl.acm.org/doi/abs/10.1145/3386569.3392374",
+            "accessDate": "2021-08-09T21:47:08Z",
+            "language": "",
+            "rights": "",
+            "extra": "",
+            "tags": [],
+            "collections": [
+                "MY4FLJDB"
+            ],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:47:08Z",
+            "dateModified": "2021-08-09T21:47:08Z"
+        }
+    },
+    {
+        "key": "YHGZV8LU",
+        "version": 5,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/YHGZV8LU",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/YHGZV8LU",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "numChildren": 0
+        },
+        "data": {
+            "key": "YHGZV8LU",
+            "version": 5,
+            "itemType": "webpage",
+            "title": "AlphaFold",
+            "creators": [],
+            "abstractNote": "Learn what protein folding is, why it's important and how our AI system AlphaFold is working to solve this grand scientific challenge.",
+            "websiteTitle": "Deepmind",
+            "websiteType": "",
+            "date": "",
+            "shortTitle": "",
+            "url": "https://deepmind.com/research/case-studies/alphafold",
+            "accessDate": "2021-08-09T21:44:17Z",
+            "language": "ALL",
+            "rights": "",
+            "extra": "",
+            "tags": [],
+            "collections": [
+                "LYA53AKD"
+            ],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:44:17Z",
+            "dateModified": "2021-08-09T21:44:17Z"
+        }
+    },
+    {
+        "key": "E4WRQSKY",
+        "version": 4,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/E4WRQSKY",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/E4WRQSKY",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "creatorSummary": "Sutton and Barto",
+            "parsedDate": "2018-11-13",
+            "numChildren": 0
+        },
+        "data": {
+            "key": "E4WRQSKY",
+            "version": 4,
+            "itemType": "book",
+            "title": "Reinforcement Learning: An Introduction",
+            "creators": [
+                {
+                    "creatorType": "author",
+                    "firstName": "Richard S.",
+                    "lastName": "Sutton"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Andrew G.",
+                    "lastName": "Barto"
+                },
+                {
+                    "creatorType": "seriesEditor",
+                    "firstName": "Francis",
+                    "lastName": "Bach"
+                }
+            ],
+            "abstractNote": "The significantly expanded and updated new edition of a widely used text on reinforcement learning, one of the most active research areas in artificial intelligence.",
+            "series": "Adaptive Computation and Machine Learning series",
+            "seriesNumber": "",
+            "volume": "",
+            "numberOfVolumes": "",
+            "edition": "2",
+            "place": "Cambridge, MA, USA",
+            "publisher": "A Bradford Book",
+            "date": "2018-11-13",
+            "numPages": "552",
+            "language": "en",
+            "ISBN": "978-0-262-03924-6",
+            "shortTitle": "Reinforcement Learning",
+            "url": "",
+            "accessDate": "",
+            "archive": "",
+            "archiveLocation": "",
+            "libraryCatalog": "MIT Press Books",
+            "callNumber": "",
+            "rights": "",
+            "extra": "",
+            "tags": [],
+            "collections": [
+                "LYA53AKD"
+            ],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:43:29Z",
+            "dateModified": "2021-08-09T21:43:29Z"
+        }
+    },
+    {
+        "key": "3WME7ZA4",
+        "version": 4,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/3WME7ZA4",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/3WME7ZA4",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "creatorSummary": "Schulman et al.",
+            "parsedDate": "2017-08-28",
+            "numChildren": 0
+        },
+        "data": {
+            "key": "3WME7ZA4",
+            "version": 4,
+            "itemType": "journalArticle",
+            "title": "Proximal Policy Optimization Algorithms",
+            "creators": [
+                {
+                    "creatorType": "author",
+                    "firstName": "John",
+                    "lastName": "Schulman"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Filip",
+                    "lastName": "Wolski"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Prafulla",
+                    "lastName": "Dhariwal"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Alec",
+                    "lastName": "Radford"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Oleg",
+                    "lastName": "Klimov"
+                }
+            ],
+            "abstractNote": "We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a \"surrogate\" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.",
+            "publicationTitle": "arXiv:1707.06347 [cs]",
+            "volume": "",
+            "issue": "",
+            "pages": "",
+            "date": "2017-08-28",
+            "series": "",
+            "seriesTitle": "",
+            "seriesText": "",
+            "journalAbbreviation": "",
+            "language": "",
+            "DOI": "",
+            "ISSN": "",
+            "shortTitle": "",
+            "url": "http://arxiv.org/abs/1707.06347",
+            "accessDate": "2021-08-09T21:42:10Z",
+            "archive": "",
+            "archiveLocation": "",
+            "libraryCatalog": "arXiv.org",
+            "callNumber": "",
+            "rights": "",
+            "extra": "arXiv: 1707.06347",
+            "tags": [
+                {
+                    "tag": "Computer Science - Machine Learning",
+                    "type": 1
+                }
+            ],
+            "collections": [
+                "LYA53AKD"
+            ],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:42:10Z",
+            "dateModified": "2021-08-09T21:42:10Z"
+        }
+    },
+    {
+        "key": "YC5UMYGU",
+        "version": 3,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/items/YC5UMYGU",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/items/YC5UMYGU",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "createdByUser": {
+                "id": 6842375,
+                "username": "egordm",
+                "name": "",
+                "links": {
+                    "alternate": {
+                        "href": "https://www.zotero.org/egordm",
+                        "type": "text/html"
+                    }
+                }
+            },
+            "creatorSummary": "Schrittwieser et al.",
+            "parsedDate": "2020-12-24",
+            "numChildren": 1
+        },
+        "data": {
+            "key": "YC5UMYGU",
+            "version": 3,
+            "itemType": "journalArticle",
+            "title": "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model",
+            "creators": [
+                {
+                    "creatorType": "author",
+                    "firstName": "Julian",
+                    "lastName": "Schrittwieser"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Ioannis",
+                    "lastName": "Antonoglou"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Thomas",
+                    "lastName": "Hubert"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Karen",
+                    "lastName": "Simonyan"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Laurent",
+                    "lastName": "Sifre"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Simon",
+                    "lastName": "Schmitt"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Arthur",
+                    "lastName": "Guez"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Edward",
+                    "lastName": "Lockhart"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Demis",
+                    "lastName": "Hassabis"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Thore",
+                    "lastName": "Graepel"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "Timothy",
+                    "lastName": "Lillicrap"
+                },
+                {
+                    "creatorType": "author",
+                    "firstName": "David",
+                    "lastName": "Silver"
+                }
+            ],
+            "abstractNote": "Constructing agents with planning capabilities has long been one of the main challenges in the pursuit of artificial intelligence. Tree-based planning methods have enjoyed huge success in challenging domains, such as chess and Go, where a perfect simulator is available. However, in real-world problems the dynamics governing the environment are often complex and unknown. In this work we present the MuZero algorithm which, by combining a tree-based search with a learned model, achieves superhuman performance in a range of challenging and visually complex domains, without any knowledge of their underlying dynamics. MuZero learns a model that, when applied iteratively, predicts the quantities most directly relevant to planning: the reward, the action-selection policy, and the value function. When evaluated on 57 different Atari games - the canonical video game environment for testing AI techniques, in which model-based planning approaches have historically struggled - our new algorithm achieved a new state of the art. When evaluated on Go, chess and shogi, without any knowledge of the game rules, MuZero matched the superhuman performance of the AlphaZero algorithm that was supplied with the game rules.",
+            "publicationTitle": "Nature",
+            "volume": "588",
+            "issue": "7839",
+            "pages": "604-609",
+            "date": "2020-12-24",
+            "series": "",
+            "seriesTitle": "",
+            "seriesText": "",
+            "journalAbbreviation": "Nature",
+            "language": "",
+            "DOI": "10.1038/s41586-020-03051-4",
+            "ISSN": "0028-0836, 1476-4687",
+            "shortTitle": "",
+            "url": "http://arxiv.org/abs/1911.08265",
+            "accessDate": "2021-08-09T21:41:52Z",
+            "archive": "",
+            "archiveLocation": "",
+            "libraryCatalog": "arXiv.org",
+            "callNumber": "",
+            "rights": "",
+            "extra": "arXiv: 1911.08265",
+            "tags": [
+                {
+                    "tag": "Computer Science - Machine Learning",
+                    "type": 1
+                },
+                {
+                    "tag": "Statistics - Machine Learning",
+                    "type": 1
+                }
+            ],
+            "collections": [
+                "LYA53AKD"
+            ],
+            "relations": {},
+            "dateAdded": "2021-08-09T21:41:52Z",
+            "dateModified": "2021-08-09T21:41:52Z"
+        }
     }
-  }
 ]

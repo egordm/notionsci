@@ -247,7 +247,7 @@ class Collection:
         return self.data.title
 
     def updated_at(self) -> dt.datetime:
-        return dt.datetime()
+        return dt.datetime.now()
 
 
 @dataclass_dict_convert(dict_letter_case=camelcase)
