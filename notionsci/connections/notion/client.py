@@ -57,6 +57,9 @@ class NotionClient(NotionApiMixin):
         result = self.client.pages.create(**args)
         return Page.from_dict(result)
 
+    def page_upsert(self, page: Page) -> Page:
+        return self.page_update(page) if page.id else self.page_create(page)
+
     def database_get(self, id: ID) -> Database:
         result = self.client.databases.retrieve(id)
         return Database.from_dict(result)

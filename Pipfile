@@ -19,7 +19,6 @@ simple-parsing = "*"
 tqdm = "*"
 pyyaml = "*"
 dataclass-dict-convert = "*"
-dt = "*"
 platformdirs = "*"
 notion = {editable = true, git = "https://github.com/EgorDm/notion-py.git"}
 inquirer = "*"

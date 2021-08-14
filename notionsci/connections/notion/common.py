@@ -123,7 +123,7 @@ class SelectValue:
 @dataclass
 class DateValue:
     start: str
-    end: Optional[str]
+    end: Optional[str] = None
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -193,7 +193,7 @@ class Property:
         elif self.type == PropertyType.multi_select:
             return self.multi_select
         elif self.type == PropertyType.date:
-            return self.date
+            return dt.datetime.fromisoformat(self.date.start)
         elif self.type == PropertyType.people:
             return self.people
         elif self.type == PropertyType.files:
@@ -236,6 +236,13 @@ class Property:
         return Property(
             type=PropertyType.url,
             url=text if text else ExplicitNone()
+        )
+
+    @staticmethod
+    def as_date(date: dt.datetime) -> 'Property':
+        return Property(
+            type=PropertyType.date,
+            date=DateValue(date.isoformat())
         )
 
     @staticmethod
@@ -401,6 +408,14 @@ class ContentObject:
             **self.properties,
             **properties
         }
+
+    def get_title(self):
+        prop = next(filter(lambda x: x.type == PropertyType.title, self.properties.values()), None)
+        if prop is None:
+            return ''
+        else:
+            return prop.value()
+
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
