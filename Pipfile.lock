@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ea6a3f6b53c4aaea78315c20e5acba6db6f55b16eda7102b8cf8a876a909fb30"
+            "sha256": "0111736ef6d3cd27c048a6e90eaca468e800a59aba3afa48ddbf50ffefef8012"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -23,14 +23,6 @@
             ],
             "markers": "python_full_version >= '3.6.2'",
             "version": "==3.3.0"
-        },
-        "appdirs": {
-            "hashes": [
-                "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41",
-                "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"
-            ],
-            "index": "pypi",
-            "version": "==1.4.4"
         },
         "beautifulsoup4": {
             "hashes": [
@@ -192,17 +184,25 @@
         },
         "notion-client": {
             "hashes": [
-                "sha256:17958cd1c32bad27d9eaa440e4db4200d99fa0801f41f61dc6ee8b0d609fea9f",
-                "sha256:5c424d21300d95524593f6012cb3f7499433096a38ab3fc9abafeddadea137cb"
+                "sha256:355b5f391b8149e54ab36f3a6a6cbd3315e1130096c99b4303a4923197e6cf0b",
+                "sha256:c865a3fb2b465d23ff9c39e4a4a10827b73563af42c2c1528f7ea9923fb2a695"
             ],
             "index": "pypi",
-            "version": "==0.5.0"
+            "version": "==0.6.0"
         },
         "pathlib": {
             "hashes": [
                 "sha256:6940718dfc3eff4258203ad5021090933e5c04707d5ca8cc9e73c94a7894ea9f"
             ],
             "version": "==1.0.1"
+        },
+        "platformdirs": {
+            "hashes": [
+                "sha256:4666d822218db6a262bdfdc9c39d21f23b4cfdb08af331a81e92751daf6c866c",
+                "sha256:632daad3ab546bd8e6af0537d09805cec458dce201bccfe23012df73332e181e"
+            ],
+            "index": "pypi",
+            "version": "==2.2.0"
         },
         "pyparsing": {
             "hashes": [
@@ -412,7 +412,6 @@
                 "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41",
                 "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"
             ],
-            "index": "pypi",
             "version": "==1.4.4"
         },
         "attrs": {
@@ -718,7 +717,7 @@
                 "sha256:4666d822218db6a262bdfdc9c39d21f23b4cfdb08af331a81e92751daf6c866c",
                 "sha256:632daad3ab546bd8e6af0537d09805cec458dce201bccfe23012df73332e181e"
             ],
-            "markers": "python_version >= '3.6'",
+            "index": "pypi",
             "version": "==2.2.0"
         },
         "plette": {

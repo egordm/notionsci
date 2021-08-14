@@ -20,7 +20,7 @@ tqdm = "*"
 pyyaml = "*"
 dataclass-dict-convert = "*"
 dt = "*"
-appdirs = "*"
+platformdirs = "*"
 notion = {editable = true, git = "https://github.com/EgorDm/notion-py.git"}
 inquirer = "*"
 
