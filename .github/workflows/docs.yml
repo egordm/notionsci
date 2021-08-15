@@ -1,0 +1,21 @@
+name: Docs
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  docs:
+    name: Builds and publishes docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Setup Pipenv
+        run: make setup
+      - run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Publish docs
+        run: mkdocs gh-deploy

@@ -139,4 +139,6 @@ dmypy.json
 cython_debug/
 
 *.yml
+!.github/workflows/*.yml
+!mkdocs.yml
 scratch

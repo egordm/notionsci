@@ -10,6 +10,11 @@ pipenv-to-requirements = "*"
 pipenv-setup = "*"
 black = "*"
 pbr = "*"
+mkdocs = "*"
+mkdocs-gen-files = "*"
+mkdocs-material = "*"
+mkdocstrings = "*"
+pymdown-extensions = "*"
 
 [packages]
 notion-client = "*"
