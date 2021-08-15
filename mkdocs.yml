@@ -56,8 +56,13 @@ extra:
       link: https://github.com/EgorDm/notionsci
 
 nav:
-  - Home: index.md
-  - Getting started:
+  - Home:
+    - Overview: index.md
+    - Usage:
+      - Notion: notion.md
+      - Zotero: zotero.md
+      - Configuration: configuration.md
+    - Development:
       - Contributing: contributing.md
       - License: license.md
   - Reference:
