@@ -1,3 +1,5 @@
+.PHONY: test clean
+
 test: lint-check
 	pipenv run test
 
@@ -9,7 +11,11 @@ lint:
 
 setup:
 	pip install pipenv
-	pipenv install --dev --three
+	pipenv install --three --dev
+
+setup-ci:
+	pip install pipenv
+	pipenv install --dev --deploy
 
 clean:
 	rm -rf dist build requirements.txt requirements-dev.txt notionsci.egg-info

@@ -1,74 +1,194 @@
 [
-  {
-    "key": "123456",
-    "version": 49,
-    "library": {
-      "type": "group",
-      "id": 123456,
-      "name": "Research",
-      "links": {
-        "alternate": {
-          "href": "https://www.zotero.org/groups/123456",
-          "type": "text/html"
+    {
+        "key": "BCQQFQ2N",
+        "version": 12,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/collections/BCQQFQ2N",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/collections/BCQQFQ2N",
+                "type": "text/html"
+            },
+            "up": {
+                "href": "https://api.zotero.org/groups/4397015/collections/422C2GXM",
+                "type": "application/json"
+            }
+        },
+        "meta": {
+            "numCollections": 0,
+            "numItems": 1
+        },
+        "data": {
+            "key": "BCQQFQ2N",
+            "version": 12,
+            "name": "2D",
+            "parentCollection": "422C2GXM",
+            "relations": {}
         }
-      }
     },
-    "links": {
-      "self": {
-        "href": "https://api.zotero.org/groups/123456/collections/123456",
-        "type": "application/json"
-      },
-      "alternate": {
-        "href": "https://www.zotero.org/groups/123456/collections/123456",
-        "type": "text/html"
-      }
-    },
-    "meta": {
-      "numCollections": 0,
-      "numItems": 6
-    },
-    "data": {
-      "key": "123456",
-      "version": 49,
-      "name": "Test 1",
-      "parentCollection": false,
-      "relations": {}
-    }
-  },
-  {
-    "key": "ABCDEF",
-    "version": 49,
-    "library": {
-      "type": "group",
-      "id": 123456,
-      "name": "Research",
-      "links": {
-        "alternate": {
-          "href": "https://www.zotero.org/groups/123456",
-          "type": "text/html"
+    {
+        "key": "8GZBJRLY",
+        "version": 10,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/collections/8GZBJRLY",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/collections/8GZBJRLY",
+                "type": "text/html"
+            },
+            "up": {
+                "href": "https://api.zotero.org/groups/4397015/collections/422C2GXM",
+                "type": "application/json"
+            }
+        },
+        "meta": {
+            "numCollections": 0,
+            "numItems": 1
+        },
+        "data": {
+            "key": "8GZBJRLY",
+            "version": 10,
+            "name": "Path Tracing",
+            "parentCollection": "422C2GXM",
+            "relations": {}
         }
-      }
     },
-    "links": {
-      "self": {
-        "href": "https://api.zotero.org/groups/123456/collections/ABCDEF",
-        "type": "application/json"
-      },
-      "alternate": {
-        "href": "https://www.zotero.org/groups/123456/collections/ABCDEF",
-        "type": "text/html"
-      }
+    {
+        "key": "MY4FLJDB",
+        "version": 7,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/collections/MY4FLJDB",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/collections/MY4FLJDB",
+                "type": "text/html"
+            },
+            "up": {
+                "href": "https://api.zotero.org/groups/4397015/collections/422C2GXM",
+                "type": "application/json"
+            }
+        },
+        "meta": {
+            "numCollections": 0,
+            "numItems": 1
+        },
+        "data": {
+            "key": "MY4FLJDB",
+            "version": 7,
+            "name": "Geometry",
+            "parentCollection": "422C2GXM",
+            "relations": {}
+        }
     },
-    "meta": {
-      "numCollections": 2,
-      "numItems": 0
+    {
+        "key": "422C2GXM",
+        "version": 6,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/collections/422C2GXM",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/collections/422C2GXM",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "numCollections": 3,
+            "numItems": 0
+        },
+        "data": {
+            "key": "422C2GXM",
+            "version": 6,
+            "name": "Graphics",
+            "parentCollection": false,
+            "relations": {}
+        }
     },
-    "data": {
-      "key": "ABCDEF",
-      "version": 49,
-      "name": "Test 2",
-      "parentCollection": "123456",
-      "relations": {}
+    {
+        "key": "LYA53AKD",
+        "version": 2,
+        "library": {
+            "type": "group",
+            "id": 4397015,
+            "name": "NotionSci",
+            "links": {
+                "alternate": {
+                    "href": "https://www.zotero.org/groups/4397015",
+                    "type": "text/html"
+                }
+            }
+        },
+        "links": {
+            "self": {
+                "href": "https://api.zotero.org/groups/4397015/collections/LYA53AKD",
+                "type": "application/json"
+            },
+            "alternate": {
+                "href": "https://www.zotero.org/groups/4397015/collections/LYA53AKD",
+                "type": "text/html"
+            }
+        },
+        "meta": {
+            "numCollections": 0,
+            "numItems": 4
+        },
+        "data": {
+            "key": "LYA53AKD",
+            "version": 2,
+            "name": "Reinforcement Learning",
+            "parentCollection": false,
+            "relations": {}
+        }
     }
-  }
 ]

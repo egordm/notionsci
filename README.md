@@ -25,40 +25,29 @@ This cli is meant to allow syncing of scienfic/reasearch tools to notion. (Such 
 pip install notionsci
 ```
 
-## Usage
-> Before getting started, [create an integration](https://www.notion.com/my-integrations)
-> and find the token.
-> [→ Learn more about authorization](https://developers.notion.com/docs/authorization).
+## Features
+* [Zotero Synchronization](zotero.md)
+    * [References Sync (One Way)](zotero.md#references-sync-one-way)
+    * [Collections Sync (One Way)](zotero.md#collections-sync-one-way)
+* [Useful Notion Tools](notion.md)
+    * [Page Duplication](notion.md#duplicating-pages)
+    * [Workspace Trash Cleaning](notion.md#cleaning-workspace-trash)
 
-Generate initial configuration and fill the **integration token** and other connection api keys.
+## Quick Start
+> Before getting started, configure [Notion intergration](notion.md#setting-up-connection)
+> and [Zotero integration](zotero.md#setting-up-connection).
 
-```bash
-notionsci config
-```
-
-The config.yml should be created at `~/.config/notionsci` (linux) 
-and `/Library/Application Support/notionsci` (Mac OS X).
-
-```yaml
-connections:
-  notion:
-    token: 'token'
-  zotero:
-    library_id: '123456'
-    library_type: 'user'
-    token: 'token'
-```
-
-### Zotero Connection
-> Before getting started, [create an api key](https://www.zotero.org/settings/keys)
-> and find the token.
-> [→ Learn more about authorization](https://www.zotero.org/support/dev/web_api/v3/basics#authentication).
-
-Built-in commands allow you to sync your citations to a Notion table. 
-Start by forking the following [the template references page](https://efficacious-alarm-7cc.notion.site/c07599f91c9d4e91ad2cfc6b30472cc5?v=b034106aaea847c2865643a32d755a21).
-
-Extract the database uuid from the url. (TODO: Elaborate)
+Duplicate the [Zotero Library Template](https://www.notion.so/Zotero-Library-dd4b26a3b11d46518b70b5031aee8989)
+and synchronize the Zotero Collections with:
 
 ```bash
-notionsci sync zotero -db=<db uuid>
+notionsci sync zotero collections <Url of your Zotero Collections page>
 ```
+
+and the References with:
+
+```bash
+notionsci sync zotero refs <Url of your Zotero References page>
+```
+
+## [Documentation](https://egordm.github.io/notionsci/)

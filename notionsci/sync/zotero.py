@@ -1,92 +1,171 @@
-from typing import Dict, Optional
+import datetime as dt
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Optional, Dict, List, TypeVar, Set
 
-import click
-from tqdm import tqdm
+import pytz
 
-from notionsci.config import config
-from notionsci.connections.notion import SortDirection, SortObject, Page, Parent, Property
-from notionsci.connections.zotero import Item, ID, Collection, build_inherency_tree, generate_citekey
+from notionsci.connections.notion import Page, ID, NotionClient, SortObject, SortDirection, Property, \
+    Parent, RelationItem
+from notionsci.connections.zotero import Item, ZoteroClient, generate_citekey, Collection, build_inherency_tree
+from notionsci.sync.structure import Sync, Action, ActionTarget, B, ActionType, topo_sort
 from notionsci.utils import key_by, flatten
 
-
-@click.group()
-def sync():
-    pass
+A = TypeVar('A')
 
 
-@sync.command()
-@click.option('-db', '--database')
-@click.option('--force', is_flag=True, default=False)
-def zotero(database: str, force: bool = False):
-    notion = config.connections.notion.client()
-    database = notion.database(database)
+@dataclass
+class ZoteroNotionOneWaySync(Sync[A, Page], ABC):
+    notion: NotionClient
+    zotero: ZoteroClient
+    database_id: ID
+    force: bool = False
+    last_sync_date: Optional[dt.datetime] = None
 
-    print('Loading existing Notion items')
-    notion_items: Dict[ID, Page] = key_by(tqdm(database.query_all(
-        sorts=[SortObject(property='Modified At', direction=SortDirection.descending)]
-    ), leave=False), lambda x: x.get_property('ID').value())
-
-    print('Loading existing Zotero items')
-    zotero_items: Dict[ID, Item] = key_by(
-        config.connections.zotero.client().all_items_grouped(), lambda i: i.key)
-    zotero_collections: Dict[ID, Collection] = key_by(
-        config.connections.zotero.client().all_collections_grouped(delete_children=False), lambda i: i.key)
-    collection_inherency = build_inherency_tree(zotero_collections.values())
-
-    # Update or Create Pages
-    items_to_upsert = [
-        key for key in zotero_items.keys()
-        if key not in notion_items
-           or zotero_items[key].data.date_modified > notion_items[key].get_property('Modified At').value()
-    ] if not force else list(zotero_items.keys())
-
-    for key in tqdm(items_to_upsert, desc='Syncing citations', leave=False):
-        page: Optional[Page] = notion_items[key] if key in notion_items else None
-        item: Item = zotero_items[key]
-
-        item_collections = set(flatten(
-            [collection_inherency.get(col_key, []) for col_key in item.data.collections]
-            + [item.data.collections or []]
-        ))
-
-        properties = {
-            'ID': Property.as_rich_text(item.key),
-            'Type': Property.as_select(item.data.item_type.value),
-            'Cite Key': Property.as_title(generate_citekey(item)),
-            'Title': Property.as_rich_text(item.title),
-            'Authors': Property.as_rich_text(item.authors),
-            'Publication Date': Property.as_rich_text(item.date),
-            'Abstract': Property.as_rich_text(item.data.abstract),
-            'URL': Property.as_url(item.data.url),
-            'Publication': Property.as_rich_text(item.data.publication),
-            'Tags': Property.as_multi_select([tag.tag for tag in item.data.tags]),
-            'Collections': Property.as_multi_select([
-                zotero_collections[col_key].title
-                for col_key in item_collections
-                if col_key in zotero_collections
-            ])
+    def fetch_items_b(self) -> Dict[str, B]:
+        print('Loading existing Notion items')
+        return {
+            x.get_property('ID').value(): x
+            for x in self.notion.database_query_all(
+                self.database_id,
+                sorts=[SortObject(property='Modified At', direction=SortDirection.descending)],
+                filter=None
+            )
         }
 
-        if page:
-            page.extend_properties(properties)
-            page = notion.update_page(page)
-            tqdm.write(f'Updated: {page.get_property("Title").value()}')
-        else:
-            page = Page(
-                parent=Parent.database(database.id),
-                properties=properties
-            )
-            page = notion.create_page(page)
-            tqdm.write(f'Created: {page.get_property("Title").value()}')
+    def compare(self, a: Optional[A], b: Optional[Page]) -> Action[A, B]:
+        if a is None:
+            return Action.delete(ActionTarget.B, a, b)
+        if b is None:
+            return Action.push(ActionTarget.B if a else ActionTarget.B, a, b)
+        if a.updated_at().replace(tzinfo=pytz.utc) > b.get_property('Synced At').value().replace(tzinfo=pytz.utc) \
+                or self.force:
+            return Action.push(ActionTarget.B, a, b)
 
-    # Delete non existing items
-    items_to_delete = [
-        key for key in notion_items.keys()
-        if key not in zotero_items
-    ]
-    for key in tqdm(items_to_delete, desc='Syncing citations', leave=False):
-        page = notion_items[key]
-        page.archived = True
-        page = notion.update_page(page)
-        tqdm.write(f'Deleted: {page.get_property("Title").value()}')
+        return Action.ignore()
 
+    @abstractmethod
+    def collect_props(self, a: A):
+        pass
+
+    def execute_b(self, action: Action[A, B]):
+        if action.action_type == ActionType.PUSH:
+            if not action.b:
+                action.b = Page(
+                    parent=Parent.database(self.database_id),
+                )
+
+            action.b.extend_properties(self.collect_props(action.a))
+            action.b = self.notion.page_upsert(action.b)
+            print(f'- Updated: {action.b.get_title()}')
+        elif action.action_type.DELETE:
+            action.b.archived = True
+            action.b = self.notion.page_update(action.b)
+            print(f'- Deleted: {action.b.get_title()}')
+
+
+@dataclass
+class RefsOneWaySync(ZoteroNotionOneWaySync[Item]):
+    collections_id: Optional[ID] = None
+    notion_collections: Dict[ID, Page] = field(default_factory=dict)
+    zotero_collections: Dict[ID, Collection] = field(default_factory=dict)
+    collection_sets: Dict[ID, Set[ID]] = field(default_factory=dict)
+
+    def fetch_items_a(self) -> Dict[str, A]:
+        print('Loading existing Zotero items')
+        return {
+            x.key: x
+            for x in self.zotero.all_items_grouped(delete_children=True)
+        }
+
+    def preprocess(self, items_a: Dict[str, A], items_b: Dict[str, B], keys: List[str]):
+        if self.collections_id:
+            print('Loading existing Notion collections')
+            self.notion_collections = {
+                x.get_property('ID').value(): x
+                for x in self.notion.database_query_all(
+                    self.collections_id,
+                    sorts=[SortObject(property='Modified At', direction=SortDirection.descending)],
+                    filter=None
+                )
+            }
+
+        print('Loading existing Zotero collections')
+        self.zotero_collections = key_by(self.zotero.all_collections_grouped(delete_children=False), 'key')
+        self.collection_sets = build_inherency_tree(self.zotero_collections.values())
+
+        return super().preprocess(items_a, items_b, keys)
+
+    def collect_props(self, a: A):
+        item_collections = set(flatten(
+            [self.collection_sets.get(col_key, []) for col_key in a.data.collections]
+            + [a.data.collections or []]
+        ))
+
+        return {
+            'ID': Property.as_rich_text(a.key),
+            'Type': Property.as_select(a.data.item_type.value),
+            'Cite Key': Property.as_title(generate_citekey(a)),
+            'Title': Property.as_rich_text(a.title),
+            'Authors': Property.as_rich_text(a.authors),
+            'Publication Date': Property.as_rich_text(a.date),
+            'Abstract': Property.as_rich_text(a.data.abstract),
+            'URL': Property.as_url(a.data.url),
+            'Publication': Property.as_rich_text(a.data.publication),
+            'Tags': Property.as_multi_select([tag.tag for tag in a.data.tags]),
+            'Collections': Property.as_multi_select([
+                self.zotero_collections[col_key].title
+                for col_key in item_collections
+                if col_key in self.zotero_collections
+            ]),
+            'Collection Refs': Property.as_relation([
+                RelationItem(self.notion_collections[k].id)
+                for k in (a.data.collections or [])
+                if k in self.notion_collections
+            ]),
+            'Synced At': Property.as_date(dt.datetime.now())
+        }
+
+
+@dataclass
+class CollectionsOneWaySync(ZoteroNotionOneWaySync[Collection]):
+    zotero_notion_ids: Dict[str, str] = field(default_factory=dict)
+
+    def fetch_items_a(self) -> Dict[str, A]:
+        print('Loading existing Zotero items')
+        return {
+            x.key: x
+            for x in self.zotero.all_collections_grouped(delete_children=False)
+        }
+
+    def preprocess(self, items_a: Dict[str, A], items_b: Dict[str, B], keys: List[str]):
+        # Store existing items
+        self.zotero_notion_ids = {
+            k: items_b[k].id
+            for k in items_a.keys() if k in items_b
+        }
+
+        # Apply toposort on collections
+        keys = topo_sort(
+            keys,
+            lambda x: items_a[x].children.keys() if x in items_a and items_a[x].children else []
+        )
+
+        return super().preprocess(items_a, items_b, keys)
+
+    def collect_props(self, a: A):
+        return {
+            'ID': Property.as_rich_text(a.key),
+            'Name': Property.as_title(a.title),
+            'Parent': Property.as_relation(
+                [RelationItem(self.zotero_notion_ids[a.data.parent_collection])]
+                if a.data.parent_collection else []
+            ),
+            'Synced At': Property.as_date(dt.datetime.now())
+        }
+
+    def execute_b(self, action: Action[A, B]):
+        super().execute_b(action)
+
+        if action.action_type == ActionType.PUSH:
+            self.zotero_notion_ids[action.a.key] = action.b.id

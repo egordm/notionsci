@@ -1,11 +1,2 @@
-import click
-
-from .zotero import zotero
-
-
-@click.group()
-def sync():
-    pass
-
-
-sync.add_command(zotero)
+from .structure import *
+from .zotero import *

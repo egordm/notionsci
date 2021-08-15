@@ -1,0 +1,73 @@
+site_name: NotionSci
+repo_url: https://github.com/EgorDm/notionsci
+edit_uri: ""
+
+theme:
+  name: material
+  navigation_depth: 4
+  features:
+    - content.code.annotate
+    - content.tabs.link
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Tahoma
+    code: Source Code Pro
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: purple
+      accent: deep purple
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/generate.py
+  - mkdocstrings
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      check_paths: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/EgorDm/notionsci
+
+nav:
+  - Home:
+    - Overview: index.md
+    - Usage:
+      - Notion: notion.md
+      - Zotero: zotero.md
+      - Configuration: configuration.md
+    - Development:
+      - Contributing: contributing.md
+      - License: license.md
+  - Reference:
+      - Sync: reference/sync.md
+      - Connections:
+          - reference/connections/notion.md
+          - reference/connections/notion_unofficial.md
+          - reference/connections/zotero.md

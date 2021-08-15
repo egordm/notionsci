@@ -211,6 +211,9 @@ class Item:
     def year(self):
         return self.meta.parsed_date.split('-')[0] if self.meta.parsed_date else ''
 
+    def updated_at(self) -> dt.datetime:
+        return self.data.date_modified
+
 
 @dataclass_dict_convert(dict_letter_case=camelcase)
 @dataclass
@@ -242,6 +245,9 @@ class Collection:
     @property
     def title(self):
         return self.data.title
+
+    def updated_at(self) -> dt.datetime:
+        return dt.datetime.now()
 
 
 @dataclass_dict_convert(dict_letter_case=camelcase)
