@@ -22,7 +22,7 @@ clean:
 
 #---- Packaging ----
 
-package: requirements.txt clean **/*.py
+package: requirements.txt **/*.py
 	pipenv run python setup.py bdist_wheel
 
 requirements.txt: Pipfile Pipfile.lock
