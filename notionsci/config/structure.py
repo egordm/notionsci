@@ -14,10 +14,10 @@ ERROR_CONNECTION = 'This command requires access to {} api\nConfigure it first a
 
 @dataclass
 class NotionUnofficialConfig(Serializable):
-    token_v2: str = ""
+    token_v2: str = "<notion unofficial token_v2>"
 
     def client(self) -> NotionUnofficialClient:
-        if not self.token_v2:
+        if not self.token_v2 or 'notion unofficial token_v2' in self.token_v2:
             raise Exception(ERROR_CONNECTION.format('Notion Unofficial', 'notion_unofficial'))
 
         return NotionUnofficialClient(token_v2=self.token_v2)
@@ -25,10 +25,10 @@ class NotionUnofficialConfig(Serializable):
 
 @dataclass
 class NotionConfig(Serializable):
-    token: str = ""
+    token: str = "<notion token>"
 
     def client(self) -> NotionClient:
-        if not self.token:
+        if not self.token or 'notion token' in self.token:
             raise Exception(ERROR_CONNECTION.format('Notion Official', 'notion'))
 
         return NotionClient(client=Client(auth=self.token))
@@ -36,12 +36,12 @@ class NotionConfig(Serializable):
 
 @dataclass
 class ZoteroConfig(Serializable):
-    token: str = ""
+    token: str = "<zotero token>"
     library_type: str = "user"
     library_id: str = "123456"
 
     def client(self) -> ZoteroClient:
-        if not self.token:
+        if not self.token or 'zotero token' in self.token:
             raise Exception(ERROR_CONNECTION.format('Zotero', 'zotero'))
 
         return ZoteroClient(client=zotero.Zotero(self.library_id, self.library_type, self.token))

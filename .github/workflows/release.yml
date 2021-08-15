@@ -17,6 +17,14 @@ jobs:
           python-version: 3.9
       - name: Setup Pipenv
         run: make setup
+      - name: Create test config
+        run: |
+          python -m notionsci config -f config.yml
+          sed -i "s/<notion token>/${{ secrets.TEST_NOTION_TOKEN }}/g" config.yml
+          sed -i "s/<notion unofficial token_v2>/${{ secrets.TEST_NOTION_TOKEN_V2 }}/g" config.yml
+          sed -i "s/<zotero token>/${{ secrets.TEST_ZOTERO_TOKEN }}/g" config.yml
+          sed -i "s/'123456'/${{ secrets.TEST_ZOTERO_LIB }}/g" config.yml
+          sed -i "s/user/group/g" config.yml
       - name: Run Linter
         run: make lint-check
       - name: Run Tests
