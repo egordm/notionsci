@@ -22,6 +22,7 @@ jobs:
         run: make setup
       - name: Create test config
         run: |
+          touch config.yml
           pipenv run config
           sed -i "s/<notion token>/${{ secrets.TEST_NOTION_TOKEN }}/g" config.yml
           sed -i "s/<notion unofficial token_v2>/${{ secrets.TEST_NOTION_TOKEN_V2 }}/g" config.yml

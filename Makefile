@@ -13,6 +13,10 @@ setup:
 	pip install pipenv
 	pipenv install --three --dev
 
+setup-ci:
+	pip install pipenv
+	pipenv install --dev --deploy
+
 clean:
 	rm -rf dist build requirements.txt requirements-dev.txt notionsci.egg-info
 
