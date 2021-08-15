@@ -45,7 +45,7 @@ def load_config() -> (Config, str):
 
     # Run migrations on config
     write = False
-    if config_raw['version'] < CONFIG_VERSION:
+    if config_raw.get('version', 0) < CONFIG_VERSION:
         write = True
         config_raw = migrate(config_raw)
 
