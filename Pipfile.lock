@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9e8b1ba0a75cc21544fed36217f3e2cc48ed836092462acfd04ea01d62349e69"
+            "sha256": "01d0006ea84f0227df2a7de3971b5064f88392beafe51010cc0d8593c82a1f93"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -186,7 +186,6 @@
             "version": "==0.4.3"
         },
         "notion": {
-            "editable": true,
             "git": "https://github.com/EgorDm/notion-py.git",
             "hashes": [
                 "sha256:a6c511e1055bb69f05d75220f3f6a5de377a52d42ae38186c3138557c6b4942a",
@@ -780,7 +779,7 @@
                 "sha256:b8156d653ed91356e71675ce1fa1186d2b2c2085050012522895c9aa98fca3e5",
                 "sha256:f301b983a34259df90b3fcf7edc234b5e6c7065bd578781e66fd90b8cfbe76be"
             ],
-            "markers": "python_version >= '3.6' and python_version < '4'",
+            "markers": "python_version >= '3.6' and python_version < '4.0'",
             "version": "==0.2.1"
         },
         "mkdocs-gen-files": {
@@ -961,7 +960,7 @@
                 "sha256:1ec7e028fe8361acc1ce909ada4e6beabec28ef31e629618549109e1d58549f0",
                 "sha256:89ca4926d0acc266235beb24cb0b0591aa6bf7adedfae54bf9421d529d782c8d"
             ],
-            "markers": "python_version < '4' and python_full_version >= '3.6.1'",
+            "markers": "python_version < '4.0' and python_full_version >= '3.6.1'",
             "version": "==0.11.1"
         },
         "pyyaml": {

@@ -25,7 +25,7 @@ tqdm = "*"
 pyyaml = "*"
 dataclass-dict-convert = "*"
 platformdirs = "*"
-notion = {editable = true, git = "https://github.com/EgorDm/notion-py.git"}
+notion = {git = "https://github.com/EgorDm/notion-py.git"}
 inquirer = "*"
 "ruamel.yaml" = "*"
 "backports.zoneinfo" = "*"
