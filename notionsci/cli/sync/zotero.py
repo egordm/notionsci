@@ -11,6 +11,9 @@ from notionsci.sync.zotero import RefsOneWaySync, CollectionsOneWaySync
 
 @click.group()
 def zotero():
+    """
+    Collection of Sync commands for [Zotero](https://www.zotero.org/)
+    """
     pass
 
 
@@ -19,6 +22,11 @@ def zotero():
 @click.argument('parent', callback=parse_uuid_callback, required=True)
 @click.pass_context
 def template(ctx: click.Context, parent: ID):
+    """
+    Duplicates the standard Zotero Library template page to your workspace under the given parent page
+
+    PARENT: Destination parent page ID or url
+    """
     # Duplicate the block
     source = parse_uuid_callback(None, None, config.templates.zotero_template)
     target_id = str(uuid.uuid4())
@@ -40,9 +48,18 @@ def template(ctx: click.Context, parent: ID):
 
 @zotero.command()
 @click.argument('references', callback=parse_uuid_callback, required=True)
-@click.option('--force', is_flag=True, default=False)
-@click.option('-c', '--collections', callback=lambda c, p, x: parse_uuid_callback(c, p, x) if x else x, required=False)
+@click.option('--force', is_flag=True, default=False,
+              help='Ensures up to date items are also pushed to Zotero')
+@click.option('-c', '--collections', callback=lambda c, p, x: parse_uuid_callback(c, p, x) if x else x, required=False,
+              help='Collections database page ID or url to (optionally) add references to')
 def refs(references: ID, collections: ID, force: bool):
+    """
+    Starts a one way Zotero references sync to Notion
+
+    REFERENCES: References database page ID or url
+
+    When collecitons option is specified Unofficial Notion Api access is required
+    """
     notion = config.connections.notion.client()
     zotero = config.connections.zotero.client()
 
@@ -51,8 +68,14 @@ def refs(references: ID, collections: ID, force: bool):
 
 @zotero.command()
 @click.argument('collections', callback=parse_uuid_callback, required=True)
-@click.option('--force', is_flag=True, default=False)
+@click.option('--force', is_flag=True, default=False,
+              help='Ensures up to date items are also pushed to Zotero')
 def collections(collections: ID, force: bool):
+    """
+    Starts a one way Zotero references sync to Notion
+
+    COLLECTIONS: Collections database page ID or url
+    """
     notion = config.connections.notion.client()
     zotero = config.connections.zotero.client()
 
