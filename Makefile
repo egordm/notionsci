@@ -11,7 +11,7 @@ lint:
 
 setup:
 	pip install pipenv
-	pipenv install --dev --three
+	pipenv install --three
 
 clean:
 	rm -rf dist build requirements.txt requirements-dev.txt notionsci.egg-info
