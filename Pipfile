@@ -29,8 +29,8 @@ notion = {editable = true, git = "https://github.com/EgorDm/notion-py.git"}
 inquirer = "*"
 "ruamel.yaml" = "*"
 
-[requires]
-python_version = "3.7"
+#[requires]
+#python_version = "3.7"
 
 [pipenv]
 allow_prereleases = true
