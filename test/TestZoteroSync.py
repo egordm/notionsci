@@ -5,11 +5,14 @@ from contextlib import redirect_stdout
 
 from notionsci.cli import cli
 from notionsci.config import config
-from notionsci.connections.notion import parse_uuid_callback
-from utils import TESTS_PAGE, capture_cmd
+from notionsci.connections.notion import parse_uuid_callback, parse_uuid_or_url
+from utils import capture_cmd
 
 
 class TestZoteroSync(unittest.TestCase):
+    def setUp(self) -> None:
+        self.config = config
+
     def test_template(self):
         code, output = capture_cmd(
             lambda: cli(
@@ -17,7 +20,7 @@ class TestZoteroSync(unittest.TestCase):
                     "sync",
                     "zotero",
                     "template",
-                    parse_uuid_callback(None, None, TESTS_PAGE),
+                    parse_uuid_or_url(self.config.development.test_page),
                 ]
             )
         )
@@ -34,7 +37,7 @@ class TestZoteroSync(unittest.TestCase):
                     "sync",
                     "zotero",
                     "template",
-                    parse_uuid_callback(None, None, TESTS_PAGE),
+                    parse_uuid_or_url(self.config.development.test_page),
                 ]
             )
         )
@@ -54,7 +57,7 @@ class TestZoteroSync(unittest.TestCase):
                     "sync",
                     "zotero",
                     "refs",
-                    parse_uuid_callback(None, None, self.refs_db),
+                    parse_uuid_or_url(self.refs_db),
                     "--force",
                 ]
             )
@@ -73,9 +76,9 @@ class TestZoteroSync(unittest.TestCase):
                     "sync",
                     "zotero",
                     "refs",
-                    parse_uuid_callback(None, None, self.refs_db),
+                    parse_uuid_or_url(self.refs_db),
                     "-c",
-                    parse_uuid_callback(None, None, self.collection_db),
+                    parse_uuid_or_url(self.collection_db),
                     "--force",
                 ]
             )
@@ -95,7 +98,7 @@ class TestZoteroSync(unittest.TestCase):
                     "sync",
                     "zotero",
                     "collections",
-                    parse_uuid_callback(None, None, self.collection_db),
+                    parse_uuid_or_url(self.collection_db),
                     "--force",
                 ]
             )
@@ -110,7 +113,7 @@ class TestZoteroSync(unittest.TestCase):
         notion = config.connections.notion.client()
         unotion = config.connections.notion_unofficial.client()
         children = notion.client.blocks.children.list(
-            "22ecab61-88d1-47ef-83fa-455e2694395b"
+            parse_uuid_or_url(config.development.test_page)
         )
         block_ids = list(map(lambda x: x["id"], children["results"]))
         unotion.delete_blocks(block_ids)

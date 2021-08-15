@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from notion_client import Client
 from simple_parsing import Serializable
 
-from notionsci.config.constants import CONFIG_VERSION, TEMPLATE_ZOTERO
+from notionsci.config.constants import CONFIG_VERSION, TEMPLATE_ZOTERO, DEV_TESTS_PAGE
 from notionsci.connections import zotero
 from notionsci.connections.notion import NotionClient
 from notionsci.connections.notion_unofficial import NotionUnofficialClient
@@ -60,7 +60,13 @@ class Templates(Serializable):
 
 
 @dataclass
+class Development(Serializable):
+    test_page: str = DEV_TESTS_PAGE
+
+
+@dataclass
 class Config(Serializable):
     version: int = CONFIG_VERSION
     connections: Connections = Connections()
     templates: Templates = Templates()
+    development: Development = Development()

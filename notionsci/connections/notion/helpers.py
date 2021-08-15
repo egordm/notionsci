@@ -16,7 +16,7 @@ def parse_uuid(value):
     return f'{value[:8]}-{value[8:12]}-{value[12:16]}-{value[16:20]}-{value[20:]}'
 
 
-def parse_uuid_callback(ctx, param, value):
+def parse_uuid_or_url(value):
     try:
         if is_uuid(value):
             return parse_uuid(value)
@@ -26,9 +26,13 @@ def parse_uuid_callback(ctx, param, value):
         raise Exception(f'{value} is neither a valid notion uuid or a notion page url')
 
 
+def parse_uuid_callback(ctx, param, value):
+    return parse_uuid_or_url(value)
+
+
 def parse_uuid_or_str_callback(ctx, param, value):
     try:
-        return parse_uuid_callback(value)
+        return parse_uuid_or_url(value)
     except Exception:
         return value
 
