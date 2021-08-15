@@ -11,13 +11,13 @@ def docs_stub(module_name):
 virtual_files = {
     "index.md": "--8<-- 'README.md'",
     # "reference/config.md": docs_stub("config"),
-
     "contributing.md": "--8<-- '.github/CONTRIBUTING.md'",
     "license.md": "```text\n--8<-- 'LICENSE'\n```",
-
     "reference/sync.md": docs_stub("sync"),
     "reference/connections/notion.md": docs_stub("connections.notion"),
-    "reference/connections/notion_unofficial.md": docs_stub("connections.notion_unofficial"),
+    "reference/connections/notion_unofficial.md": docs_stub(
+        "connections.notion_unofficial"
+    ),
     "reference/connections/zotero.md": docs_stub("connections.zotero"),
 }
 

@@ -53,13 +53,7 @@ class TestZoteroSync(unittest.TestCase):
 
         code, output = capture_cmd(
             lambda: cli(
-                [
-                    "sync",
-                    "zotero",
-                    "refs",
-                    parse_uuid_or_url(self.refs_db),
-                    "--force",
-                ]
+                ["sync", "zotero", "refs", parse_uuid_or_url(self.refs_db), "--force",]
             )
         )
 
