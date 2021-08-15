@@ -42,6 +42,7 @@ def load_config() -> (Config, str):
     # Try loading overridden config
     with open(config_path, 'r') as f:
         config_raw = yaml.safe_load(f)
+    config_raw = config_raw or {}
 
     # Run migrations on config
     write = False
