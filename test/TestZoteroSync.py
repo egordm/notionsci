@@ -104,13 +104,16 @@ class TestZoteroSync(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        notion = config.connections.notion.client()
-        unotion = config.connections.notion_unofficial.client()
-        children = notion.client.blocks.children.list(
-            parse_uuid_or_url(config.development.test_page)
-        )
-        block_ids = list(map(lambda x: x["id"], children["results"]))
-        unotion.delete_blocks(block_ids)
+        try:
+            notion = config.connections.notion.client()
+            unotion = config.connections.notion_unofficial.client()
+            children = notion.client.blocks.children.list(
+                parse_uuid_or_url(config.development.test_page)
+            )
+            block_ids = list(map(lambda x: x["id"], children["results"]))
+            unotion.delete_blocks(block_ids)
+        except:
+            pass
 
 
 if __name__ == "__main__":
