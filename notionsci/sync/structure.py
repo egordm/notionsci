@@ -43,7 +43,7 @@ class Action(Generic[A, B]):
 
     @staticmethod
     def delete(target: ActionTarget, a: Optional[A] = None, b: Optional[B] = None) -> 'Action[A, B]':
-        return Action(ActionType.PUSH, target, a, b)
+        return Action(ActionType.DELETE, target, a, b)
 
 
 class Sync(Generic[A, B]):
@@ -79,7 +79,7 @@ class Sync(Generic[A, B]):
 
     def compare(self, a: Optional[A], b: Optional[A]) -> Action[A, B]:
         if a is None or b is None:
-            return Action.push(ActionTarget.A if a else ActionTarget.B, a, b)
+            return Action.push(ActionTarget.A if not a else ActionTarget.B, a, b)
         return None
 
     def execute_a(self, action: Action[A, B]):

@@ -37,7 +37,7 @@ class ZoteroNotionOneWaySync(Sync[A, Page], ABC):
         if a is None:
             return Action.delete(ActionTarget.B, a, b)
         if b is None:
-            return Action.push(ActionTarget.B if a else ActionTarget.B, a, b)
+            return Action.push(ActionTarget.B, a, b)
         if a.updated_at().replace(tzinfo=pytz.utc) > b.get_property('Synced At').value().replace(tzinfo=pytz.utc) \
                 or self.force:
             return Action.push(ActionTarget.B, a, b)
