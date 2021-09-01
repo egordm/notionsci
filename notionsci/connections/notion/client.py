@@ -4,7 +4,7 @@ from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 from notion_client import Client
 
 from notionsci.connections.notion.common import ID, SortObject, QueryFilter, QueryResult, Database, Page, \
-    format_query_args
+    format_query_args, ContentObject, PropertyType
 from notionsci.utils import strip_none_field
 
 
@@ -41,6 +41,19 @@ def traverse_pagination(args: dict, query_fn: Callable[[Dict], Any]) -> Iterator
         yield from result.results
 
 
+READONLY_PROPS = {
+    PropertyType.last_edited_time, PropertyType.last_edited_by,
+    PropertyType.created_time, PropertyType.created_by
+}
+
+
+def strip_readonly_props(obj: ContentObject):
+    keys = [k for k, v in obj.properties.items() if v.type in READONLY_PROPS]
+    for k in keys:
+        del obj.properties[k]
+    return obj
+
+
 @dataclass
 class NotionClient(NotionApiMixin):
     def page_get(self, id: ID) -> Page:
@@ -48,12 +61,12 @@ class NotionClient(NotionApiMixin):
         return Page.from_dict(result)
 
     def page_update(self, page: Page) -> Page:
-        args = strip_none_field(page.to_dict())
+        args = strip_none_field(strip_readonly_props(page).to_dict())
         result = self.client.pages.update(page.id, **args)
         return Page.from_dict(result)
 
     def page_create(self, page: Page) -> Page:
-        args = strip_none_field(page.to_dict())
+        args = strip_none_field(strip_readonly_props(page).to_dict())
         result = self.client.pages.create(**args)
         return Page.from_dict(result)
 
@@ -65,7 +78,7 @@ class NotionClient(NotionApiMixin):
         return Database.from_dict(result)
 
     def database_create(self, database: Database) -> Database:
-        args = strip_none_field(database.to_dict())
+        args = strip_none_field(strip_readonly_props(database).to_dict())
         result = self.client.databases.create(**args)
         return Database.from_dict(result)
 
@@ -112,5 +125,3 @@ class NotionClient(NotionApiMixin):
             args=dict(filter=filter if filter else None, sorts=sorts, page_size=100),
             query_fn=lambda **args: self.search(**args)
         )
-
-

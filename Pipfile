@@ -23,7 +23,7 @@ Pyzotero = "*"
 simple-parsing = "*"
 tqdm = "*"
 pyyaml = "*"
-dataclass-dict-convert = "*"
+dataclass-dict-convert = "==1.5.8"
 platformdirs = "*"
 notion = {git = "https://github.com/EgorDm/notion-py.git"}
 inquirer = "*"

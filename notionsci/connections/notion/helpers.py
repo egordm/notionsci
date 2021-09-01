@@ -39,5 +39,5 @@ def parse_uuid_or_str_callback(ctx, param, value):
 
 def extract_uuid_from_url(url: str):
     if 'notion.site' in url or 'notion.so' in url:
-        return parse_uuid(url.split('/')[-1].split('-')[-1])
+        return parse_uuid(url.split('?')[0].split('/')[-1].split('-')[-1])
     raise Exception(f'{url} is not recognized as one holding notion content.')

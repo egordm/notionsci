@@ -4,6 +4,7 @@ from enum import Enum
 from typing import Optional, List, Dict, Union, Any
 
 from dataclass_dict_convert import dataclass_dict_convert
+from dataclass_dict_convert.convert import SimpleTypeConvertor
 from stringcase import snakecase
 
 from notionsci.utils import filter_none_dict, ExplicitNone
@@ -417,12 +418,56 @@ class ContentObject:
             return prop.value()
 
 
+class FileType(Enum):
+    file = 'file'
+    external = 'external'
+
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class FileObject:
+    type: FileType
+    url: str
+    expiry_time: Optional[dt.datetime] = None
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class EmojiObject:
+    emoji: str
+    type: str = 'emoji'
+
+
+def emoji_from_dict_converter(x: dict):
+    if not x: return None
+    if x['type'] == 'emoji':
+        return EmojiObject.from_dict(x)
+    else:
+        return FileObject.from_dict(x)
+
+
+def emoji_to_dict_converter(x: Union[FileObject, EmojiObject]):
+    if not x: return None
+    if isinstance(x, FileObject):
+        return FileObject.to_dict(x)
+    else:
+        return EmojiObject.to_dict(x)
+
+
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[SimpleTypeConvertor(
+        type=Optional[Union[FileObject, EmojiObject]],
+        to_dict=emoji_from_dict_converter,
+        from_dict=emoji_from_dict_converter
+    )]
+)
 @dataclass
 class Page(ContentObject):
     object: str = 'page'
     url: Optional[str] = None
+    icon: Optional[Union[FileObject, EmojiObject]] = None
+    cover: Optional[FileObject] = None
 
     children: Optional[List[Dict]] = None
 
