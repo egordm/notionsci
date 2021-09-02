@@ -248,9 +248,10 @@ class Property:
 
     @staticmethod
     def as_rich_text(text: str) -> 'Property':
+        # Max length = 2000
         return Property(
             type=PropertyType.rich_text,
-            rich_text=[RichText.from_text(text or '')]
+            rich_text=[RichText.from_text((text or '')[:2000])]
         )
 
     @staticmethod
