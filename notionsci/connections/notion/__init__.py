@@ -1,3 +1,3 @@
 from .helpers import *
-from .common import *
+from .structures import *
 from .client import *

@@ -3,8 +3,8 @@ from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 
 from notion_client import Client
 
-from notionsci.connections.notion.common import ID, SortObject, QueryFilter, QueryResult, Database, Page, \
-    format_query_args, ContentObject, PropertyType
+from notionsci.connections.notion.structures import Database, SortObject, QueryFilter, format_query_args, ContentObject, \
+    PropertyType, Page, ID, QueryResult
 from notionsci.utils import strip_none_field, filter_none_dict
 
 
