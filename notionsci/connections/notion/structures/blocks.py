@@ -1,13 +1,13 @@
 import datetime as dt
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional, List
+from typing import Optional, List, Any
 
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
 from notionsci.connections.notion.structures.common import FileObject, RichText, ID
-from notionsci.utils import ForwardRefConvertor, ListConvertor
+from notionsci.utils import ForwardRefConvertor, ListConvertor, ToMarkdownMixin
 
 
 class BlockType(Enum):
@@ -37,9 +37,14 @@ BlockConvertor = ListConvertor(ForwardRefConvertor('Block'))
     custom_type_convertors=[BlockConvertor]
 )
 @dataclass
-class ParagraphBlock:
+class ParagraphBlock(ToMarkdownMixin):
     text: List[RichText]
     children: Optional[List['Block']] = None
+
+    def to_markdown(self, context: Any) -> str:
+        return ''.join([
+            part.to_markdown(context) for part in self.text
+        ]) + '\n'
 
 
 @dataclass_dict_convert(
@@ -61,10 +66,14 @@ class TodoBlock(ListBlock):
     checked: Optional[bool] = None
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class HeadingBlock:
+class HeadingBlock(ToMarkdownMixin):
     text: List[RichText]
+
+    def to_markdown(self, context: Any) -> str:
+        return ''.join([
+            part.to_markdown(context) for part in self.text
+        ])
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -86,9 +95,26 @@ class BookmarkBlock:
     caption: List[RichText]
 
 
-Heading1Block = HeadingBlock
-Heading2Block = HeadingBlock
-Heading3Block = HeadingBlock
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class Heading1Block(HeadingBlock):
+    def to_markdown(self, context: Any) -> str:
+        return f'# {super().to_markdown(context)}\n'
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class Heading2Block(HeadingBlock):
+    def to_markdown(self, context: Any) -> str:
+        return f'## {super().to_markdown(context)}\n'
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class Heading3Block(HeadingBlock):
+    def to_markdown(self, context: Any) -> str:
+        return f'### {super().to_markdown(context)}\n'
+
 
 BulletedListBlock = ListBlock
 NumberedListBlock = ListBlock
@@ -102,7 +128,7 @@ PdfBlock = FileObject
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class Block:
+class Block(ToMarkdownMixin):
     object: str = 'block'
     id: Optional[ID] = None
     type: Optional[BlockType] = None
@@ -129,3 +155,17 @@ class Block:
     pdf: Optional[PdfBlock] = None
     bookmark: Optional[BookmarkBlock] = None
     unsupported: Optional[str] = None
+
+    def to_markdown(self, context: Any) -> str:
+        if self.type == BlockType.paragraph:
+            return self.paragraph.to_markdown(context)
+        elif self.type == BlockType.heading_1:
+            return self.heading_1.to_markdown(context)
+        elif self.type == BlockType.heading_2:
+            return self.heading_2.to_markdown(context)
+        elif self.type == BlockType.heading_3:
+            return self.heading_3.to_markdown(context)
+        elif self.type == BlockType.unsupported:
+            return 'Unsupported Block Type!\n'
+        else:
+            raise Exception('unsupported! ' + self.type.value)
