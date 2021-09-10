@@ -29,6 +29,7 @@ notion = {git = "https://github.com/EgorDm/notion-py.git"}
 inquirer = "*"
 "ruamel.yaml" = "*"
 "backports.zoneinfo" = "*"
+mistletoe = "*"
 
 [pipenv]
 allow_prereleases = true

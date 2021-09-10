@@ -1,4 +1,5 @@
 import datetime as dt
+import typing
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional, List, Dict, Union, Any
@@ -8,6 +9,9 @@ from dataclass_dict_convert.convert import SimpleTypeConvertor
 from stringcase import snakecase
 
 from notionsci.utils import filter_none_dict, ExplicitNone
+
+## Common Types
+
 
 Color = str
 ID = str
@@ -58,6 +62,42 @@ class MentionObject:
         return self.type
 
 
+class FileType(Enum):
+    file = 'file'
+    external = 'external'
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class FileObject:
+    type: FileType
+    url: str
+    expiry_time: Optional[dt.datetime] = None
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class EmojiObject:
+    emoji: str
+    type: str = 'emoji'
+
+
+def emoji_from_dict_converter(x: dict):
+    if not x: return None
+    if x['type'] == 'emoji':
+        return EmojiObject.from_dict(x)
+    else:
+        return FileObject.from_dict(x)
+
+
+def emoji_to_dict_converter(x: Union[FileObject, EmojiObject]):
+    if not x: return None
+    if isinstance(x, FileObject):
+        return FileObject.to_dict(x)
+    else:
+        return EmojiObject.to_dict(x)
+
+
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class RichText:
@@ -89,6 +129,8 @@ class RichText:
             )
         )
 
+
+## Property Value Types
 
 class PropertyType(Enum):
     title = 'title'
@@ -155,6 +197,8 @@ def object_to_text_value(raw_value: Any):
         return raw_value.text_value()
     return raw_value
 
+
+## Property Definition Types
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
@@ -368,6 +412,9 @@ class PropertyDef:
         return PropertyDef(type=PropertyType.relation, relation=RelationDef(database))
 
 
+## Content (Page/Database) Types
+
+
 class ParentType(Enum):
     database = 'database'
     page_id = 'page_id'
@@ -391,12 +438,22 @@ class Parent:
         return Parent(type=ParentType.database, database_id=id)
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[SimpleTypeConvertor(
+        type=Optional[Union[FileObject, EmojiObject]],
+        to_dict=emoji_from_dict_converter,
+        from_dict=emoji_from_dict_converter
+    )]
+)
 @dataclass
 class ContentObject:
     object: str
     id: Optional[ID] = None
     parent: Optional[Parent] = None
+
+    icon: Optional[Union[FileObject, EmojiObject]] = None
+    cover: Optional[FileObject] = None
 
     properties: Dict[str, Property] = field(default_factory=dict)
     created_time: Optional[dt.datetime] = None
@@ -419,42 +476,6 @@ class ContentObject:
             return prop.value()
 
 
-class FileType(Enum):
-    file = 'file'
-    external = 'external'
-
-
-@dataclass_dict_convert(dict_letter_case=snakecase)
-@dataclass
-class FileObject:
-    type: FileType
-    url: str
-    expiry_time: Optional[dt.datetime] = None
-
-
-@dataclass_dict_convert(dict_letter_case=snakecase)
-@dataclass
-class EmojiObject:
-    emoji: str
-    type: str = 'emoji'
-
-
-def emoji_from_dict_converter(x: dict):
-    if not x: return None
-    if x['type'] == 'emoji':
-        return EmojiObject.from_dict(x)
-    else:
-        return FileObject.from_dict(x)
-
-
-def emoji_to_dict_converter(x: Union[FileObject, EmojiObject]):
-    if not x: return None
-    if isinstance(x, FileObject):
-        return FileObject.to_dict(x)
-    else:
-        return EmojiObject.to_dict(x)
-
-
 @dataclass_dict_convert(
     dict_letter_case=snakecase,
     custom_type_convertors=[SimpleTypeConvertor(
@@ -467,15 +488,20 @@ def emoji_to_dict_converter(x: Union[FileObject, EmojiObject]):
 class Page(ContentObject):
     object: str = 'page'
     url: Optional[str] = None
-    icon: Optional[Union[FileObject, EmojiObject]] = None
-    cover: Optional[FileObject] = None
 
     children: Optional[List[Dict]] = None
 
     archived: bool = False
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[SimpleTypeConvertor(
+        type=Optional[Union[FileObject, EmojiObject]],
+        to_dict=emoji_from_dict_converter,
+        from_dict=emoji_from_dict_converter
+    )]
+)
 @dataclass
 class Database(ContentObject):
     object: str = 'database'
@@ -483,42 +509,189 @@ class Database(ContentObject):
     properties: Dict[str, PropertyDef] = field(default_factory=dict)
 
 
-def result_from_dict_converter():
-    def wrap(val: List[dict]):
-        result = []
+## Block Types
 
-        for item in val:
-            if item['object'] == 'page':
-                result.append(Page.from_dict(item))
-            elif item['object'] == 'database':
-                result.append(Database.from_dict(item))
-            else:
-                raise TypeError(f'Unexpected notion object type {item["object"]}')
-        return result
+class BlockType(Enum):
+    paragraph = 'paragraph'
+    heading_1 = 'heading_1'
+    heading_2 = 'heading_2'
+    heading_3 = 'heading_3'
+    bulleted_list_item = 'bulleted_list_item'
+    numbered_list_item = 'numbered_list_item'
+    to_do = 'to_do'
+    toggle = 'toggle'
+    child_page = 'child_page'
+    embed = 'embed'
+    image = 'image'
+    video = 'video'
+    file = 'file'
+    pdf = 'pdf'
+    bookmark = 'bookmark'
+    unsupported = 'unsupported'
 
-    return wrap
+
+class ForwardRefConvertor(SimpleTypeConvertor):
+    def __init__(self, type) -> None:
+        super().__init__(type, None, None)
+
+    def convert_from_dict(self, val: Union[Dict, List, int, float, str, bool]) -> Any:
+        return self.get_type().__forward_arg__.from_dict(val)
+
+    def convert_to_dict(self, val: Any) -> Union[Dict, List, int, float, str, bool]:
+        return self.get_type().__forward_arg__.to_dict(val)
 
 
-def result_to_dict_converter():
-    def wrap(val: List[Union[Page, Database]]):
-        return [item.to_dict() for item in val]
+class ListConvertor(SimpleTypeConvertor):
+    def __init__(self, element_convertor: SimpleTypeConvertor) -> None:
+        super().__init__(typing.List[element_convertor.type], None, None)
+        self.element_convertor = element_convertor
 
-    return wrap
+    def convert_from_dict(self, val: Union[Dict, List, int, float, str, bool]) -> Any:
+        return [self.element_convertor.convert_from_dict(val) for item in val]
+
+    def convert_to_dict(self, val: Any) -> Union[Dict, List, int, float, str, bool]:
+        return [self.element_convertor.convert_to_dict(val) for item in val]
+
+
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[
+        ListConvertor(ForwardRefConvertor('Block'))
+    ]
+)
+@dataclass
+class ParagraphBlock:
+    text: List[RichText]
+    children: Optional[List['Block']] = None
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class HeadingBlock:
+    text: List[RichText]
+
+
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[
+        ListConvertor(ForwardRefConvertor('Block'))
+    ]
+)
+@dataclass
+class ListBlock:
+    text: List[RichText]
+    children: Optional[List['Block']] = None
+
+
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[
+        ListConvertor(ForwardRefConvertor('Block'))
+    ]
+)
+@dataclass
+class TodoBlock(ListBlock):
+    checked: Optional[bool] = None
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class ChildPageBlock:
+    text: str
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class EmbedBlock:
+    url: str
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class BookmarkBlock:
+    url: str
+    caption: List[RichText]
+
+
+Heading1Block = HeadingBlock
+Heading2Block = HeadingBlock
+Heading3Block = HeadingBlock
+
+BulletedListBlock = ListBlock
+NumberedListBlock = ListBlock
+ToggleBlock = ListBlock
+
+FileBlock = FileObject
+ImageBlock = FileObject
+VideoBlock = FileObject
+PdfBlock = FileObject
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class Block:
+    object: str = 'block'
+    id: Optional[ID] = None
+    type: Optional[BlockType] = None
+
+    created_time: Optional[dt.datetime] = None
+    last_edited_time: Optional[dt.datetime] = None
+
+    archived: bool = False
+    has_children: bool = True
+
+    paragraph: Optional[ParagraphBlock] = None
+    heading_1: Optional[Heading1Block] = None
+    heading_2: Optional[Heading2Block] = None
+    heading_3: Optional[Heading3Block] = None
+    bulleted_list_item: Optional[BulletedListBlock] = None
+    numbered_list_item: Optional[NumberedListBlock] = None
+    to_do: Optional[TodoBlock] = None
+    toggle: Optional[ToggleBlock] = None
+    child_page: Optional[ChildPageBlock] = None
+    embed: Optional[EmbedBlock] = None
+    image: Optional[ImageBlock] = None
+    video: Optional[VideoBlock] = None
+    file: Optional[FileBlock] = None
+    pdf: Optional[PdfBlock] = None
+    bookmark: Optional[BookmarkBlock] = None
+    unsupported: Optional[str] = None
+
+
+## Query Types
+
+def result_from_dict_converter(val: List[dict]):
+    result = []
+
+    for item in val:
+        if item['object'] == 'page':
+            result.append(Page.from_dict(item))
+        elif item['object'] == 'database':
+            result.append(Database.from_dict(item))
+        elif item['object'] == 'block':
+            result.append(Block.from_dict(item))
+        else:
+            raise TypeError(f'Unexpected notion object type {item["object"]}')
+    return result
+
+
+def result_to_dict_converter(val: List[Union[Page, Database, Block]]):
+    return [item.to_dict() for item in val]
 
 
 @dataclass_dict_convert(
     dict_letter_case=snakecase,
     custom_from_dict_convertors={
-        'results': result_from_dict_converter()
+        'results': result_from_dict_converter
     },
     custom_to_dict_convertors={
-        'results': result_to_dict_converter()
+        'results': result_to_dict_converter
     },
 )
 @dataclass
 class QueryResult:
     object: str = 'list'
-    results: List[Union[Page, Database]] = field(default_factory=list)
+    results: List[Union[Page, Database, Block]] = field(default_factory=list)
     next_cursor: Optional[str] = None
     has_more: bool = False
 
