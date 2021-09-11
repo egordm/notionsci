@@ -44,6 +44,13 @@ IMAGE_TEMPLATE = '''
 </figure>
 '''.strip()
 
+TOGGLE_TEMPLATE = '''
+<details>
+    <summary>{title}</summary>
+    {content}
+</details>
+'''.strip()
+
 
 class MarkdownListType(Enum):
     bullet = 'bullet'
@@ -100,6 +107,10 @@ class MarkdownBuilder:
     @staticmethod
     def todo(text, checked: bool):
         return f'- [x] {text}' if checked else f'- [ ] {text}'
+
+    @staticmethod
+    def toggle(title, content):
+        return TOGGLE_TEMPLATE.format(title=title, content=content)
 
 
 def chain_to_markdown(items: List[ToMarkdownMixin], context: MarkdownContext, sep='', prefix=''):

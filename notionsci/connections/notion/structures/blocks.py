@@ -122,6 +122,23 @@ class TodoBlock(ListBlock):
         return lambda x, ctx: MarkdownBuilder.todo(x, self.checked)
 
 
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[BlockConvertor]
+)
+@dataclass
+class ToggleBlock(ListBlock):
+    def to_markdown(self, context: MarkdownContext) -> str:
+        title = chain_to_markdown(self.text, context.copy(counter=1))
+        content = chain_to_markdown(
+            self.children,
+            context.copy(counter=1),
+            sep='\n'
+        ) if self.get_children() else None
+
+        return MarkdownBuilder.toggle(title, content)
+
+
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class ChildPageBlock:
@@ -194,8 +211,6 @@ class PdfBlock(FileObject):
             caption=self.to_markdown_caption(context) or ' ')
 
 
-ToggleBlock = ListBlock
-
 FileBlock = FileObject
 VideoBlock = FileObject
 
@@ -245,6 +260,8 @@ class Block(ToMarkdownMixin):
             return self.bulleted_list_item.to_markdown(context)
         elif self.type == BlockType.numbered_list_item:
             return self.numbered_list_item.to_markdown(context)
+        elif self.type == BlockType.toggle:
+            return self.toggle.to_markdown(context)
         elif self.type == BlockType.to_do:
             return self.to_do.to_markdown(context)
         elif self.type == BlockType.embed:
