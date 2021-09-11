@@ -1,7 +1,7 @@
 import datetime as dt
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional, Dict, Union, Any
+from typing import Optional, Dict, Union, Any, List
 
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
@@ -94,34 +94,6 @@ class MentionObject:
         return self.type
 
 
-class FileType(Enum):
-    file = 'file'
-    external = 'external'
-
-
-@dataclass_dict_convert(dict_letter_case=snakecase)
-@dataclass
-class FileObject:
-    type: FileType
-    url: str
-    expiry_time: Optional[dt.datetime] = None
-
-
-@dataclass_dict_convert(dict_letter_case=snakecase)
-@dataclass
-class EmojiObject:
-    emoji: str
-    type: str = 'emoji'
-
-
-EmojiFileType = Optional[Union[FileObject, EmojiObject]]
-
-UnionEmojiFileConvertor = UnionConvertor(
-    EmojiFileType,
-    lambda x: FileObject.from_dict(x) if 'url' in x else EmojiObject.from_dict(x)
-)
-
-
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class RichText(ToMarkdownMixin):
@@ -170,3 +142,49 @@ class RichText(ToMarkdownMixin):
                 content=text
             )
         )
+
+
+class FileType(Enum):
+    file = 'file'
+    external = 'external'
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class FileTypeObject:
+    url: str
+    expiry_time: Optional[dt.datetime] = None
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class FileObject(ToMarkdownMixin):
+    type: FileType
+    caption: Optional[List[RichText]] = None
+    file: Optional[FileTypeObject] = None
+    external: Optional[FileTypeObject] = None
+
+    def get_url(self) -> str:
+        return self.file.url if self.type == FileType.file else self.external.url
+
+    def to_markdown_caption(self, context: Any) -> str:
+        return ''.join([t.to_markdown(context) for t in self.caption]) if self.caption else None
+
+    def to_markdown(self, context: Any) -> str:
+        url = self.get_url()
+        return f'[{url}]({url})'
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class EmojiObject:
+    emoji: str
+    type: str = 'emoji'
+
+
+EmojiFileType = Optional[Union[FileObject, EmojiObject]]
+
+UnionEmojiFileConvertor = UnionConvertor(
+    EmojiFileType,
+    lambda x: FileObject.from_dict(x) if 'url' in x else EmojiObject.from_dict(x)
+)

@@ -1,4 +1,5 @@
 import datetime as dt
+import urllib.parse
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional, List, Any
@@ -7,7 +8,7 @@ from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
 from notionsci.connections.notion.structures.common import FileObject, RichText, ID
-from notionsci.utils import ForwardRefConvertor, ListConvertor, ToMarkdownMixin
+from notionsci.utils import ForwardRefConvertor, ListConvertor, ToMarkdownMixin, Markdown
 
 
 class BlockType(Enum):
@@ -52,9 +53,12 @@ class ParagraphBlock(ToMarkdownMixin):
     custom_type_convertors=[BlockConvertor]
 )
 @dataclass
-class ListBlock:
+class ListBlock(ToMarkdownMixin):
     text: List[RichText]
     children: Optional[List['Block']] = None
+
+    def to_markdown(self, context: Any) -> str:
+        return ''.join([t.to_markdown(context) for t in self.text])
 
 
 @dataclass_dict_convert(
@@ -64,6 +68,10 @@ class ListBlock:
 @dataclass
 class TodoBlock(ListBlock):
     checked: Optional[bool] = None
+
+    def to_markdown(self, context: Any) -> str:
+        text = super().to_markdown(context)
+        return f'[x] {text}' if self.checked else f'[ ] {text}'
 
 
 @dataclass
@@ -84,15 +92,21 @@ class ChildPageBlock:
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class EmbedBlock:
+class EmbedBlock(ToMarkdownMixin):
     url: str
+    caption: List[RichText]
+
+    def to_markdown(self, context: Any) -> str:
+        return Markdown.build_embed(
+            url=self.url,
+            caption=''.join([t.to_markdown(context) for t in self.caption]) if self.caption else None
+        )
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class BookmarkBlock:
-    url: str
-    caption: List[RichText]
+class BookmarkBlock(EmbedBlock):
+    pass
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -116,14 +130,30 @@ class Heading3Block(HeadingBlock):
         return f'### {super().to_markdown(context)}\n'
 
 
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class ImageBlock(FileObject):
+    def to_markdown(self, context: Any) -> str:
+        return Markdown.build_image(
+            url=self.get_url(),
+            caption=self.to_markdown_caption(context))
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class PdfBlock(FileObject):
+    def to_markdown(self, context: Any) -> str:
+        return Markdown.build_embed(
+            url=f'https://docs.google.com/viewer?url={urllib.parse.quote_plus(self.get_url())}&embedded=true',
+            caption=self.to_markdown_caption(context) or ' ')
+
+
 BulletedListBlock = ListBlock
 NumberedListBlock = ListBlock
 ToggleBlock = ListBlock
 
 FileBlock = FileObject
-ImageBlock = FileObject
 VideoBlock = FileObject
-PdfBlock = FileObject
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -165,6 +195,20 @@ class Block(ToMarkdownMixin):
             return self.heading_2.to_markdown(context)
         elif self.type == BlockType.heading_3:
             return self.heading_3.to_markdown(context)
+        elif self.type == BlockType.image:
+            return self.image.to_markdown(context)
+        elif self.type == BlockType.bulleted_list_item:
+            return f'* {self.bulleted_list_item.to_markdown(context)}'
+        elif self.type == BlockType.numbered_list_item:
+            return f'1. {self.numbered_list_item.to_markdown(context)}'
+        elif self.type == BlockType.to_do:
+            return self.to_do.to_markdown(context)
+        elif self.type == BlockType.embed:
+            return self.embed.to_markdown(context)
+        elif self.type == BlockType.pdf:
+            return self.pdf.to_markdown(context)
+        elif self.type == BlockType.bookmark:
+            return self.bookmark.to_markdown(context)
         elif self.type == BlockType.unsupported:
             return 'Unsupported Block Type!\n'
         else:
