@@ -6,7 +6,7 @@ from typing import Optional, List, Dict
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notionsci.connections.notion.structures.blocks import Block
+from notionsci.connections.notion.structures.blocks import Block, ChildrenMixin, BlockConvertor
 from notionsci.connections.notion.structures.common import FileObject, ID, \
     UnionEmojiFileConvertor, EmojiFileType
 from notionsci.connections.notion.structures.properties import PropertyDef, TitleValue, PropertyType, Property
@@ -72,14 +72,12 @@ class ContentObject:
 
 @dataclass_dict_convert(
     dict_letter_case=snakecase,
-    custom_type_convertors=[UnionEmojiFileConvertor]
+    custom_type_convertors=[UnionEmojiFileConvertor, BlockConvertor]
 )
 @dataclass
-class Page(ContentObject, ToMarkdownMixin):
+class Page(ContentObject, ToMarkdownMixin, ChildrenMixin):
     object: str = 'page'
     url: Optional[str] = None
-
-    children: Optional[List[Block]] = None
 
     archived: bool = False
 

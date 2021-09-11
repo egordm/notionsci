@@ -147,5 +147,10 @@ class NotionClient(NotionApiMixin):
             query_fn=lambda **args: self.block_retrieve_children(**args)
         )
 
-    def load_children(self, item: Union[Page, Block]):
-        item.children = self.block_retrieve_all_children(item.id)
+    def load_children(self, item: Union[Page, Block], recursive=False):
+        children: List[Block] = list(self.block_retrieve_all_children(item.id))
+        item.set_children(children)
+        if recursive:
+            for child in children:
+                if child.has_children and child.get_children() is None:
+                    self.load_children(child, recursive)

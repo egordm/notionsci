@@ -1,8 +1,8 @@
 import datetime as dt
 import urllib.parse
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, List, Any
+from typing import Optional, List, Union
 
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
@@ -10,6 +10,7 @@ from stringcase import snakecase
 from notionsci.connections.notion.structures.common import FileObject, RichText, ID
 from notionsci.utils import ForwardRefConvertor, ListConvertor, ToMarkdownMixin, MarkdownBuilder, MarkdownContext, \
     chain_to_markdown
+from notionsci.utils.markdown import MarkdownListType
 
 
 class BlockType(Enum):
@@ -34,14 +35,24 @@ class BlockType(Enum):
 BlockConvertor = ListConvertor(ForwardRefConvertor('Block'))
 
 
+@dataclass
+class ChildrenMixin:
+    children: Optional[List['Block']] = None
+
+    def set_children(self, children: List['Block']):
+        self.children = children
+
+    def get_children(self) -> List['Block']:
+        return self.children
+
+
 @dataclass_dict_convert(
     dict_letter_case=snakecase,
     custom_type_convertors=[BlockConvertor]
 )
 @dataclass
-class ParagraphBlock(ToMarkdownMixin):
-    text: List[RichText]
-    children: Optional[List['Block']] = None
+class ParagraphBlock(ToMarkdownMixin, ChildrenMixin):
+    text: List[RichText] = field(default_factory=list)
 
     def to_markdown(self, context: MarkdownContext) -> str:
         return chain_to_markdown(self.text, context)
@@ -52,12 +63,51 @@ class ParagraphBlock(ToMarkdownMixin):
     custom_type_convertors=[BlockConvertor]
 )
 @dataclass
-class ListBlock(ToMarkdownMixin):
-    text: List[RichText]
-    children: Optional[List['Block']] = None
+class ListBlock(ToMarkdownMixin, ChildrenMixin):
+    text: List[RichText] = field(default_factory=list)
 
     def to_markdown(self, context: MarkdownContext) -> str:
-        return chain_to_markdown(self.text, context)
+        prefix = self._prefix() * (context.depth + 1)
+        children = chain_to_markdown(
+            self.children,
+            context.copy(depth=context.depth + 1, counter=1),
+            sep='\n', prefix=prefix
+        ) if self.get_children() else None
+        content = self._markdown_format_fn()(chain_to_markdown(self.text, context.copy(counter=1)), context)
+
+        return f'{content}\n{children}' if children else content
+
+    def _prefix(self) -> str:
+        return '  '
+
+    def _markdown_format_fn(self):
+        return lambda x, ctx: x
+
+
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[BlockConvertor]
+)
+@dataclass
+class BulletedListBlock(ListBlock):
+    def _markdown_format_fn(self):
+        return lambda x, ctx: MarkdownBuilder.list(x, ctx, MarkdownListType.bullet)
+
+
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    custom_type_convertors=[BlockConvertor]
+)
+@dataclass
+class NumberedListBlock(ListBlock):
+    def _markdown_format_fn(self):
+        return lambda x, ctx: MarkdownBuilder.list(x, ctx, MarkdownListType.numeric)
+
+    def countable(self) -> bool:
+        return True
+
+    def _prefix(self) -> str:
+        return '    '
 
 
 @dataclass_dict_convert(
@@ -68,9 +118,8 @@ class ListBlock(ToMarkdownMixin):
 class TodoBlock(ListBlock):
     checked: Optional[bool] = None
 
-    def to_markdown(self, context: MarkdownContext) -> str:
-        text = super().to_markdown(context)
-        return MarkdownBuilder.todo(text, self.checked)
+    def _markdown_format_fn(self):
+        return lambda x, ctx: MarkdownBuilder.todo(x, self.checked)
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -145,8 +194,6 @@ class PdfBlock(FileObject):
             caption=self.to_markdown_caption(context) or ' ')
 
 
-BulletedListBlock = ListBlock
-NumberedListBlock = ListBlock
 ToggleBlock = ListBlock
 
 FileBlock = FileObject
@@ -195,9 +242,9 @@ class Block(ToMarkdownMixin):
         elif self.type == BlockType.image:
             return self.image.to_markdown(context)
         elif self.type == BlockType.bulleted_list_item:
-            return f'* {self.bulleted_list_item.to_markdown(context)}'
+            return self.bulleted_list_item.to_markdown(context)
         elif self.type == BlockType.numbered_list_item:
-            return f'1. {self.numbered_list_item.to_markdown(context)}'
+            return self.numbered_list_item.to_markdown(context)
         elif self.type == BlockType.to_do:
             return self.to_do.to_markdown(context)
         elif self.type == BlockType.embed:
@@ -210,3 +257,27 @@ class Block(ToMarkdownMixin):
             return 'Unsupported Block Type!'
         else:
             raise Exception('unsupported! ' + self.type.value)
+
+    def get_part(self) -> Union[ToMarkdownMixin]:
+        return getattr(self, self.type.value)
+
+    def set_children(self, children: List['Block']):
+        part = self.get_part()
+        if isinstance(part, ChildrenMixin):
+            part.set_children(children)
+        else:
+            raise Exception(f'Block {self.type} does not support children')
+
+    def get_children(self) -> List['Block']:
+        part = self.get_part()
+        if isinstance(part, ChildrenMixin):
+            return part.get_children()
+        else:
+            raise Exception(f'Block {self.type} does not support children')
+
+    def countable(self) -> bool:
+        part = self.get_part()
+        if isinstance(part, ToMarkdownMixin):
+            return self.get_part().countable()
+        else:
+            return super().countable()

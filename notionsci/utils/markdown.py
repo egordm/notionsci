@@ -1,18 +1,29 @@
 import html
 from abc import abstractmethod
 from dataclasses import dataclass
+from enum import Enum
 from typing import List
 
 
 @dataclass
 class MarkdownContext:
-    pass
+    depth: int = 0
+    counter: int = 1
+
+    def copy(self, **kwargs):
+        return MarkdownContext(**{
+            **self.__dict__,
+            **kwargs
+        })
 
 
 class ToMarkdownMixin:
     @abstractmethod
     def to_markdown(self, context: MarkdownContext) -> str:
         pass
+
+    def countable(self) -> bool:
+        return False
 
 
 EMBED_TEMPLATE = '''
@@ -32,6 +43,11 @@ IMAGE_TEMPLATE = '''
   <figcaption>{caption}</figcaption>
 </figure>
 '''.strip()
+
+
+class MarkdownListType(Enum):
+    bullet = 'bullet'
+    numeric = 'numeric'
 
 
 class MarkdownBuilder:
@@ -73,19 +89,24 @@ class MarkdownBuilder:
             return f'## {text}'
 
     @staticmethod
-    def list(text, type='bullet'):
-        if type == 'bullet':
+    def list(text, context: MarkdownContext, type: MarkdownListType = MarkdownListType.bullet):
+        if type == MarkdownListType.bullet:
             return f'* {text}'
-        elif type == 'numeric':
-            return f'1. {text}'
+        elif type == MarkdownListType.numeric:
+            res = f'{context.counter}. {text}'
+            context.counter += 1
+            return res
 
     @staticmethod
     def todo(text, checked: bool):
         return f'- [x] {text}' if checked else f'- [ ] {text}'
 
 
-def chain_to_markdown(items: List[ToMarkdownMixin], context: MarkdownContext, sep=''):
-    return sep.join(filter(
-        lambda x: x is not None,
-        [t.to_markdown(context) for t in items]
-    )) if items else None
+def chain_to_markdown(items: List[ToMarkdownMixin], context: MarkdownContext, sep='', prefix=''):
+    result = []
+    for item in items:
+        if not item.countable():
+            context.counter = 1
+        result.append(item.to_markdown(context))
+
+    return sep.join(map(lambda x: f'{prefix}{x}', filter(lambda x: x is not None, result))) if items else None
