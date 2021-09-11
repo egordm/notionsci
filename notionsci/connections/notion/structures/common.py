@@ -1,12 +1,12 @@
 import datetime as dt
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional, Dict, Union, Any, List
+from typing import Optional, Dict, Union, List
 
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notionsci.utils import UnionConvertor, ToMarkdownMixin
+from notionsci.utils import UnionConvertor, ToMarkdownMixin, MarkdownContext, MarkdownBuilder, chain_to_markdown
 
 Color = str
 ID = str
@@ -117,17 +117,17 @@ class RichText(ToMarkdownMixin):
     def text_value(self) -> str:
         return self.raw_value().get_text()
 
-    def to_markdown(self, context: Any) -> str:
+    def to_markdown(self, context: MarkdownContext) -> str:
         result = ''
         if self.type == RichTextType.text:
             result = self.plain_text
         elif self.type == RichTextType.equation:
-            result = f'${self.equation.expression}$'
+            result = MarkdownBuilder.equation(self.equation.expression)
         elif self.type == RichTextType.mention:
             result = self.plain_text
 
         if self.href:
-            result = f'[{result}]({self.href})'
+            result = MarkdownBuilder.url(self.href, result)
 
         if self.annotations:
             result = self.annotations.to_markdown(result)
@@ -167,12 +167,11 @@ class FileObject(ToMarkdownMixin):
     def get_url(self) -> str:
         return self.file.url if self.type == FileType.file else self.external.url
 
-    def to_markdown_caption(self, context: Any) -> str:
-        return ''.join([t.to_markdown(context) for t in self.caption]) if self.caption else None
+    def to_markdown_caption(self, context: MarkdownContext) -> str:
+        return chain_to_markdown(self.caption, context)
 
-    def to_markdown(self, context: Any) -> str:
-        url = self.get_url()
-        return f'[{url}]({url})'
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return MarkdownBuilder.url(self.get_url(), self.to_markdown_caption(context))
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)

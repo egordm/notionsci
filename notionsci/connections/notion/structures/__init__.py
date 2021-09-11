@@ -1,5 +1,5 @@
 from .common import *
 from .properties import *
-from .content import *
 from .blocks import *
+from .content import *
 from .results import *

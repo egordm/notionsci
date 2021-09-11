@@ -4,7 +4,7 @@ from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 from notion_client import Client
 
 from notionsci.connections.notion.structures import Database, SortObject, QueryFilter, format_query_args, ContentObject, \
-    PropertyType, Page, ID, QueryResult
+    PropertyType, Page, ID, QueryResult, Block
 from notionsci.utils import strip_none_field, filter_none_dict
 
 
@@ -146,3 +146,6 @@ class NotionClient(NotionApiMixin):
             args=dict(block_id=block_id, page_size=100),
             query_fn=lambda **args: self.block_retrieve_children(**args)
         )
+
+    def load_children(self, item: Union[Page, Block]):
+        item.children = self.block_retrieve_all_children(item.id)

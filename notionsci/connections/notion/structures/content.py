@@ -1,14 +1,16 @@
 import datetime as dt
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, List, Dict, Union
+from typing import Optional, List, Dict
 
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notionsci.connections.notion.structures.common import EmojiObject, FileObject, ID, \
+from notionsci.connections.notion.structures.blocks import Block
+from notionsci.connections.notion.structures.common import FileObject, ID, \
     UnionEmojiFileConvertor, EmojiFileType
 from notionsci.connections.notion.structures.properties import PropertyDef, TitleValue, PropertyType, Property
+from notionsci.utils import ToMarkdownMixin, MarkdownContext, chain_to_markdown
 
 
 class ParentType(Enum):
@@ -73,13 +75,16 @@ class ContentObject:
     custom_type_convertors=[UnionEmojiFileConvertor]
 )
 @dataclass
-class Page(ContentObject):
+class Page(ContentObject, ToMarkdownMixin):
     object: str = 'page'
     url: Optional[str] = None
 
-    children: Optional[List[Dict]] = None
+    children: Optional[List[Block]] = None
 
     archived: bool = False
+
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return chain_to_markdown(self.children, context, sep='\n')
 
 
 @dataclass_dict_convert(
