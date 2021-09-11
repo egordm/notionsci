@@ -1,4 +1,5 @@
 import html
+import re
 from abc import abstractmethod
 from dataclasses import dataclass
 from enum import Enum
@@ -51,6 +52,21 @@ TOGGLE_TEMPLATE = '''
 </details>
 '''.strip()
 
+YOUTUBE_TEMPLATE = '''
+<figure>
+    <iframe 
+        width="560" 
+        height="315" 
+        src="https://www.youtube.com/embed/{url}" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+    </iframe>
+  <figcaption>{caption}</figcaption>
+</figure>
+'''.strip()
+
 
 class MarkdownListType(Enum):
     bullet = 'bullet'
@@ -83,6 +99,17 @@ class MarkdownBuilder:
             url=url,
             caption=html.escape(caption if caption else url),
         )
+
+    @staticmethod
+    def video(url, caption=None):
+        if 'youtube' in url:
+            video_id = re.search(r'^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*', url).group(3)
+            return YOUTUBE_TEMPLATE.format(
+                url=video_id,
+                caption=html.escape(caption if caption else url),
+            )
+        else:
+            return MarkdownBuilder.url(url, f'Video: {caption if caption else url}')
 
     @staticmethod
     def heading(text, type='paragraph'):

@@ -211,8 +211,16 @@ class PdfBlock(FileObject):
             caption=self.to_markdown_caption(context) or ' ')
 
 
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class VideoBlock(FileObject):
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return MarkdownBuilder.video(
+            url=self.get_url(),
+            caption=self.to_markdown_caption(context) or ' ')
+
+
 FileBlock = FileObject
-VideoBlock = FileObject
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -246,32 +254,11 @@ class Block(ToMarkdownMixin):
     unsupported: Optional[str] = None
 
     def to_markdown(self, context: MarkdownContext) -> str:
-        if self.type == BlockType.paragraph:
-            return self.paragraph.to_markdown(context)
-        elif self.type == BlockType.heading_1:
-            return self.heading_1.to_markdown(context)
-        elif self.type == BlockType.heading_2:
-            return self.heading_2.to_markdown(context)
-        elif self.type == BlockType.heading_3:
-            return self.heading_3.to_markdown(context)
-        elif self.type == BlockType.image:
-            return self.image.to_markdown(context)
-        elif self.type == BlockType.bulleted_list_item:
-            return self.bulleted_list_item.to_markdown(context)
-        elif self.type == BlockType.numbered_list_item:
-            return self.numbered_list_item.to_markdown(context)
-        elif self.type == BlockType.toggle:
-            return self.toggle.to_markdown(context)
-        elif self.type == BlockType.to_do:
-            return self.to_do.to_markdown(context)
-        elif self.type == BlockType.embed:
-            return self.embed.to_markdown(context)
-        elif self.type == BlockType.pdf:
-            return self.pdf.to_markdown(context)
-        elif self.type == BlockType.bookmark:
-            return self.bookmark.to_markdown(context)
-        elif self.type == BlockType.unsupported:
+        part = self.get_part()
+        if self.type == BlockType.unsupported:
             return 'Unsupported Block Type!'
+        elif isinstance(part, ToMarkdownMixin):
+            return part.to_markdown(context)
         else:
             raise Exception('unsupported! ' + self.type.value)
 
