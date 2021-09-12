@@ -1,16 +1,17 @@
 import datetime as dt
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, List, Dict
+from typing import Optional, Dict
 
+import pandas as pd
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notionsci.connections.notion.structures.blocks import Block, ChildrenMixin, BlockConvertor
+from notionsci.connections.notion.structures.blocks import ChildrenMixin, BlockConvertor
 from notionsci.connections.notion.structures.common import FileObject, ID, \
     UnionEmojiFileConvertor, EmojiFileType
 from notionsci.connections.notion.structures.properties import PropertyDef, TitleValue, PropertyType, Property
-from notionsci.utils import ToMarkdownMixin, MarkdownContext, chain_to_markdown
+from notionsci.utils import ToMarkdownMixin, MarkdownContext, chain_to_markdown, MarkdownBuilder, filter_not_none
 
 
 class ParentType(Enum):
@@ -82,7 +83,18 @@ class Page(ContentObject, ToMarkdownMixin, ChildrenMixin):
     archived: bool = False
 
     def to_markdown(self, context: MarkdownContext) -> str:
-        return chain_to_markdown(self.children, context, sep='\n')
+        title = MarkdownBuilder.heading(self.get_title(), 'h1')
+        prop_data = [
+            {'Name': name, 'Value': prop.value()} for name, prop in self.properties.items()
+            if prop.type != PropertyType.title
+        ]
+        props = MarkdownBuilder.table(pd.DataFrame(prop_data)) + '\n' if prop_data else None
+
+        content = chain_to_markdown(self.children, context, sep='\n')
+
+        return '\n'.join(filter_not_none([
+            title, props, content
+        ]))
 
 
 @dataclass_dict_convert(

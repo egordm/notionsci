@@ -157,21 +157,21 @@ class HeadingBlock(ToMarkdownMixin):
 @dataclass
 class Heading1Block(HeadingBlock):
     def to_markdown(self, context: MarkdownContext) -> str:
-        return MarkdownBuilder.heading(super().to_markdown(context), 'h1')
+        return MarkdownBuilder.heading(super().to_markdown(context), 'h2')
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class Heading2Block(HeadingBlock):
     def to_markdown(self, context: MarkdownContext) -> str:
-        return MarkdownBuilder.heading(super().to_markdown(context), 'h2')
+        return MarkdownBuilder.heading(super().to_markdown(context), 'h3')
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class Heading3Block(HeadingBlock):
     def to_markdown(self, context: MarkdownContext) -> str:
-        return MarkdownBuilder.heading(super().to_markdown(context), 'h3')
+        return MarkdownBuilder.heading(super().to_markdown(context), 'h4')
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)

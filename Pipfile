@@ -30,6 +30,8 @@ inquirer = "*"
 "ruamel.yaml" = "*"
 "backports.zoneinfo" = "*"
 mistletoe = "*"
+pandas = "*"
+tabulate = "*"
 
 [pipenv]
 allow_prereleases = true

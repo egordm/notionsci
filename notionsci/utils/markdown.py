@@ -3,7 +3,9 @@ import re
 from abc import abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
+from typing import List, Dict
+
+import pandas as pd
 
 
 @dataclass
@@ -120,7 +122,13 @@ class MarkdownBuilder:
         elif type == 'h2':
             return f'## {text}'
         elif type == 'h3':
-            return f'## {text}'
+            return f'### {text}'
+        elif type == 'h4':
+            return f'#### {text}'
+        elif type == 'h5':
+            return f'##### {text}'
+        elif type == 'h6':
+            return f'###### {text}'
 
     @staticmethod
     def list(text, context: MarkdownContext, type: MarkdownListType = MarkdownListType.bullet):
@@ -138,6 +146,13 @@ class MarkdownBuilder:
     @staticmethod
     def toggle(title, content):
         return TOGGLE_TEMPLATE.format(title=title, content=content)
+
+    @staticmethod
+    def table(data: pd.DataFrame, alignments: Dict[str, str] = None):
+        if alignments:
+            for col, align in alignments.items():
+                data.style.set_properties(subset=[col], **{'text-align': align})
+        return data.to_markdown()
 
 
 def chain_to_markdown(items: List[ToMarkdownMixin], context: MarkdownContext, sep='', prefix=''):
