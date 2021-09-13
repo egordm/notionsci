@@ -1,3 +1,4 @@
+import os
 import time
 
 import click
@@ -5,6 +6,7 @@ import inquirer
 
 from notionsci.config import config
 from notionsci.connections.notion import parse_uuid_callback, ID, is_uuid, parse_uuid_or_str_callback
+from notionsci.utils import sanitize_filename, MarkdownContext
 
 
 @click.group()
@@ -89,3 +91,22 @@ def clear_trash(workspace):
         except:
             time.sleep(10)
             pass
+
+
+@notion.command()
+@click.argument('page', callback=parse_uuid_callback)
+@click.option('-o', '--output', required=False, default='.', help='Output directory or file')
+def download_md(page: ID, output: str):
+    notion = config.connections.notion.client()
+
+    page = notion.page_get(page)
+    notion.load_children(page, recursive=True)
+
+    path = os.path.join(output, f'{sanitize_filename(page.get_title())}.md') if os.path.isdir(output) else output
+    content = page.to_markdown(MarkdownContext())
+
+    click.echo(f'Writing file {path}')
+    with open(path, 'w') as f:
+        f.write(content)
+
+

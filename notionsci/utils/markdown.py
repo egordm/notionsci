@@ -10,6 +10,7 @@ import pandas as pd
 
 @dataclass
 class MarkdownContext:
+    mode: str = 'typora'
     depth: int = 0
     counter: int = 1
 
@@ -38,21 +39,21 @@ EMBED_TEMPLATE = '''
     allowfullscreen='true' style='width: 100%;'></iframe>
   <figcaption>{caption}</figcaption>
 </figure>
-'''.strip()
+'''.strip() + '\n'
 
 IMAGE_TEMPLATE = '''
 <figure>
   <img src="{url}" alt="{alt}" style="width:100%">
   <figcaption>{caption}</figcaption>
 </figure>
-'''.strip()
+'''.strip() + '\n'
 
 TOGGLE_TEMPLATE = '''
 <details>
     <summary>{title}</summary>
     {content}
 </details>
-'''.strip()
+'''.strip() + '\n'
 
 YOUTUBE_TEMPLATE = '''
 <figure>
@@ -67,7 +68,7 @@ YOUTUBE_TEMPLATE = '''
     </iframe>
   <figcaption>{caption}</figcaption>
 </figure>
-'''.strip()
+'''.strip() + '\n'
 
 
 class MarkdownListType(Enum):
@@ -105,7 +106,9 @@ class MarkdownBuilder:
     @staticmethod
     def video(url, caption=None):
         if 'youtube' in url:
-            video_id = re.search(r'^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*', url).group(3)
+            video_id = re.search(
+                r'^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*',
+                url).group(3)
             return YOUTUBE_TEMPLATE.format(
                 url=video_id,
                 caption=html.escape(caption if caption else url),
@@ -116,7 +119,7 @@ class MarkdownBuilder:
     @staticmethod
     def heading(text, type='paragraph'):
         if type == 'paragraph':
-            return text
+            return f'{text}  '
         elif type == 'h1':
             return f'# {text}'
         elif type == 'h2':

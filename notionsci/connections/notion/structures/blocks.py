@@ -55,7 +55,16 @@ class ParagraphBlock(ToMarkdownMixin, ChildrenMixin):
     text: List[RichText] = field(default_factory=list)
 
     def to_markdown(self, context: MarkdownContext) -> str:
-        return chain_to_markdown(self.text, context)
+        prefix = '    ' * (context.depth + 1)
+        children = chain_to_markdown(
+            self.children,
+            context.copy(depth=context.depth + 1, counter=1),
+            sep='\n', prefix=prefix
+        ) if self.get_children() else None
+
+        content = MarkdownBuilder.heading(chain_to_markdown(self.text, context), 'paragraph')
+
+        return f'{content}\n{children}' if children else content
 
 
 @dataclass_dict_convert(
