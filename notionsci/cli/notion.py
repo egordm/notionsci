@@ -97,6 +97,15 @@ def clear_trash(workspace):
 @click.argument('page', callback=parse_uuid_callback)
 @click.option('-o', '--output', required=False, default='.', help='Output directory or file')
 def download_md(page: ID, output: str):
+    """
+    Downloads given PAGE as a markdown file as given output file or folder
+
+    Note: that currently not all blocks are supported due to Notion api limitations
+
+    :param page:
+    :param output:
+    :return:
+    """
     notion = config.connections.notion.client()
 
     page = notion.page_get(page)
