@@ -3,9 +3,9 @@ from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 
 from notion_client import Client
 
-from notionsci.connections.notion.common import ID, SortObject, QueryFilter, QueryResult, Database, Page, \
-    format_query_args, ContentObject, PropertyType
-from notionsci.utils import strip_none_field
+from notionsci.connections.notion.structures import Database, SortObject, QueryFilter, format_query_args, ContentObject, \
+    PropertyType, Page, ID, QueryResult, Block
+from notionsci.utils import strip_none_field, filter_none_dict
 
 
 class NotionNotAttachedException(Exception):
@@ -56,9 +56,12 @@ def strip_readonly_props(obj: ContentObject):
 
 @dataclass
 class NotionClient(NotionApiMixin):
-    def page_get(self, id: ID) -> Page:
+    def page_get(self, id: ID, with_children=False) -> Page:
         result = self.client.pages.retrieve(id)
-        return Page.from_dict(result)
+        page = Page.from_dict(result)
+        if with_children:
+            self.load_children(page)
+        return page
 
     def page_update(self, page: Page) -> Page:
         args = strip_none_field(strip_readonly_props(page).to_dict())
@@ -125,3 +128,32 @@ class NotionClient(NotionApiMixin):
             args=dict(filter=filter if filter else None, sorts=sorts, page_size=100),
             query_fn=lambda **args: self.search(**args)
         )
+
+    def block_retrieve_children(
+            self,
+            block_id: ID,
+            start_cursor: str = None,
+            page_size: int = None
+    ):
+        args = filter_none_dict(dict(
+            block_id=block_id, start_cursor=start_cursor, page_size=page_size
+        ))
+        result_raw = self.client.blocks.children.list(**args)
+        return QueryResult.from_dict(result_raw)
+
+    def block_retrieve_all_children(
+            self,
+            block_id: ID,
+    ):
+        return traverse_pagination(
+            args=dict(block_id=block_id, page_size=100),
+            query_fn=lambda **args: self.block_retrieve_children(**args)
+        )
+
+    def load_children(self, item: Union[Page, Block], recursive=False):
+        children: List[Block] = list(self.block_retrieve_all_children(item.id))
+        item.set_children(children)
+        if recursive:
+            for child in children:
+                if child.has_children and child.get_children() is None:
+                    self.load_children(child, recursive)

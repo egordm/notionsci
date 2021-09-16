@@ -42,6 +42,10 @@ class Action(Generic[A, B]):
         return Action(ActionType.PUSH, target, a, b)
 
     @staticmethod
+    def merge(a: Optional[A] = None, b: Optional[B] = None) -> 'Action[A, B]':
+        return Action(ActionType.MERGE, ActionTarget.A, a, b)
+
+    @staticmethod
     def delete(target: ActionTarget, a: Optional[A] = None, b: Optional[B] = None) -> 'Action[A, B]':
         return Action(ActionType.DELETE, target, a, b)
 

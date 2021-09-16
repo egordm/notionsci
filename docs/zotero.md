@@ -33,7 +33,7 @@ connections:
 > This sections assumes you already have a working Notion connection [→ See Docs](zotero.md#setting-up-connection).
 
 ### Duplicating the Project Template
-To get started with synchronization your workspace needs to have a page with the [Zotero Library Template](https://www.notion.so/Zotero-Library-dd4b26a3b11d46518b70b5031aee8989).
+To get started with synchronization your workspace needs to have a page with the [Zotero Library Template](https://efficacious-alarm-7cc.notion.site/Zotero-Library-908bf67ef61048b79a1a10dfa5826302).
 You can _duplicate_ it either manually or if you have [Unofficial API](notion.md#unofficial-api) set up you can run the following command:
 
 ```bash

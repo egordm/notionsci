@@ -63,6 +63,30 @@ Options:
   --help            Show this message and exit.
 ```
 
+## Downloading Markdown Pages
+It is possible to download pages as markdown files.  
+Note: that currently not all blocks are supported due to Notion api limitations
+
+Example:
+```bash
+notionsci notion download-md <source page url or id> -o ./test.md
+```
+
+```bash
+Usage: python -m notionsci notion download-md [OPTIONS] PAGE
+
+  Downloads given PAGE as a markdown file as given output file or folder
+
+  Note: that currently not all blocks are supported due to Notion api
+  limitations
+
+  :param page: :param output: :return:
+
+Options:
+  -o, --output TEXT  Output directory or file
+  --help             Show this message and exit.
+```
+
 ## Cleaning Workspace Trash
 When you or the connection delete the page, it is archived and placed in the trash. 
 Cleaning it manually is slow, therefore the following command can be used te permanently delete all pages in the 

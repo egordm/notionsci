@@ -1,6 +1,6 @@
 import unittest
 
-from notionsci.connections.notion.common import QueryResult
+from notionsci.connections.notion.structures import QueryResult
 from notionsci.connections.zotero import Item, Collection
 from utils import load_asset_json
 

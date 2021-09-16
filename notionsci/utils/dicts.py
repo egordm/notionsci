@@ -1,4 +1,5 @@
 from functools import partial
+from operator import is_not
 from typing import Callable, Iterable, Any, Dict, Union
 
 
@@ -10,7 +11,7 @@ filter_none_dict = partial(filter_dict, lambda x: x is not None)
 
 
 def key_by(
-    items: Iterable[Any], key: Union[Callable[[Any], Any], str]
+        items: Iterable[Any], key: Union[Callable[[Any], Any], str]
 ) -> Dict[Any, Any]:
     if isinstance(key, str):
         attr = key
@@ -34,3 +35,10 @@ def strip_none_field(value: Any):
 
 def flatten(t):
     return [item for sublist in t for item in sublist]
+
+
+not_none = partial(is_not, None)
+
+
+def filter_not_none(items):
+    return list(filter(not_none, items))
