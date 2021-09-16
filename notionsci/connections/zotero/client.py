@@ -4,7 +4,7 @@ from typing import Optional, List, Dict
 from pyzotero.zotero import Zotero
 
 from notionsci.connections.notion import NotionNotAttachedException
-from notionsci.connections.zotero.common import SearchParameters, SearchPagination, Item, ID, Collection
+from notionsci.connections.zotero.structures import SearchParameters, SearchPagination, Item, ID, Collection
 
 
 class ZoteroNotAttachedException(Exception):
