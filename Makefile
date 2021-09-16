@@ -10,6 +10,7 @@ lint:
 	pipenv run black **/*.py
 
 setup:
+	pip install -U pip setuptools==57.1.0
 	pip install pipenv
 	pipenv install --three --dev
 
