@@ -1,11 +1,9 @@
-import io
 import re
 import unittest
-from contextlib import redirect_stdout
 
 from notionsci.cli import cli
 from notionsci.config import config
-from notionsci.connections.notion import parse_uuid_callback, parse_uuid_or_url
+from notionsci.connections.notion import parse_uuid_or_url
 from utils import capture_cmd
 
 

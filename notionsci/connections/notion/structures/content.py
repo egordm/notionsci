@@ -1,7 +1,7 @@
 import datetime as dt
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, Dict
+from typing import Optional, Dict, TypeVar, Generic, Iterator, Any
 
 import pandas as pd
 from dataclass_dict_convert import dataclass_dict_convert
@@ -18,6 +18,30 @@ class ParentType(Enum):
     database = 'database'
     page_id = 'page_id'
     workspace = 'workspace'
+
+
+PT = TypeVar('PT', Property, PropertyDef)
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class HasPropertiesMixin(Generic[PT]):
+    properties: Dict[str, PT] = field(default_factory=dict)
+
+    def get_property(self, name: str) -> PT:
+        return self.properties[name]
+
+    def get_propery_value(self, name: str, default=None) -> Optional[Any]:
+        return self.get_property(name).value() if name in self.properties else default
+
+    def get_property_by_type(self, type: PropertyType) -> Iterator[PT]:
+        return filter(lambda x: x.type == type, self.properties.values())
+
+    def extend_properties(self, properties: Dict[str, PT]):
+        self.properties = {
+            **self.properties,
+            **properties
+        }
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -50,25 +74,8 @@ class ContentObject:
     icon: EmojiFileType = None
     cover: Optional[FileObject] = None
 
-    properties: Dict[str, Property] = field(default_factory=dict)
     created_time: Optional[dt.datetime] = None
     last_edited_time: Optional[dt.datetime] = None
-
-    def get_property(self, name: str) -> Property:
-        return self.properties[name]
-
-    def extend_properties(self, properties: Dict[str, Property]):
-        self.properties = {
-            **self.properties,
-            **properties
-        }
-
-    def get_title(self):
-        prop = next(filter(lambda x: x.type == PropertyType.title, self.properties.values()), None)
-        if prop is None:
-            return ''
-        else:
-            return prop.value()
 
 
 @dataclass_dict_convert(
@@ -76,9 +83,11 @@ class ContentObject:
     custom_type_convertors=[UnionEmojiFileConvertor, BlockConvertor]
 )
 @dataclass
-class Page(ContentObject, ToMarkdownMixin, ChildrenMixin):
+class Page(ContentObject, ToMarkdownMixin, ChildrenMixin, HasPropertiesMixin[Property]):
     object: str = 'page'
     url: Optional[str] = None
+
+    properties: Dict[str, Property] = field(default_factory=dict)
 
     archived: bool = False
 
@@ -89,12 +98,14 @@ class Page(ContentObject, ToMarkdownMixin, ChildrenMixin):
             if prop.type != PropertyType.title
         ]
         props = MarkdownBuilder.table(pd.DataFrame(prop_data)) + '\n' if prop_data else None
-
         content = chain_to_markdown(self.children, context, sep='\n')
 
         return '\n'.join(filter_not_none([
             title, props, content
         ]))
+
+    def get_title(self):
+        return next(map(lambda x: x.value(), self.get_property_by_type(PropertyType.title)), '')
 
 
 @dataclass_dict_convert(
@@ -102,7 +113,8 @@ class Page(ContentObject, ToMarkdownMixin, ChildrenMixin):
     custom_type_convertors=[UnionEmojiFileConvertor]
 )
 @dataclass
-class Database(ContentObject):
+class Database(ContentObject, HasPropertiesMixin[PropertyDef]):
     object: str = 'database'
     title: Optional[TitleValue] = None
+
     properties: Dict[str, PropertyDef] = field(default_factory=dict)

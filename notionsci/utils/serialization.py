@@ -44,3 +44,7 @@ class UnionConvertor(SimpleTypeConvertor):
         for type in self.types:
             if isinstance(val, type): type.to_dict(val)
         return None
+
+
+def ignore_unknown(field):
+    pass

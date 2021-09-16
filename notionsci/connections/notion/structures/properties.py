@@ -104,45 +104,14 @@ class Property:
     last_edited_time: Optional[LastEditedTimeValue] = None
     last_edited_by: Optional[LastEditedByValue] = None
 
+    def _value(self):
+        return getattr(self, self.type.value)
+
     def raw_value(self):
-        if self.type == PropertyType.title:
-            return self.title
-        elif self.type == PropertyType.rich_text:
-            return self.rich_text
-        elif self.type == PropertyType.number:
-            return self.number
-        elif self.type == PropertyType.select:
-            return self.select
-        elif self.type == PropertyType.multi_select:
-            return self.multi_select
-        elif self.type == PropertyType.date:
+        if self.type == PropertyType.date:
             return dt.datetime.fromisoformat(self.date.start)
-        elif self.type == PropertyType.people:
-            return self.people
-        elif self.type == PropertyType.files:
-            return self.files
-        elif self.type == PropertyType.checkbox:
-            return self.checkbox
-        elif self.type == PropertyType.url:
-            return self.url
-        elif self.type == PropertyType.email:
-            return self.email
-        elif self.type == PropertyType.phone_number:
-            return self.phone_number
-        elif self.type == PropertyType.formula:
-            return self.formula
-        elif self.type == PropertyType.relation:
-            return self.relation
-        elif self.type == PropertyType.rollup:
-            return self.rollup
-        elif self.type == PropertyType.created_time:
-            return self.created_time
-        elif self.type == PropertyType.created_by:
-            return self.created_by
-        elif self.type == PropertyType.last_edited_time:
-            return self.last_edited_time
-        elif self.type == PropertyType.last_edited_by:
-            return self.last_edited_by
+        else:
+            return self._value()
 
     def value(self):
         return object_to_text_value(self.raw_value())
@@ -159,6 +128,13 @@ class Property:
         return Property(
             type=PropertyType.url,
             url=text if text else ExplicitNone()
+        )
+
+    @staticmethod
+    def as_number(number: int) -> 'Property':
+        return Property(
+            type=PropertyType.number,
+            number=number
         )
 
     @staticmethod

@@ -56,9 +56,12 @@ def strip_readonly_props(obj: ContentObject):
 
 @dataclass
 class NotionClient(NotionApiMixin):
-    def page_get(self, id: ID) -> Page:
+    def page_get(self, id: ID, with_children=False) -> Page:
         result = self.client.pages.retrieve(id)
-        return Page.from_dict(result)
+        page = Page.from_dict(result)
+        if with_children:
+            self.load_children(page)
+        return page
 
     def page_update(self, page: Page) -> Page:
         args = strip_none_field(strip_readonly_props(page).to_dict())
