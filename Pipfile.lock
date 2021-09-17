@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "20b9f0be21e0a6869d9b72db22e156b693be7ab9aaef825f54af2900c3695f72"
+            "sha256": "44439519358161b3236ef138e073912140490e923563b8f9598fc788330bc314"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -125,11 +125,11 @@
         },
         "feedparser": {
             "hashes": [
-                "sha256:bd030652c2d08532c034c27fcd7c85868e7fa3cb2b17f230a44a6bbc92519bf9",
-                "sha256:cd2485472e41471632ed3029d44033ee420ad0b57111db95c240c9160a85831c",
-                "sha256:ce875495c90ebd74b179855449040003a1beb40cd13d5f037a0654251e260b02"
+                "sha256:1b7f57841d9cf85074deb316ed2c795091a238adb79846bc46dccdaf80f9c59a",
+                "sha256:5ce0410a05ab248c8c7cfca3a0ea2203968ee9ff4486067379af4827a59f9661"
             ],
-            "version": "==5.2.1"
+            "markers": "python_version >= '3.6'",
+            "version": "==6.0.8"
         },
         "future": {
             "hashes": [
@@ -363,12 +363,12 @@
             "version": "==5.4.1"
         },
         "pyzotero": {
+            "git": "https://github.com/EgorDm/pyzotero.git",
             "hashes": [
                 "sha256:19c5a2759d1b4bffefd985671e272781c3e904b67fda6acd0b5bf5c3c4e12ea0",
                 "sha256:25fb80ad2608dd6d25eaac4a0ecab4b60c4c3be6d9b57c904a64e91fce3f4b70"
             ],
-            "index": "pypi",
-            "version": "==1.4.25"
+            "ref": "587b9f7a404f4a52c55be335254240f42fb95479"
         },
         "readchar": {
             "hashes": [
@@ -429,6 +429,12 @@
             ],
             "markers": "python_version < '3.10' and platform_python_implementation == 'CPython'",
             "version": "==0.2.6"
+        },
+        "sgmllib3k": {
+            "hashes": [
+                "sha256:7868fb1c8bfa764c1ac563d3cf369c381d1325d36124933a726f29fcdaa812e9"
+            ],
+            "version": "==1.0.0"
         },
         "simple-parsing": {
             "hashes": [
@@ -861,7 +867,7 @@
                 "sha256:b8156d653ed91356e71675ce1fa1186d2b2c2085050012522895c9aa98fca3e5",
                 "sha256:f301b983a34259df90b3fcf7edc234b5e6c7065bd578781e66fd90b8cfbe76be"
             ],
-            "markers": "python_version >= '3.6' and python_full_version < '4.0.0'",
+            "markers": "python_version >= '3.6' and python_version < '4.0'",
             "version": "==0.2.1"
         },
         "mkdocs-gen-files": {
@@ -1042,7 +1048,7 @@
                 "sha256:1ec7e028fe8361acc1ce909ada4e6beabec28ef31e629618549109e1d58549f0",
                 "sha256:89ca4926d0acc266235beb24cb0b0591aa6bf7adedfae54bf9421d529d782c8d"
             ],
-            "markers": "python_full_version >= '3.6.1' and python_full_version < '4.0.0'",
+            "markers": "python_version < '4.0' and python_full_version >= '3.6.1'",
             "version": "==0.11.1"
         },
         "pyyaml": {

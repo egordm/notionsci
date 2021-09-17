@@ -19,7 +19,7 @@ pymdown-extensions = "*"
 [packages]
 notion-client = "*"
 click = "*"
-Pyzotero = "*"
+Pyzotero = {git = "https://github.com/EgorDm/pyzotero.git"}
 simple-parsing = "*"
 tqdm = "*"
 pyyaml = "*"
