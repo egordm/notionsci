@@ -29,7 +29,10 @@ class BlockType(Enum):
     file = 'file'
     pdf = 'pdf'
     bookmark = 'bookmark'
+    equation = 'equation'
+    code = 'code'
     unsupported = 'unsupported'
+    child_database = 'child_database'
 
 
 BlockConvertor = ListConvertor(ForwardRefConvertor('Block'))
@@ -229,6 +232,35 @@ class VideoBlock(FileObject):
             caption=self.to_markdown_caption(context) or ' ')
 
 
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class EquationBlock(ToMarkdownMixin):
+    expression: str
+
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return MarkdownBuilder.equation(self.expression)
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class CodeBlock(ToMarkdownMixin):
+    text: List[RichText]
+    language: str
+
+    def to_markdown(self, context: MarkdownContext) -> str:
+        content = chain_to_markdown(self.text, context)
+        return MarkdownBuilder.code(content, self.language)
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class ChildDatabaseBlock(ToMarkdownMixin):
+    title: str
+
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return f'Child Database {self.title} !!!!\n'
+
+
 FileBlock = FileObject
 
 
@@ -260,6 +292,9 @@ class Block(ToMarkdownMixin):
     file: Optional[FileBlock] = None
     pdf: Optional[PdfBlock] = None
     bookmark: Optional[BookmarkBlock] = None
+    equation: Optional[EquationBlock] = None
+    code: Optional[CodeBlock] = None
+    child_database: Optional[ChildDatabaseBlock] = None
     unsupported: Optional[str] = None
 
     def to_markdown(self, context: MarkdownContext) -> str:

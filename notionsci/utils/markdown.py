@@ -82,7 +82,7 @@ class MarkdownBuilder:
         return f'[{alt or url}]({url})'
 
     @staticmethod
-    def equation(equation: str):
+    def inline_equation(equation: str):
         return f'${equation}$'
 
     @staticmethod
@@ -157,6 +157,14 @@ class MarkdownBuilder:
                 data.style.set_properties(subset=[col], **{'text-align': align})
         return data.to_markdown()
 
+    @staticmethod
+    def code(content, language):
+        return f'```{language}\n{content}\n```'
+
+    @staticmethod
+    def equation(content):
+        return f'$$\n{content}\n$$'
+
 
 def chain_to_markdown(items: List[ToMarkdownMixin], context: MarkdownContext, sep='', prefix=''):
     result = []
@@ -165,4 +173,4 @@ def chain_to_markdown(items: List[ToMarkdownMixin], context: MarkdownContext, se
             context.counter = 1
         result.append(item.to_markdown(context))
 
-    return sep.join(map(lambda x: f'{prefix}{x}', filter(lambda x: x is not None, result))) if items else None
+    return sep.join(map(lambda x: f'{prefix}{x}', filter(lambda x: x is not None, result))) if items else ''

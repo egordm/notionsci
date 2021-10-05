@@ -28,7 +28,7 @@ class UserObject:
 class RichTextType(Enum):
     text = 'text'
     mention = 'mention'
-    equation = 'equation'
+    equation = 'inline_equation'
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -122,7 +122,7 @@ class RichText(ToMarkdownMixin):
         if self.type == RichTextType.text:
             result = self.plain_text
         elif self.type == RichTextType.equation:
-            result = MarkdownBuilder.equation(self.equation.expression)
+            result = MarkdownBuilder.inline_equation(self.equation.expression)
         elif self.type == RichTextType.mention:
             result = self.plain_text
 
