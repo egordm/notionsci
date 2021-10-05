@@ -163,15 +163,16 @@ class FileObject(ToMarkdownMixin):
     caption: Optional[List[RichText]] = None
     file: Optional[FileTypeObject] = None
     external: Optional[FileTypeObject] = None
+    name: Optional[str] = None  # Only filled for when used as property value
 
     def get_url(self) -> str:
         return self.file.url if self.type == FileType.file else self.external.url
 
     def to_markdown_caption(self, context: MarkdownContext) -> str:
-        return chain_to_markdown(self.caption, context)
+        return chain_to_markdown(self.caption, context) if self.caption else None
 
     def to_markdown(self, context: MarkdownContext) -> str:
-        return MarkdownBuilder.url(self.get_url(), self.to_markdown_caption(context))
+        return MarkdownBuilder.url(self.get_url(), self.name or self.to_markdown_caption(context))
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)

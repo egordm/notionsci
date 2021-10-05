@@ -6,7 +6,7 @@ from typing import Optional, List, Dict, Any
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notionsci.connections.notion.structures.common import RichText, Color, ID
+from notionsci.connections.notion.structures.common import RichText, Color, ID, FileObject
 from notionsci.utils import ExplicitNone, ToMarkdownMixin, MarkdownContext
 
 
@@ -66,6 +66,7 @@ LastEditedTimeValue = dt.datetime
 LastEditedByValue = Dict
 UrlValue = str
 RelationValue = List[RelationItem]
+FilesValue = List[FileObject]
 
 
 def object_to_text_value(raw_value: Any):
@@ -73,7 +74,9 @@ def object_to_text_value(raw_value: Any):
         return ' '.join([object_to_text_value(v) for v in raw_value])
     elif isinstance(raw_value, RichText):
         return raw_value.text_value()
-    return raw_value
+    elif isinstance(raw_value, Dict):
+        return str(raw_value)
+    return str(raw_value)
 
 
 def object_to_markdown(raw_value: Any, context: MarkdownContext, sep=' '):
@@ -83,7 +86,9 @@ def object_to_markdown(raw_value: Any, context: MarkdownContext, sep=' '):
         return raw_value.to_markdown(context)
     elif isinstance(raw_value, SelectValue):
         return raw_value.name
-    return raw_value
+    elif isinstance(raw_value, ToMarkdownMixin):
+        return raw_value.to_markdown(context)
+    return str(raw_value)
 
 
 ## Property Definition Types
@@ -102,7 +107,7 @@ class Property(ToMarkdownMixin):
     multi_select: Optional[MultiSelectValue] = None
     date: Optional[DateValue] = None
     people: Optional[PeopleValue] = None
-    files: Optional[Dict] = None
+    files: Optional[FilesValue] = None
     checkbox: Optional[CheckboxValue] = None
     url: Optional[UrlValue] = None
     email: Optional[EmailValue] = None

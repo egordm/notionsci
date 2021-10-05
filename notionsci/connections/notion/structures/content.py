@@ -94,7 +94,7 @@ class Page(ContentObject, ToMarkdownMixin, ChildrenMixin, HasPropertiesMixin[Pro
     def to_markdown(self, context: MarkdownContext) -> str:
         title = MarkdownBuilder.heading(self.get_title(), 'h1')
         prop_data = [
-            {'Name': name, 'Value': prop.value()} for name, prop in self.properties.items()
+            {'Name': name, 'Value': prop.to_markdown(context)} for name, prop in self.properties.items()
             if prop.type != PropertyType.title
         ]
         props = MarkdownBuilder.table(pd.DataFrame(prop_data)) + '\n' if prop_data else None
