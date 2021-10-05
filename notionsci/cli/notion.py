@@ -109,7 +109,7 @@ def download_md(page: ID, output: str):
     notion = config.connections.notion.client()
 
     page = notion.page_get(page)
-    notion.load_children(page, recursive=True)
+    notion.load_children(page, recursive=True, databases=True)
 
     path = os.path.join(output, f'{sanitize_filename(page.get_title())}.md') if os.path.isdir(output) else output
     content = page.to_markdown(MarkdownContext())

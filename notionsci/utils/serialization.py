@@ -48,3 +48,16 @@ class UnionConvertor(SimpleTypeConvertor):
 
 def ignore_unknown(field):
     pass
+
+
+def ignore_fields(fields):
+    return dict(
+        custom_to_dict_convertors={
+            field: lambda x: None
+            for field in fields
+        },
+        custom_from_dict_convertors={
+            field: lambda x: None
+            for field in fields
+        }
+    )

@@ -7,7 +7,7 @@ from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
 from notionsci.connections.notion.structures.common import RichText, Color, ID
-from notionsci.utils import ExplicitNone
+from notionsci.utils import ExplicitNone, ToMarkdownMixin, MarkdownContext
 
 
 class PropertyType(Enum):
@@ -76,15 +76,26 @@ def object_to_text_value(raw_value: Any):
     return raw_value
 
 
+def object_to_markdown(raw_value: Any, context: MarkdownContext, sep=' '):
+    if isinstance(raw_value, list):
+        return sep.join([object_to_markdown(v, context) for v in raw_value])
+    elif isinstance(raw_value, RichText):
+        return raw_value.to_markdown(context)
+    elif isinstance(raw_value, SelectValue):
+        return raw_value.name
+    return raw_value
+
+
 ## Property Definition Types
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class Property:
+class Property(ToMarkdownMixin):
     type: PropertyType
-    id: Optional[str] = None
 
+    id: Optional[str] = None
     title: Optional[TitleValue] = None
+
     rich_text: Optional[RichTextValue] = None
     number: Optional[NumberValue] = None
     select: Optional[SelectValue] = None
@@ -115,6 +126,12 @@ class Property:
 
     def value(self):
         return object_to_text_value(self.raw_value())
+
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return object_to_markdown(
+            self._value(), context,
+            sep=',+ ' if self.type == PropertyType.multi_select else ' '
+        )
 
     @staticmethod
     def as_title(text: str) -> 'Property':

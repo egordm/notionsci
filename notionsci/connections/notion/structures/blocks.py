@@ -4,12 +4,13 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional, List, Union
 
+import pandas as pd
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
 from notionsci.connections.notion.structures.common import FileObject, RichText, ID
 from notionsci.utils import ForwardRefConvertor, ListConvertor, ToMarkdownMixin, MarkdownBuilder, MarkdownContext, \
-    chain_to_markdown
+    chain_to_markdown, ignore_fields
 from notionsci.utils.markdown import MarkdownListType
 
 
@@ -252,13 +253,28 @@ class CodeBlock(ToMarkdownMixin):
         return MarkdownBuilder.code(content, self.language)
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass_dict_convert(
+    dict_letter_case=snakecase,
+    **ignore_fields(['database', 'children'])
+)
 @dataclass
 class ChildDatabaseBlock(ToMarkdownMixin):
     title: str
+    database: Optional['notionsci.connections.notion.Database'] = None
+    children: Optional[List['notionsci.connections.notion.Page']] = None
 
     def to_markdown(self, context: MarkdownContext) -> str:
-        return f'Child Database {self.title} !!!!\n'
+        if self.database and self.children:
+            df = pd.DataFrame([
+                {
+                    prop_name: child.get_property(prop_name).to_markdown(context)
+                    for prop_name, prop in self.database.properties.items()
+                }
+                for child in self.children
+            ])
+            return MarkdownBuilder.table(df)
+        else:
+            return f'Table {self.title}\n'
 
 
 FileBlock = FileObject

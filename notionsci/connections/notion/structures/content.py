@@ -70,6 +70,7 @@ class ContentObject:
     object: str
     id: Optional[ID] = None
     parent: Optional[Parent] = None
+    url: Optional[str] = None
 
     icon: EmojiFileType = None
     cover: Optional[FileObject] = None
@@ -85,7 +86,6 @@ class ContentObject:
 @dataclass
 class Page(ContentObject, ToMarkdownMixin, ChildrenMixin, HasPropertiesMixin[Property]):
     object: str = 'page'
-    url: Optional[str] = None
 
     properties: Dict[str, Property] = field(default_factory=dict)
 

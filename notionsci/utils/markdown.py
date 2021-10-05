@@ -155,7 +155,7 @@ class MarkdownBuilder:
         if alignments:
             for col, align in alignments.items():
                 data.style.set_properties(subset=[col], **{'text-align': align})
-        return data.to_markdown()
+        return data.to_markdown(index=False)
 
     @staticmethod
     def code(content, language):

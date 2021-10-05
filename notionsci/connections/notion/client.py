@@ -3,6 +3,7 @@ from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 
 from notion_client import Client
 
+from notionsci.connections.notion import BlockType
 from notionsci.connections.notion.structures import Database, SortObject, QueryFilter, format_query_args, ContentObject, \
     PropertyType, Page, ID, QueryResult, Block
 from notionsci.utils import strip_none_field, filter_none_dict
@@ -150,10 +151,13 @@ class NotionClient(NotionApiMixin):
             query_fn=lambda **args: self.block_retrieve_children(**args)
         )
 
-    def load_children(self, item: Union[Page, Block], recursive=False):
+    def load_children(self, item: Union[Page, Block], recursive=False, databases=False):
         children: List[Block] = list(self.block_retrieve_all_children(item.id))
         item.set_children(children)
         if recursive:
             for child in children:
                 if child.has_children and child.get_children() is None:
                     self.load_children(child, recursive)
+                elif databases and child.type == BlockType.child_database:
+                    child.child_database.database = self.database_get(child.id)
+                    child.child_database.children = list(self.database_query_all(child.id))  # eager load (mayby dont?)
