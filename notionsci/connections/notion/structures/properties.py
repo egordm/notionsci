@@ -76,6 +76,8 @@ def object_to_text_value(raw_value: Any):
         return raw_value.text_value()
     elif isinstance(raw_value, Dict):
         return str(raw_value)
+    elif isinstance(raw_value, int) or isinstance(raw_value, float):
+        return raw_value
     return str(raw_value)
 
 

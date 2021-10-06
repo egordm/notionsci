@@ -31,6 +31,9 @@ class HasPropertiesMixin(Generic[PT]):
     def get_property(self, name: str) -> PT:
         return self.properties[name]
 
+    def get_propery_raw_value(self, name: str, default=None) -> Optional[Any]:
+        return self.get_property(name).raw_value() if name in self.properties else default
+
     def get_propery_value(self, name: str, default=None) -> Optional[Any]:
         return self.get_property(name).value() if name in self.properties else default
 
