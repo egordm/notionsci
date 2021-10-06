@@ -28,6 +28,9 @@ PT = TypeVar('PT', Property, PropertyDef)
 class HasPropertiesMixin(Generic[PT]):
     properties: Dict[str, PT] = field(default_factory=dict)
 
+    def has_property(self, name: str):
+        return name in self.properties
+
     def get_property(self, name: str) -> PT:
         return self.properties[name]
 

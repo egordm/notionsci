@@ -42,9 +42,18 @@ class SelectValue:
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
-class DateValue:
+class DateValue(ToMarkdownMixin):
     start: str
     end: Optional[str] = None
+
+    @staticmethod
+    def from_date(value: dt.datetime):
+        return DateValue(value.isoformat())
+
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return self.start if not self.end else f'{self.start} - {self.end}'
+
+
 
 
 @dataclass_dict_convert(dict_letter_case=snakecase)
@@ -125,11 +134,17 @@ class Property(ToMarkdownMixin):
     def _value(self):
         return getattr(self, self.type.value)
 
+    def _set_value(self, value):
+        return setattr(self, self.type.value, value)
+
     def raw_value(self):
         if self.type == PropertyType.date:
             return dt.datetime.fromisoformat(self.date.start)
         else:
             return self._value()
+
+    def set_raw_value(self, value):
+        self._set_value(value)
 
     def value(self):
         return object_to_text_value(self.raw_value())
@@ -165,7 +180,7 @@ class Property(ToMarkdownMixin):
     def as_date(date: dt.datetime) -> 'Property':
         return Property(
             type=PropertyType.date,
-            date=DateValue(date.isoformat())
+            date=DateValue.from_date(date)
         )
 
     @staticmethod

@@ -59,12 +59,14 @@ class SortObject:
 
 
 def format_query_args(
+        query: str = None,
         filter: Optional[QueryFilter] = None,
         sorts: Optional[List[SortObject]] = None,
         start_cursor: str = None,
         page_size: int = None
 ) -> dict:
     return filter_none_dict(dict(
+        query=query,
         filter=filter if filter else None,
         sorts=[sort.to_dict() for sort in sorts] if sorts else None,
         start_cursor=start_cursor, page_size=page_size

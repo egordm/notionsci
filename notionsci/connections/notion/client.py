@@ -111,22 +111,26 @@ class NotionClient(NotionApiMixin):
 
     def search(
             self,
+            query: str = None,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None,
             start_cursor: str = None,
             page_size: int = None
     ) -> QueryResult:
-        args = format_query_args(filter=filter, sorts=sorts, start_cursor=start_cursor, page_size=page_size)
+        args = format_query_args(
+            query=query, filter=filter, sorts=sorts, start_cursor=start_cursor, page_size=page_size
+        )
         result_raw = self.client.search(**args)
         return QueryResult.from_dict(result_raw)
 
     def search_all(
             self,
+            query: str = None,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None
     ) -> Iterator[Union[Page, Database]]:
         return traverse_pagination(
-            args=dict(filter=filter if filter else None, sorts=sorts, page_size=100),
+            args=dict(query=query, filter=filter if filter else None, sorts=sorts, page_size=100),
             query_fn=lambda **args: self.search(**args)
         )
 

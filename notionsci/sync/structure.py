@@ -81,7 +81,7 @@ class Sync(Generic[A, B]):
     def fetch_items_b(self) -> Dict[str, B]:
         pass
 
-    def compare(self, a: Optional[A], b: Optional[A]) -> Action[A, B]:
+    def compare(self, a: Optional[A], b: Optional[B]) -> Action[A, B]:
         if a is None or b is None:
             return Action.push(ActionTarget.A if not a else ActionTarget.B, a, b)
         return None

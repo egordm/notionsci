@@ -1,6 +1,7 @@
 import click
 
 from .zotero import zotero
+from .markdown import markdown
 
 
 @click.group()
@@ -12,3 +13,4 @@ def sync():
 
 
 sync.add_command(zotero)
+sync.add_command(markdown)
