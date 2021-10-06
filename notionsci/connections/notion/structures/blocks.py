@@ -2,7 +2,7 @@ import datetime as dt
 import urllib.parse
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Callable
 
 import pandas as pd
 from dataclass_dict_convert import dataclass_dict_convert
@@ -39,6 +39,10 @@ class BlockType(Enum):
 BlockConvertor = ListConvertor(ForwardRefConvertor('Block'))
 
 
+def block_type_filter(t: 'BlockType'):
+    return lambda b: b.type == t
+
+
 @dataclass
 class ChildrenMixin:
     children: Optional[List['Block']] = None
@@ -46,8 +50,8 @@ class ChildrenMixin:
     def set_children(self, children: List['Block']):
         self.children = children
 
-    def get_children(self) -> List['Block']:
-        return self.children
+    def get_children(self, predicate: Callable[['Block'], bool] = None) -> List['Block']:
+        return self.children if not predicate else list(filter(predicate, self.children))
 
 
 @dataclass_dict_convert(

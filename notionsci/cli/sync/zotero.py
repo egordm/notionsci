@@ -4,7 +4,7 @@ import click
 
 from notionsci.cli.notion import duplicate
 from notionsci.config import config
-from notionsci.connections.notion import parse_uuid, parse_uuid_callback
+from notionsci.connections.notion import parse_uuid, parse_uuid_callback, BlockType, block_type_filter
 from notionsci.connections.zotero import ID
 from notionsci.sync.zotero import RefsOneWaySync, CollectionsOneWaySync
 
@@ -46,37 +46,49 @@ def template(ctx: click.Context, parent: ID):
         click.echo(f'Found references database ({parse_uuid(refs_db.id)})')
 
 
+def child_database_filter(title: str):
+    type_filter = block_type_filter(BlockType.child_database)
+    return lambda b: type_filter(b) and b.child_database.title == title
+
+
 @zotero.command()
-@click.argument('references', callback=parse_uuid_callback, required=True)
+@click.argument('template', callback=parse_uuid_callback, required=True)
 @click.option('--force', is_flag=True, default=False,
               help='Ensures up to date items are also pushed to Zotero')
-@click.option('-c', '--collections', callback=lambda c, p, x: parse_uuid_callback(c, p, x) if x else x, required=False,
-              help='Collections database page ID or url to (optionally) add references to')
-def refs(references: ID, collections: ID, force: bool):
+def refs(template: ID, force: bool):
     """
     Starts a one way Zotero references sync to Notion
 
-    REFERENCES: References database page ID or url
-
-    When collecitons option is specified Unofficial Notion Api access is required
+    TEMPLATE: Template page ID or url
     """
     notion = config.connections.notion.client()
     zotero = config.connections.zotero.client()
 
-    RefsOneWaySync(notion, zotero, references, collections_id=collections, force=force).sync()
+    template_page = notion.page_get(template, with_children=True)
+    references = next(iter(template_page.get_children(child_database_filter('Zotero References'))), None)
+    collections = next(iter(template_page.get_children(child_database_filter('Zotero Collections'))), None)
+
+    if not references or not collections:
+        raise Exception('Please check whether child database called "Zotero References" and "Zotero Collections" '
+                        'exist in given template')
+
+    RefsOneWaySync(notion, zotero, references.id, collections_id=collections.id, force=force).sync()
 
 
 @zotero.command()
-@click.argument('collections', callback=parse_uuid_callback, required=True)
+@click.argument('template', callback=parse_uuid_callback, required=True)
 @click.option('--force', is_flag=True, default=False,
               help='Ensures up to date items are also pushed to Zotero')
-def collections(collections: ID, force: bool):
+def collections(template: ID, force: bool):
     """
     Starts a one way Zotero references sync to Notion
 
-    COLLECTIONS: Collections database page ID or url
+    TEMPLATE: Template page ID or url
     """
     notion = config.connections.notion.client()
     zotero = config.connections.zotero.client()
 
-    CollectionsOneWaySync(notion, zotero, collections, force=force).sync()
+    template_page = notion.page_get(template, with_children=True)
+    collections = next(iter(template_page.get_children(child_database_filter('Zotero Collections'))), None)
+
+    CollectionsOneWaySync(notion, zotero, collections.id, force=force).sync()
