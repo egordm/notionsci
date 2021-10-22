@@ -41,17 +41,16 @@ class TestZoteroSync(unittest.TestCase):
         )
 
         self.assertEqual(code, 0)
-        self.collection_db = re.search(
-            r"Found collection database \((.*)\)", output
+        self.template = re.search(
+            r"Created page \((.*)\)", output
         ).group(1)
-        self.refs_db = re.search(r"Found references database \((.*)\)", output).group(1)
 
     def test_sync_refs(self):
         self.setupTemplate()
 
         code, output = capture_cmd(
             lambda: cli(
-                ["sync", "zotero", "refs", parse_uuid_or_url(self.refs_db), "--force",]
+                ["sync", "zotero", "refs", parse_uuid_or_url(self.template), "--force",]
             )
         )
 
@@ -68,9 +67,7 @@ class TestZoteroSync(unittest.TestCase):
                     "sync",
                     "zotero",
                     "refs",
-                    parse_uuid_or_url(self.refs_db),
-                    "-c",
-                    parse_uuid_or_url(self.collection_db),
+                    parse_uuid_or_url(self.template),
                     "--force",
                 ]
             )
@@ -90,7 +87,7 @@ class TestZoteroSync(unittest.TestCase):
                     "sync",
                     "zotero",
                     "collections",
-                    parse_uuid_or_url(self.collection_db),
+                    parse_uuid_or_url(self.template),
                     "--force",
                 ]
             )
