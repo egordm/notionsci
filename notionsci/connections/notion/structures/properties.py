@@ -246,28 +246,28 @@ MultiSelectDef = SelectDef
 @dataclass
 class PropertyDef:
     type: PropertyType
-    id: Optional[str] = None
-    name: Optional[str] = None
+    id: Undefinable[str] = None
+    name: Undefinable[str] = None
 
-    title: Optional[TitleDef] = None
-    rich_text: Optional[RichTextDef] = None
-    number: Optional[NumberDef] = None
-    select: Optional[SelectDef] = None
-    multi_select: Optional[MultiSelectDef] = None
-    date: Optional[DateDef] = None
-    people: Optional[PeopleDef] = None
-    files: Optional[Dict] = None
-    checkbox: Optional[CheckboxDef] = None
-    url: Optional[UrlDef] = None
-    email: Optional[EmailDef] = None
-    phone_number: Optional[Dict] = None
-    formula: Optional[Dict] = None
-    relation: Optional[RelationDef] = None
-    rollup: Optional[Dict] = None
-    created_time: Optional[CreatedTimeDef] = None
-    created_by: Optional[CreatedByDef] = None
-    last_edited_time: Optional[LastEditedTimeDef] = None
-    last_edited_by: Optional[LastEditedByDef] = None
+    title: Undefinable[TitleDef] = None
+    rich_text: Undefinable[RichTextDef] = None
+    number: Undefinable[NumberDef] = None
+    select: Undefinable[SelectDef] = None
+    multi_select: Undefinable[MultiSelectDef] = None
+    date: Undefinable[DateDef] = None
+    people: Undefinable[PeopleDef] = None
+    files: Undefinable[Dict] = None
+    checkbox: Undefinable[CheckboxDef] = None
+    url: Undefinable[UrlDef] = None
+    email: Undefinable[EmailDef] = None
+    phone_number: Undefinable[Dict] = None
+    formula: Undefinable[Dict] = None
+    relation: Undefinable[RelationDef] = None
+    rollup: Undefinable[Dict] = None
+    created_time: Undefinable[CreatedTimeDef] = None
+    created_by: Undefinable[CreatedByDef] = None
+    last_edited_time: Undefinable[LastEditedTimeDef] = None
+    last_edited_by: Undefinable[LastEditedByDef] = None
 
     @staticmethod
     def as_title() -> 'PropertyDef':
