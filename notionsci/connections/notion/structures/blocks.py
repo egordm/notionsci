@@ -34,6 +34,8 @@ class BlockType(Enum):
     code = 'code'
     unsupported = 'unsupported'
     child_database = 'child_database'
+    table_of_contents = 'table_of_contents'
+    divider = 'divider'
 
 
 BlockConvertor = ListConvertor(ForwardRefConvertor('Block'))
@@ -257,6 +259,20 @@ class CodeBlock(ToMarkdownMixin):
         return MarkdownBuilder.code(content, self.language)
 
 
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class TableOfContentsBlock(ToMarkdownMixin):
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return MarkdownBuilder.table_of_contents()
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class DividerBlock(ToMarkdownMixin):
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return MarkdownBuilder.divider()
+
+
 @dataclass_dict_convert(
     dict_letter_case=snakecase,
     **ignore_fields(['database', 'children'])
@@ -315,6 +331,8 @@ class Block(ToMarkdownMixin):
     equation: Optional[EquationBlock] = None
     code: Optional[CodeBlock] = None
     child_database: Optional[ChildDatabaseBlock] = None
+    table_of_contents: Optional[TableOfContentsBlock] = None
+    divider: Optional[DividerBlock] = None
     unsupported: Optional[str] = None
 
     def to_markdown(self, context: MarkdownContext) -> str:
