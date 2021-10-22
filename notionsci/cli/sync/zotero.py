@@ -6,7 +6,7 @@ from notionsci.cli.notion import duplicate
 from notionsci.config import config
 from notionsci.connections.notion import parse_uuid, parse_uuid_callback, BlockType, block_type_filter
 from notionsci.connections.zotero import ID
-from notionsci.sync.zotero import RefsOneWaySync, CollectionsOneWaySync
+from notionsci.sync.zotero import RefsSync, CollectionsSync
 from notionsci.utils import take_1
 
 
@@ -75,7 +75,7 @@ def refs(template: ID, force: bool):
         raise Exception('Please check whether child database called "Zotero References" and "Zotero Collections" '
                         'exist in given template')
 
-    RefsOneWaySync(
+    RefsSync(
         notion, zotero,
         references.id,
         collections_id=collections.id,
@@ -100,4 +100,4 @@ def collections(template: ID, force: bool):
     template_page = notion.page_get(template, with_children=True)
     collections = next(iter(template_page.get_children(child_database_filter('Zotero Collections'))), None)
 
-    CollectionsOneWaySync(notion, zotero, collections.id, force=force).sync()
+    CollectionsSync(notion, zotero, collections.id, force=force).sync()

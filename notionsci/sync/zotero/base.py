@@ -12,16 +12,44 @@ PROP_SYNCED_AT = 'Synced At'
 PROP_VERSION = 'Version'
 
 
-def compare_entity(a: Entity, b: Page, force: bool):
-    # modified_remote = b.get_propery_value(PROP_MODIFIED_AT) > b.get_propery_value(PROP_SYNCED_AT)
-    if a.version > b.get_propery_value(PROP_VERSION, 0) or force:
+def twoway_compare_entity(a: Optional[Entity], b: Optional[Page], force: bool) -> Action[Entity, Page]:
+    if a is None:
+        return Action.delete(ActionTarget.B, a, b)
+    if b is None:
+        return Action.push(ActionTarget.B, a, b)
+
+    a_changed = a.version > b.get_propery_value(PROP_VERSION, 0)
+    b_changed = b.get_propery_value('Synced At') is None \
+                or b.get_propery_value('Modified At') > b.get_propery_value('Synced At')
+
+    if force:
+        return Action.push(ActionTarget.B, a, b)
+
+    if a_changed and b_changed:
+        return Action.merge(a, b)
+    elif a_changed:
+        return Action.push(ActionTarget.B, a, b)
+    elif b_changed:
+        return Action.push(ActionTarget.A, a, b)
+    else:
+        return Action.ignore()
+
+
+def oneway_compare_entity(a: Optional[Entity], b: Optional[Page], force: bool) -> Action[Entity, Page]:
+    if a is None:
+        return Action.delete(ActionTarget.B, a, b)
+    if b is None:
+        return Action.push(ActionTarget.B, a, b)
+
+    a_changed = a.version > b.get_propery_value(PROP_VERSION, 0)
+    if a_changed or force:
         return Action.push(ActionTarget.B, a, b)
     else:
         return Action.ignore()
 
 
 @dataclass
-class ZoteroNotionOneWaySync(Sync[A, Page], ABC):
+class ZoteroNotionSync(Sync[A, Page], ABC):
     notion: NotionClient
     zotero: ZoteroClient
     database_id: ID
@@ -39,13 +67,6 @@ class ZoteroNotionOneWaySync(Sync[A, Page], ABC):
             )
         }
 
-    def compare(self, a: Optional[A], b: Optional[Page]) -> Action[A, B]:
-        if a is None:
-            return Action.delete(ActionTarget.B, a, b)
-        if b is None:
-            return Action.push(ActionTarget.B, a, b)
-        return compare_entity(a, b, self.force)
-
     @abstractmethod
     def collect_props(self, a: A):
         pass
@@ -59,8 +80,8 @@ class ZoteroNotionOneWaySync(Sync[A, Page], ABC):
 
             action.b.extend_properties(self.collect_props(action.a))
             action.b = self.notion.page_upsert(action.b)
-            print(f'- Updated: {action.b.get_title()}')
+            print(f'-[Notion] Updated: {action.b.get_title()}')
         elif action.action_type.DELETE:
             action.b.archived = True
             action.b = self.notion.page_update(action.b)
-            print(f'- Deleted: {action.b.get_title()}')
+            print(f'-[Notion] Deleted: {action.b.get_title()}')

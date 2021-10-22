@@ -1,16 +1,16 @@
 import datetime as dt
 from dataclasses import dataclass, field
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from notionsci.connections.notion import Property, \
     RelationItem
 from notionsci.connections.zotero import Collection
 from notionsci.sync.structure import Action, B, ActionType, topo_sort, A
-from notionsci.sync.zotero.base import ZoteroNotionOneWaySync, PROP_VERSION, PROP_SYNCED_AT
+from notionsci.sync.zotero.base import ZoteroNotionSync, PROP_VERSION, PROP_SYNCED_AT, oneway_compare_entity
 
 
 @dataclass
-class CollectionsOneWaySync(ZoteroNotionOneWaySync[Collection]):
+class CollectionsSync(ZoteroNotionSync[Collection]):
     zotero_notion_ids: Dict[str, str] = field(default_factory=dict)
 
     def fetch_items_a(self) -> Dict[str, A]:
@@ -34,6 +34,9 @@ class CollectionsOneWaySync(ZoteroNotionOneWaySync[Collection]):
         )
 
         return super().preprocess(items_a, items_b, keys)
+
+    def compare(self, a: Optional[A], b: Optional[B]) -> Action[A, B]:
+        return oneway_compare_entity(a, b, force=self.force)
 
     def collect_props(self, a: A):
         return {

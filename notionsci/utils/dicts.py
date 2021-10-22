@@ -19,20 +19,6 @@ def key_by(
     return {key(item): item for item in items}
 
 
-class ExplicitNone:
-    pass
-
-
-def strip_none_field(value: Any):
-    if isinstance(value, list):
-        return [strip_none_field(v) for v in value if v is not None]
-    if isinstance(value, dict):
-        return {k: strip_none_field(v) for k, v in value.items() if v is not None}
-    if isinstance(value, ExplicitNone):
-        return None
-    return value
-
-
 def flatten(t):
     return [item for sublist in t for item in sublist]
 

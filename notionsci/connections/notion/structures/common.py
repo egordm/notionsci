@@ -6,7 +6,8 @@ from typing import Optional, Dict, Union, List
 from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import snakecase
 
-from notionsci.utils import UnionConvertor, ToMarkdownMixin, MarkdownContext, MarkdownBuilder, chain_to_markdown
+from notionsci.utils import UnionConvertor, ToMarkdownMixin, MarkdownContext, MarkdownBuilder, chain_to_markdown, \
+    Undefinable, serde
 
 Color = str
 ID = str
@@ -83,28 +84,28 @@ class PageMention:
     id: ID
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class MentionObject:
     type: str
-    user: Optional[UserObject] = None
-    page: Optional[PageMention] = None
+    user: Undefinable[UserObject] = None
+    page: Undefinable[PageMention] = None
 
     def get_text(self) -> str:
         return self.type
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class RichText(ToMarkdownMixin):
     type: RichTextType
 
-    plain_text: Optional[str] = None
-    annotations: Optional[Annotation] = None
-    href: Optional[str] = None
-    text: Optional[TextObject] = None
-    equation: Optional[EquationObject] = None
-    mention: Optional[MentionObject] = None
+    plain_text: Undefinable[str] = None
+    annotations: Undefinable[Annotation] = None
+    href: Undefinable[str] = None
+    text: Undefinable[TextObject] = None
+    equation: Undefinable[EquationObject] = None
+    mention: Undefinable[MentionObject] = None
 
     def raw_value(self):
         if self.type == RichTextType.text:
@@ -149,21 +150,21 @@ class FileType(Enum):
     external = 'external'
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class FileTypeObject:
     url: str
     expiry_time: Optional[dt.datetime] = None
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class FileObject(ToMarkdownMixin):
     type: FileType
-    caption: Optional[List[RichText]] = None
-    file: Optional[FileTypeObject] = None
-    external: Optional[FileTypeObject] = None
-    name: Optional[str] = None  # Only filled for when used as property value
+    caption: Undefinable[List[RichText]] = None
+    file: Undefinable[FileTypeObject] = None
+    external: Undefinable[FileTypeObject] = None
+    name: Undefinable[str] = None  # Only filled for when used as property value
 
     def get_url(self) -> str:
         return self.file.url if self.type == FileType.file else self.external.url

@@ -63,9 +63,18 @@ class Sync(Generic[A, B]):
         ]
         # TODO: apply topo sort on resulting graph
 
+        print('Checking for conflicts')
+        for a in actions:
+            if a.action_type == ActionType.MERGE:
+                v = input(f'Merge conflict occurred for {a.b.get_title()}. Do you want to continue y/n').lower()
+                if v == 'n':
+                    exit(1)
+
         print('Executing actions')
         for a in actions:
-            if a.target == ActionTarget.A:
+            if a.action_type == ActionType.MERGE:
+                pass
+            elif a.target == ActionTarget.A:
                 self.execute_a(a)
             elif a.target == ActionTarget.B:
                 self.execute_b(a)

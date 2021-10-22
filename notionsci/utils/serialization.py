@@ -3,6 +3,7 @@ from typing import List, Dict, Union, Any, Callable, Optional, get_type_hints
 
 from dataclass_dict_convert.convert import SimpleTypeConvertor, dataclass_dict_convert
 from stringcase import camelcase, snakecase
+import itertools as it
 
 
 class ExplicitNone():
@@ -13,7 +14,7 @@ class ExplicitNone():
 class UndefinableMeta(type):
     def __getitem__(cls, key):
         new_cls = types.new_class(
-            f"{cls.__name__}_{key.__name__}",
+            f"{cls.__name__}_{key.__name__ if hasattr(key, '__name__') else repr(key)}",
             (cls,),
             {},
             lambda ns: ns.__setitem__("type", Optional[key])
@@ -26,8 +27,14 @@ class UndefinableMeta(type):
 class Undefinable(metaclass=UndefinableMeta): pass
 
 
-def serde(*, camel=False, ignore_unknown=False, **kwargs):
+def serde(
+        _cls=None, *,
+        camel=False, ignore_unknown=False,
+        exclude=None,
+        **kwargs
+):
     case = camelcase if camel else snakecase
+    exclude = exclude if exclude else []
 
     def wrap(cls):
         types = get_type_hints(cls)
@@ -48,10 +55,15 @@ def serde(*, camel=False, ignore_unknown=False, **kwargs):
 
         def to_dict(self, *args, **kwargs):
             result: dict = original_to_dict(self, *args, **kwargs)
-            for field_name in undefinable_fields:
+            for field_name in it.chain(undefinable_fields, exclude):
                 field_name = case(field_name)
                 if field_name in result and result[field_name] is None:
                     del result[field_name]
+
+            for k, v in result.items():
+                if isinstance(v, ExplicitNone):
+                    result[k] = None
+
             return result
 
         def from_dict(dict, *args, **kwargs):
@@ -68,7 +80,10 @@ def serde(*, camel=False, ignore_unknown=False, **kwargs):
 
         return cls
 
-    return wrap
+    if _cls:
+        return wrap(_cls)
+    else:
+        return wrap
 
 
 class ListConvertor(SimpleTypeConvertor):

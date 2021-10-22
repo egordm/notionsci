@@ -6,7 +6,7 @@ from notion_client import Client
 from notionsci.connections.notion import BlockType, PropertyDef
 from notionsci.connections.notion.structures import Database, SortObject, QueryFilter, format_query_args, ContentObject, \
     PropertyType, Page, ID, QueryResult, Block
-from notionsci.utils import strip_none_field, filter_none_dict
+from notionsci.utils import filter_none_dict
 
 
 class NotionNotAttachedException(Exception):
@@ -65,12 +65,12 @@ class NotionClient(NotionApiMixin):
         return page
 
     def page_update(self, page: Page) -> Page:
-        args = strip_none_field(strip_readonly_props(page).to_dict())
+        args = strip_readonly_props(page).to_dict()
         result = self.client.pages.update(page.id, **args)
         return Page.from_dict(result)
 
     def page_create(self, page: Page) -> Page:
-        args = strip_none_field(strip_readonly_props(page).to_dict())
+        args = strip_readonly_props(page).to_dict()
         result = self.client.pages.create(**args)
         return Page.from_dict(result)
 
@@ -82,12 +82,12 @@ class NotionClient(NotionApiMixin):
         return Database.from_dict(result)
 
     def database_update(self, database: Database) -> Page:
-        args = strip_none_field(strip_readonly_props(database).to_dict())
+        args = strip_readonly_props(database).to_dict()
         result = self.client.databases.update(database.id, **args)
         return Database.from_dict(result)
 
     def database_create(self, database: Database) -> Database:
-        args = strip_none_field(strip_readonly_props(database).to_dict())
+        args = strip_readonly_props(database).to_dict()
         result = self.client.databases.create(**args)
         return Database.from_dict(result)
 

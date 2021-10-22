@@ -3,11 +3,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional, List, Dict, Any
 
-from dataclass_dict_convert import dataclass_dict_convert
-from stringcase import snakecase
-
 from notionsci.connections.notion.structures.common import RichText, Color, ID, FileObject
-from notionsci.utils import ExplicitNone, ToMarkdownMixin, MarkdownContext
+from notionsci.utils import ExplicitNone, ToMarkdownMixin, MarkdownContext, serde, Undefinable
 
 
 class PropertyType(Enum):
@@ -32,19 +29,19 @@ class PropertyType(Enum):
     last_edited_by = 'last_edited_by'
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class SelectValue:
     name: str
-    id: Optional[str] = None
-    color: Optional[Color] = None
+    id: Undefinable[str] = None
+    color: Undefinable[Color] = None
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class DateValue(ToMarkdownMixin):
     start: str
-    end: Optional[str] = None
+    end: Undefinable[str] = None
 
     @staticmethod
     def from_date(value: dt.datetime):
@@ -56,7 +53,7 @@ class DateValue(ToMarkdownMixin):
 
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class RelationItem:
     id: ID
@@ -104,32 +101,32 @@ def object_to_markdown(raw_value: Any, context: MarkdownContext, sep=' '):
 
 ## Property Definition Types
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class Property(ToMarkdownMixin):
     type: PropertyType
 
-    id: Optional[str] = None
-    title: Optional[TitleValue] = None
+    id: Undefinable[str] = None
 
-    rich_text: Optional[RichTextValue] = None
-    number: Optional[NumberValue] = None
-    select: Optional[SelectValue] = None
-    multi_select: Optional[MultiSelectValue] = None
-    date: Optional[DateValue] = None
-    people: Optional[PeopleValue] = None
-    files: Optional[FilesValue] = None
-    checkbox: Optional[CheckboxValue] = None
-    url: Optional[UrlValue] = None
-    email: Optional[EmailValue] = None
-    phone_number: Optional[Dict] = None
-    formula: Optional[Dict] = None
-    relation: Optional[RelationValue] = None
-    rollup: Optional[Dict] = None
-    created_time: Optional[CreatedTimeValue] = None
-    created_by: Optional[CreatedByValue] = None
-    last_edited_time: Optional[LastEditedTimeValue] = None
-    last_edited_by: Optional[LastEditedByValue] = None
+    title: Undefinable[TitleValue] = None
+    rich_text: Undefinable[RichTextValue] = None
+    number: Undefinable[NumberValue] = None
+    select: Undefinable[SelectValue] = None
+    multi_select: Undefinable[MultiSelectValue] = None
+    date: Undefinable[DateValue] = None
+    people: Undefinable[PeopleValue] = None
+    files: Undefinable[FilesValue] = None
+    checkbox: Undefinable[CheckboxValue] = None
+    url: Undefinable[UrlValue] = None
+    email: Undefinable[EmailValue] = None
+    phone_number: Undefinable[Dict] = None
+    formula: Undefinable[Dict] = None
+    relation: Undefinable[RelationValue] = None
+    rollup: Undefinable[Dict] = None
+    created_time: Undefinable[CreatedTimeValue] = None
+    created_by: Undefinable[CreatedByValue] = None
+    last_edited_time: Undefinable[LastEditedTimeValue] = None
+    last_edited_by: Undefinable[LastEditedByValue] = None
 
     def _value(self):
         return getattr(self, self.type.value)
@@ -216,13 +213,13 @@ class Property(ToMarkdownMixin):
         )
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class SelectDef:
     options: List[SelectValue]
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class RelationDef:
     database_id: ID
@@ -245,7 +242,7 @@ DateDef = Dict
 MultiSelectDef = SelectDef
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class PropertyDef:
     type: PropertyType

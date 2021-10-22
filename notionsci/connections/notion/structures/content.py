@@ -11,7 +11,8 @@ from notionsci.connections.notion.structures.blocks import ChildrenMixin, BlockC
 from notionsci.connections.notion.structures.common import FileObject, ID, \
     UnionEmojiFileConvertor, EmojiFileType
 from notionsci.connections.notion.structures.properties import PropertyDef, TitleValue, PropertyType, Property
-from notionsci.utils import ToMarkdownMixin, MarkdownContext, chain_to_markdown, MarkdownBuilder, filter_not_none
+from notionsci.utils import ToMarkdownMixin, MarkdownContext, chain_to_markdown, MarkdownBuilder, filter_not_none, \
+    Undefinable, serde
 
 
 class ParentType(Enum):
@@ -54,9 +55,9 @@ class HasPropertiesMixin(Generic[PT]):
 @dataclass
 class Parent:
     type: ParentType
-    database_id: Optional[ID] = None
-    page_id: Optional[ID] = None
-    workspace: Optional[bool] = None
+    database_id: Undefinable[ID] = None
+    page_id: Undefinable[ID] = None
+    workspace: Undefinable[bool] = None
 
     @staticmethod
     def page(id: ID) -> 'Parent':
@@ -85,9 +86,9 @@ class ContentObject:
     last_edited_time: Optional[dt.datetime] = None
 
 
-@dataclass_dict_convert(
-    dict_letter_case=snakecase,
-    custom_type_convertors=[UnionEmojiFileConvertor, BlockConvertor]
+@serde(
+    custom_type_convertors=[UnionEmojiFileConvertor, BlockConvertor],
+    exclude=['children']
 )
 @dataclass
 class Page(ContentObject, ToMarkdownMixin, ChildrenMixin, HasPropertiesMixin[Property]):
@@ -114,9 +115,9 @@ class Page(ContentObject, ToMarkdownMixin, ChildrenMixin, HasPropertiesMixin[Pro
         return next(map(lambda x: x.value(), self.get_property_by_type(PropertyType.title)), '')
 
 
-@dataclass_dict_convert(
-    dict_letter_case=snakecase,
-    custom_type_convertors=[UnionEmojiFileConvertor]
+@serde(
+    custom_type_convertors=[UnionEmojiFileConvertor],
+    exclude=['children']
 )
 @dataclass
 class Database(ContentObject, HasPropertiesMixin[PropertyDef]):
