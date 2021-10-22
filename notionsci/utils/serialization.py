@@ -1,6 +1,89 @@
-from typing import List, Dict, Union, Any, Callable
+import types
+from typing import List, Dict, Union, Any, Callable, Optional, get_type_hints
 
-from dataclass_dict_convert.convert import SimpleTypeConvertor
+from dataclass_dict_convert.convert import SimpleTypeConvertor, dataclass_dict_convert
+from stringcase import camelcase, snakecase
+import itertools as it
+
+
+class ExplicitNone():
+    def __nonzero__(self):
+        return False
+
+
+class UndefinableMeta(type):
+    def __getitem__(cls, key):
+        new_cls = types.new_class(
+            f"{cls.__name__}_{key.__name__ if hasattr(key, '__name__') else repr(key)}",
+            (cls,),
+            {},
+            lambda ns: ns.__setitem__("type", Optional[key])
+        )
+        new_cls.__origin__ = Union
+        new_cls.__args__ = [key, type(None)]  # , ExplicitNone]
+        return new_cls
+
+
+class Undefinable(metaclass=UndefinableMeta): pass
+
+
+def serde(
+        _cls=None, *,
+        camel=False, ignore_unknown=False,
+        exclude=None,
+        **kwargs
+):
+    case = camelcase if camel else snakecase
+    exclude = exclude if exclude else []
+
+    def wrap(cls):
+        types = get_type_hints(cls)
+        undefinable_fields = [
+            field_name
+            for field_name, field_type in types.items()
+            if isinstance(field_type, UndefinableMeta)
+        ]
+
+        cls = dataclass_dict_convert(
+            dict_letter_case=case,
+            on_unknown_field=ignore_unknown if ignore_unknown else None,
+            **kwargs,
+        )(cls)
+
+        original_to_dict = cls.to_dict
+        original_from_dict = cls.from_dict
+
+        def to_dict(self, *args, **kwargs):
+            result: dict = original_to_dict(self, *args, **kwargs)
+            for field_name in it.chain(undefinable_fields, exclude):
+                field_name = case(field_name)
+                if field_name in result and result[field_name] is None:
+                    del result[field_name]
+
+            for k, v in result.items():
+                if isinstance(v, ExplicitNone):
+                    result[k] = None
+
+            return result
+
+        def from_dict(dict, *args, **kwargs):
+            result = original_from_dict(dict, *args, **kwargs)
+            for field_name in undefinable_fields:
+                field_name = case(field_name)
+                if field_name in dict and dict[field_name] is None:
+                    setattr(result, field_name, ExplicitNone())
+
+            return result
+
+        cls.to_dict = to_dict
+        cls.from_dict = from_dict
+
+        return cls
+
+    if _cls:
+        return wrap(_cls)
+    else:
+        return wrap
 
 
 class ListConvertor(SimpleTypeConvertor):
@@ -61,3 +144,7 @@ def ignore_fields(fields):
             for field in fields
         }
     )
+
+
+def list_from_dict(type, data: List[dict]) -> List[Any]:
+    return [type.from_dict(x) for x in data]

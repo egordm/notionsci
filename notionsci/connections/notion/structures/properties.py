@@ -3,11 +3,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional, List, Dict, Any
 
-from dataclass_dict_convert import dataclass_dict_convert
-from stringcase import snakecase
-
 from notionsci.connections.notion.structures.common import RichText, Color, ID, FileObject
-from notionsci.utils import ExplicitNone, ToMarkdownMixin, MarkdownContext
+from notionsci.utils import ExplicitNone, ToMarkdownMixin, MarkdownContext, serde, Undefinable
 
 
 class PropertyType(Enum):
@@ -32,22 +29,31 @@ class PropertyType(Enum):
     last_edited_by = 'last_edited_by'
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class SelectValue:
     name: str
-    id: Optional[str] = None
-    color: Optional[Color] = None
+    id: Undefinable[str] = None
+    color: Undefinable[Color] = None
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
-class DateValue:
+class DateValue(ToMarkdownMixin):
     start: str
-    end: Optional[str] = None
+    end: Undefinable[str] = None
+
+    @staticmethod
+    def from_date(value: dt.datetime):
+        return DateValue(value.isoformat())
+
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return self.start if not self.end else f'{self.start} - {self.end}'
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+
+
+@serde()
 @dataclass
 class RelationItem:
     id: ID
@@ -76,6 +82,8 @@ def object_to_text_value(raw_value: Any):
         return raw_value.text_value()
     elif isinstance(raw_value, Dict):
         return str(raw_value)
+    elif isinstance(raw_value, int) or isinstance(raw_value, float):
+        return raw_value
     return str(raw_value)
 
 
@@ -93,41 +101,47 @@ def object_to_markdown(raw_value: Any, context: MarkdownContext, sep=' '):
 
 ## Property Definition Types
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class Property(ToMarkdownMixin):
     type: PropertyType
 
-    id: Optional[str] = None
-    title: Optional[TitleValue] = None
+    id: Undefinable[str] = None
 
-    rich_text: Optional[RichTextValue] = None
-    number: Optional[NumberValue] = None
-    select: Optional[SelectValue] = None
-    multi_select: Optional[MultiSelectValue] = None
-    date: Optional[DateValue] = None
-    people: Optional[PeopleValue] = None
-    files: Optional[FilesValue] = None
-    checkbox: Optional[CheckboxValue] = None
-    url: Optional[UrlValue] = None
-    email: Optional[EmailValue] = None
-    phone_number: Optional[Dict] = None
-    formula: Optional[Dict] = None
-    relation: Optional[RelationValue] = None
-    rollup: Optional[Dict] = None
-    created_time: Optional[CreatedTimeValue] = None
-    created_by: Optional[CreatedByValue] = None
-    last_edited_time: Optional[LastEditedTimeValue] = None
-    last_edited_by: Optional[LastEditedByValue] = None
+    title: Undefinable[TitleValue] = None
+    rich_text: Undefinable[RichTextValue] = None
+    number: Undefinable[NumberValue] = None
+    select: Undefinable[SelectValue] = None
+    multi_select: Undefinable[MultiSelectValue] = None
+    date: Undefinable[DateValue] = None
+    people: Undefinable[PeopleValue] = None
+    files: Undefinable[FilesValue] = None
+    checkbox: Undefinable[CheckboxValue] = None
+    url: Undefinable[UrlValue] = None
+    email: Undefinable[EmailValue] = None
+    phone_number: Undefinable[Dict] = None
+    formula: Undefinable[Dict] = None
+    relation: Undefinable[RelationValue] = None
+    rollup: Undefinable[Dict] = None
+    created_time: Undefinable[CreatedTimeValue] = None
+    created_by: Undefinable[CreatedByValue] = None
+    last_edited_time: Undefinable[LastEditedTimeValue] = None
+    last_edited_by: Undefinable[LastEditedByValue] = None
 
     def _value(self):
         return getattr(self, self.type.value)
+
+    def _set_value(self, value):
+        return setattr(self, self.type.value, value)
 
     def raw_value(self):
         if self.type == PropertyType.date:
             return dt.datetime.fromisoformat(self.date.start)
         else:
             return self._value()
+
+    def set_raw_value(self, value):
+        self._set_value(value)
 
     def value(self):
         return object_to_text_value(self.raw_value())
@@ -163,7 +177,7 @@ class Property(ToMarkdownMixin):
     def as_date(date: dt.datetime) -> 'Property':
         return Property(
             type=PropertyType.date,
-            date=DateValue(date.isoformat())
+            date=DateValue.from_date(date)
         )
 
     @staticmethod
@@ -199,13 +213,13 @@ class Property(ToMarkdownMixin):
         )
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class SelectDef:
     options: List[SelectValue]
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class RelationDef:
     database_id: ID
@@ -228,32 +242,32 @@ DateDef = Dict
 MultiSelectDef = SelectDef
 
 
-@dataclass_dict_convert(dict_letter_case=snakecase)
+@serde()
 @dataclass
 class PropertyDef:
     type: PropertyType
-    id: Optional[str] = None
-    name: Optional[str] = None
+    id: Undefinable[str] = None
+    name: Undefinable[str] = None
 
-    title: Optional[TitleDef] = None
-    rich_text: Optional[RichTextDef] = None
-    number: Optional[NumberDef] = None
-    select: Optional[SelectDef] = None
-    multi_select: Optional[MultiSelectDef] = None
-    date: Optional[DateDef] = None
-    people: Optional[PeopleDef] = None
-    files: Optional[Dict] = None
-    checkbox: Optional[CheckboxDef] = None
-    url: Optional[UrlDef] = None
-    email: Optional[EmailDef] = None
-    phone_number: Optional[Dict] = None
-    formula: Optional[Dict] = None
-    relation: Optional[RelationDef] = None
-    rollup: Optional[Dict] = None
-    created_time: Optional[CreatedTimeDef] = None
-    created_by: Optional[CreatedByDef] = None
-    last_edited_time: Optional[LastEditedTimeDef] = None
-    last_edited_by: Optional[LastEditedByDef] = None
+    title: Undefinable[TitleDef] = None
+    rich_text: Undefinable[RichTextDef] = None
+    number: Undefinable[NumberDef] = None
+    select: Undefinable[SelectDef] = None
+    multi_select: Undefinable[MultiSelectDef] = None
+    date: Undefinable[DateDef] = None
+    people: Undefinable[PeopleDef] = None
+    files: Undefinable[Dict] = None
+    checkbox: Undefinable[CheckboxDef] = None
+    url: Undefinable[UrlDef] = None
+    email: Undefinable[EmailDef] = None
+    phone_number: Undefinable[Dict] = None
+    formula: Undefinable[Dict] = None
+    relation: Undefinable[RelationDef] = None
+    rollup: Undefinable[Dict] = None
+    created_time: Undefinable[CreatedTimeDef] = None
+    created_by: Undefinable[CreatedByDef] = None
+    last_edited_time: Undefinable[LastEditedTimeDef] = None
+    last_edited_by: Undefinable[LastEditedByDef] = None
 
     @staticmethod
     def as_title() -> 'PropertyDef':
@@ -282,6 +296,11 @@ class PropertyDef:
     @staticmethod
     def as_date() -> 'PropertyDef':
         return PropertyDef(type=PropertyType.date, date={})
+
+    @staticmethod
+    def as_number() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.number, number={})
+
 
     @staticmethod
     def as_relation(database: ID) -> 'PropertyDef':

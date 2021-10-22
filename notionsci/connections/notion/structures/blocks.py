@@ -2,7 +2,7 @@ import datetime as dt
 import urllib.parse
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Callable
 
 import pandas as pd
 from dataclass_dict_convert import dataclass_dict_convert
@@ -34,9 +34,15 @@ class BlockType(Enum):
     code = 'code'
     unsupported = 'unsupported'
     child_database = 'child_database'
+    table_of_contents = 'table_of_contents'
+    divider = 'divider'
 
 
 BlockConvertor = ListConvertor(ForwardRefConvertor('Block'))
+
+
+def block_type_filter(t: 'BlockType'):
+    return lambda b: b.type == t
 
 
 @dataclass
@@ -46,8 +52,8 @@ class ChildrenMixin:
     def set_children(self, children: List['Block']):
         self.children = children
 
-    def get_children(self) -> List['Block']:
-        return self.children
+    def get_children(self, predicate: Callable[['Block'], bool] = None) -> List['Block']:
+        return self.children if not predicate else list(filter(predicate, self.children))
 
 
 @dataclass_dict_convert(
@@ -253,6 +259,20 @@ class CodeBlock(ToMarkdownMixin):
         return MarkdownBuilder.code(content, self.language)
 
 
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class TableOfContentsBlock(ToMarkdownMixin):
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return MarkdownBuilder.table_of_contents()
+
+
+@dataclass_dict_convert(dict_letter_case=snakecase)
+@dataclass
+class DividerBlock(ToMarkdownMixin):
+    def to_markdown(self, context: MarkdownContext) -> str:
+        return MarkdownBuilder.divider()
+
+
 @dataclass_dict_convert(
     dict_letter_case=snakecase,
     **ignore_fields(['database', 'children'])
@@ -311,6 +331,8 @@ class Block(ToMarkdownMixin):
     equation: Optional[EquationBlock] = None
     code: Optional[CodeBlock] = None
     child_database: Optional[ChildDatabaseBlock] = None
+    table_of_contents: Optional[TableOfContentsBlock] = None
+    divider: Optional[DividerBlock] = None
     unsupported: Optional[str] = None
 
     def to_markdown(self, context: MarkdownContext) -> str:

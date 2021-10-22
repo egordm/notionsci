@@ -3,10 +3,10 @@ from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 
 from notion_client import Client
 
-from notionsci.connections.notion import BlockType
+from notionsci.connections.notion import BlockType, PropertyDef
 from notionsci.connections.notion.structures import Database, SortObject, QueryFilter, format_query_args, ContentObject, \
     PropertyType, Page, ID, QueryResult, Block
-from notionsci.utils import strip_none_field, filter_none_dict
+from notionsci.utils import filter_none_dict
 
 
 class NotionNotAttachedException(Exception):
@@ -65,12 +65,12 @@ class NotionClient(NotionApiMixin):
         return page
 
     def page_update(self, page: Page) -> Page:
-        args = strip_none_field(strip_readonly_props(page).to_dict())
+        args = strip_readonly_props(page).to_dict()
         result = self.client.pages.update(page.id, **args)
         return Page.from_dict(result)
 
     def page_create(self, page: Page) -> Page:
-        args = strip_none_field(strip_readonly_props(page).to_dict())
+        args = strip_readonly_props(page).to_dict()
         result = self.client.pages.create(**args)
         return Page.from_dict(result)
 
@@ -81,8 +81,13 @@ class NotionClient(NotionApiMixin):
         result = self.client.databases.retrieve(id)
         return Database.from_dict(result)
 
+    def database_update(self, database: Database) -> Page:
+        args = strip_readonly_props(database).to_dict()
+        result = self.client.databases.update(database.id, **args)
+        return Database.from_dict(result)
+
     def database_create(self, database: Database) -> Database:
-        args = strip_none_field(strip_readonly_props(database).to_dict())
+        args = strip_readonly_props(database).to_dict()
         result = self.client.databases.create(**args)
         return Database.from_dict(result)
 
@@ -111,22 +116,26 @@ class NotionClient(NotionApiMixin):
 
     def search(
             self,
+            query: str = None,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None,
             start_cursor: str = None,
             page_size: int = None
     ) -> QueryResult:
-        args = format_query_args(filter=filter, sorts=sorts, start_cursor=start_cursor, page_size=page_size)
+        args = format_query_args(
+            query=query, filter=filter, sorts=sorts, start_cursor=start_cursor, page_size=page_size
+        )
         result_raw = self.client.search(**args)
         return QueryResult.from_dict(result_raw)
 
     def search_all(
             self,
+            query: str = None,
             filter: Optional[QueryFilter] = None,
             sorts: Optional[List[SortObject]] = None
     ) -> Iterator[Union[Page, Database]]:
         return traverse_pagination(
-            args=dict(filter=filter if filter else None, sorts=sorts, page_size=100),
+            args=dict(query=query, filter=filter if filter else None, sorts=sorts, page_size=100),
             query_fn=lambda **args: self.search(**args)
         )
 
@@ -161,3 +170,14 @@ class NotionClient(NotionApiMixin):
                 elif databases and child.type == BlockType.child_database:
                     child.child_database.database = self.database_get(child.id)
                     child.child_database.children = list(self.database_query_all(child.id))  # eager load (mayby dont?)
+
+    def ensure_database_schema(self, schema: Dict[str, PropertyDef], db: Database):
+        new_props = {
+            prop_name: prop for prop_name, prop in schema.items()
+            if not db.has_property(prop_name)
+        }
+        if len(new_props) > 0:
+            db.extend_properties(new_props)
+            db = self.database_update(db)
+
+        return db
