@@ -57,6 +57,11 @@ class ZoteroClient(ZoteroApiMixin):
             pagination, lambda pagination: self.collections(params, pagination)
         )
 
+    def update_items(self, items: List[Item]) -> Item:
+        args = [Item.to_dict(item)['data'] for item in items]
+        res = self.client.update_items(args)
+        return res
+
     def items(
             self,
             params: Optional[SearchParameters] = None,

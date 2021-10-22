@@ -7,7 +7,7 @@ from dataclass_dict_convert import dataclass_dict_convert
 from stringcase import camelcase
 
 from notionsci.connections.zotero.structures import ID, Links, Library, Meta, Entity
-from notionsci.utils import ignore_unknown
+from notionsci.utils import serde, Undefinable
 
 
 class ItemType(Enum):
@@ -49,24 +49,21 @@ class ItemType(Enum):
     webpage = 'webpage'
 
 
-@dataclass_dict_convert(dict_letter_case=camelcase)
+@serde(camel=True)
 @dataclass
 class Tag:
     tag: str
-    type: Optional[int] = None
+    type: Undefinable[int] = None
 
 
-@dataclass_dict_convert(
-    dict_letter_case=camelcase,
-    on_unknown_field=ignore_unknown
-)
+@serde(camel=True, ignore_unknown=True)
 @dataclass
 class ItemData(Entity):
     item_type: ItemType
     date_added: dt.datetime
     date_modified: dt.datetime
 
-    parent_item: Optional[ID] = None
+    parent_item: Undefinable[ID] = None
     tags: Optional[List[Tag]] = None
     collections: Optional[List[ID]] = None
     relations: Optional[Dict] = None
@@ -134,13 +131,15 @@ def item_from_dict_converter():
 def item_to_dict_converter():
     def wrap(val: ItemData):
         result = ItemData.to_dict(val)
+        result.update(result['properties'])
+        del result['properties']
         return result
 
     return wrap
 
 
-@dataclass_dict_convert(
-    dict_letter_case=camelcase,
+@serde(
+    camel=True,
     custom_from_dict_convertors={
         'data': item_from_dict_converter()
     },
