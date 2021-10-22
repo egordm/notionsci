@@ -41,9 +41,7 @@ class TestZoteroSync(unittest.TestCase):
         )
 
         self.assertEqual(code, 0)
-        self.template = re.search(
-            r"Created page \((.*)\)", output
-        ).group(1)
+        self.template = re.search(r"Created page \((.*)\)", output).group(1)
 
     def test_sync_refs(self):
         self.setupTemplate()
@@ -63,13 +61,7 @@ class TestZoteroSync(unittest.TestCase):
 
         code, output = capture_cmd(
             lambda: cli(
-                [
-                    "sync",
-                    "zotero",
-                    "refs",
-                    parse_uuid_or_url(self.template),
-                    "--force",
-                ]
+                ["sync", "zotero", "refs", parse_uuid_or_url(self.template), "--force",]
             )
         )
 
