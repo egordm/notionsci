@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from notion_client import Client
 from simple_parsing import Serializable
@@ -65,8 +65,14 @@ class Development(Serializable):
 
 
 @dataclass
+class Sync(Serializable):
+    zotero: dict = field(default_factory=dict)
+
+
+@dataclass
 class Config(Serializable):
     version: int = CONFIG_VERSION
     connections: Connections = Connections()
     templates: Templates = Templates()
     development: Development = Development()
+    sync: Sync = Sync()

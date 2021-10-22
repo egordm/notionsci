@@ -301,5 +301,10 @@ class PropertyDef:
         return PropertyDef(type=PropertyType.date, date={})
 
     @staticmethod
+    def as_number() -> 'PropertyDef':
+        return PropertyDef(type=PropertyType.number, number={})
+
+
+    @staticmethod
     def as_relation(database: ID) -> 'PropertyDef':
         return PropertyDef(type=PropertyType.relation, relation=RelationDef(database))

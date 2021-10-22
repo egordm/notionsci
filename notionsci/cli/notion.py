@@ -119,3 +119,21 @@ def download_md(page: ID, output: str):
         f.write(content)
 
 
+
+@notion.command()
+@click.argument('parent', callback=parse_uuid_callback)
+@click.argument('file')
+def upload_md(parent: ID, file: str):
+    """
+    Uploads given markdown FILE as a child page of the given PARENT
+
+    :param parent:
+    :param file:
+    :return:
+    """
+    notion = config.connections.notion.client()
+
+    click.echo(f'Reading file {file}')
+    with open(file, 'r') as f:
+        content = f.read()
+

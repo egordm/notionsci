@@ -61,3 +61,7 @@ def ignore_fields(fields):
             for field in fields
         }
     )
+
+
+def list_from_dict(type, data: List[dict]) -> List[Any]:
+    return [type.from_dict(x) for x in data]

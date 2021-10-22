@@ -3,7 +3,7 @@ from typing import Optional, List, Iterator, Dict, Callable, Any, Union
 
 from notion_client import Client
 
-from notionsci.connections.notion import BlockType
+from notionsci.connections.notion import BlockType, PropertyDef
 from notionsci.connections.notion.structures import Database, SortObject, QueryFilter, format_query_args, ContentObject, \
     PropertyType, Page, ID, QueryResult, Block
 from notionsci.utils import strip_none_field, filter_none_dict
@@ -79,6 +79,11 @@ class NotionClient(NotionApiMixin):
 
     def database_get(self, id: ID) -> Database:
         result = self.client.databases.retrieve(id)
+        return Database.from_dict(result)
+
+    def database_update(self, database: Database) -> Page:
+        args = strip_none_field(strip_readonly_props(database).to_dict())
+        result = self.client.databases.update(database.id, **args)
         return Database.from_dict(result)
 
     def database_create(self, database: Database) -> Database:
@@ -165,3 +170,14 @@ class NotionClient(NotionApiMixin):
                 elif databases and child.type == BlockType.child_database:
                     child.child_database.database = self.database_get(child.id)
                     child.child_database.children = list(self.database_query_all(child.id))  # eager load (mayby dont?)
+
+    def ensure_database_schema(self, schema: Dict[str, PropertyDef], db: Database):
+        new_props = {
+            prop_name: prop for prop_name, prop in schema.items()
+            if not db.has_property(prop_name)
+        }
+        if len(new_props) > 0:
+            db.extend_properties(new_props)
+            db = self.database_update(db)
+
+        return db

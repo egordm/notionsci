@@ -1,10 +1,12 @@
 from dataclasses import dataclass
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Callable, Any, Iterator, TypeVar, Union
 
 from pyzotero.zotero import Zotero
 
 from notionsci.connections.notion import NotionNotAttachedException
+from notionsci.connections.zotero import Entity
 from notionsci.connections.zotero.structures import SearchParameters, SearchPagination, Item, ID, Collection
+from notionsci.utils import list_from_dict
 
 
 class ZoteroNotAttachedException(Exception):
@@ -44,26 +46,16 @@ class ZoteroClient(ZoteroApiMixin):
             **(pagination.to_query() if pagination else {}),
             **kwargs
         )
-        return [Collection.from_dict(item) for item in result_raw]
+        return list_from_dict(Collection, result_raw)
 
     def all_collections(
             self,
             params: Optional[SearchParameters] = None,
             pagination: Optional[SearchPagination] = None,
     ):
-        pagination = pagination if pagination else SearchPagination()
-        done = False
-        while not done:
-            result = self.collections(
-                params,
-                pagination
-            )
-
-            if len(result) < pagination.limit:
-                done = True
-            pagination.start = pagination.start + pagination.limit
-
-            yield from result
+        yield from traverse_pagination(
+            pagination, lambda pagination: self.collections(params, pagination)
+        )
 
     def items(
             self,
@@ -76,71 +68,66 @@ class ZoteroClient(ZoteroApiMixin):
             **(pagination.to_query() if pagination else {}),
             **kwargs
         )
-        return [Item.from_dict(item) for item in result_raw]
+        return list_from_dict(Item, result_raw)
 
     def all_items(
             self,
             params: Optional[SearchParameters] = None,
             pagination: Optional[SearchPagination] = None,
     ):
-        pagination = pagination if pagination else SearchPagination()
-        done = False
-        while not done:
-            result = self.items(
-                params,
-                pagination
-            )
-
-            if len(result) < pagination.limit:
-                done = True
-            pagination.start = pagination.start + pagination.limit
-
-            yield from result
+        yield from traverse_pagination(
+            pagination, lambda pagination: self.items(params, pagination)
+        )
 
     def all_items_grouped(self, delete_children: bool = True) -> List[Item]:
-        items: Dict[ID, Item] = {
-            x.key: x
-            for x in self.all_items()
-        }
-
-        # Assign items to the right parents
-        known_children = set()
-        for child_key, child in items.items():
-            if not child.data.parent_item:
-                continue
-
-            if child.data.parent_item in items:
-                parent = items[child.data.parent_item]
-                if not parent.children: parent.children = {}
-                parent.children[child_key] = child
-                known_children.add(child_key)
-
-        if delete_children:
-            for k in known_children:
-                del items[k]
-
-        return list(items.values())
+        return group_entities(self.all_items(), lambda x: x.data.parent_item, delete_children)
 
     def all_collections_grouped(self, delete_children: bool = True) -> List[Collection]:
-        collections: Dict[ID, Collection] = {
-            x.key: x
-            for x in self.all_collections()
-        }
+        return group_entities(self.all_collections(), lambda x: x.data.parent_collection, delete_children)
 
-        # Assign collections to the right parents
-        known_children = set()
-        for child_key, child in collections.items():
-            if not child.data.parent_collection:
-                continue
 
-            if child.data.parent_collection in collections:
-                parent = collections[child.data.parent_collection]
-                if not parent.children: parent.children = {}
-                parent.children[child_key] = child
-                known_children.add(child_key)
+T = TypeVar('T')
 
-        if delete_children:
-            for k in known_children:
-                del collections[k]
 
-        return list(collections.values())
+def traverse_pagination(
+        args: Optional[SearchPagination],
+        query_fn: Callable[[SearchPagination], List[T]]
+) -> Iterator[T]:
+    if not args:
+        args = SearchPagination()
+
+    done = False
+    while not done:
+        result = query_fn(args)
+        if len(result) < args.limit:
+            done = True
+        args.start = args.start + args.limit
+
+        yield from result
+
+
+def group_entities(
+        items: Iterator[Union[Entity, T]],
+        parent_key: Callable[[T], ID],
+        delete_children: bool = True
+):
+    results: Dict[ID, T] = {
+        x.key: x for x in items
+    }
+
+    # Assign items to the right parents
+    known_children = set()
+    for child_key, child in results.items():
+        if not parent_key(child) or parent_key(child) not in results:
+            continue
+
+        parent = results[parent_key(child)]
+        if not parent.children: parent.children = {}
+        parent.children[child_key] = child
+        known_children.add(child_key)
+
+    if delete_children:
+        for k in known_children:
+            del results[k]
+
+    return list(results.values())
