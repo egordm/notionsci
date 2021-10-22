@@ -165,6 +165,14 @@ class MarkdownBuilder:
     def equation(content):
         return f'$$\n{content}\n$$'
 
+    @staticmethod
+    def table_of_contents():
+        return '[TOC]\n'
+
+    @staticmethod
+    def divider():
+        return '----\n'
+
 
 def chain_to_markdown(items: List[ToMarkdownMixin], context: MarkdownContext, sep='', prefix=''):
     result = []
