@@ -37,17 +37,17 @@ pip install notionsci
 > Before getting started, configure [Notion intergration](notion.md#setting-up-connection)
 > and [Zotero integration](zotero.md#setting-up-connection).
 
-Duplicate the [Zotero Library Template](https://efficacious-alarm-7cc.notion.site/Zotero-Library-908bf67ef61048b79a1a10dfa5826302)
+Duplicate the [Zotero Library Template](https://efficacious-alarm-7cc.notion.site/Zotero-Library-36f83fd853994420a53d818a5b67da3e)
 and synchronize the Zotero Collections with:
 
 ```bash
-notionsci sync zotero collections <Url of your Zotero Collections page>
+notionsci sync zotero collections <url or id of the cloned library template page>
 ```
 
 and the References with:
 
 ```bash
-notionsci sync zotero refs <Url of your Zotero References page>
+notionsci sync zotero refs <url or id of the cloned library template page>
 ```
 
 ## [Documentation](https://egordm.github.io/notionsci/)
