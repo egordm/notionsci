@@ -58,16 +58,16 @@ It is possible to sync Zotero Collection tree to Notion. To do this you need to 
 page to the following command:
 
 ```bash
-notionsci sync zotero collections <collections database url of id>
+notionsci sync zotero collections <url or id of the cloned library template page>
 ```
 
 Usage:
 ```bash
-Usage: python -m notionsci sync zotero collections [OPTIONS] COLLECTIONS
+Usage: python -m notionsci sync zotero collections [OPTIONS] TEMPLATE
 
   Starts a one way Zotero references sync to Notion
 
-  COLLECTIONS: Collections database page ID or url
+  TEMPLATE: Cloned template page ID or url
 
 Options:
   --force  Ensures up to date items are also pushed to Zotero
@@ -79,30 +79,28 @@ To synchronize your references (Papers, Books, Articles, etc.) you need to pass 
 page to the following command.
 
 ```bash
-notionsci sync zotero refs <refs database url of id>
+notionsci sync zotero refs <url or id of the cloned library template page>
 ```
 
 To include the reference to collection relations you can also specify the collections database.
 
 ```bash
-notionsci sync zotero refs <refs database url of id> --collections <collections database url of id>
+notionsci sync zotero refs <url or id of the cloned library template page>
 ```
 
 Usage:
 ```bash
-Usage: python -m notionsci sync zotero refs [OPTIONS] REFERENCES
+Usage: python -m notionsci sync zotero refs [OPTIONS] TEMPLATE
 
   Starts a one way Zotero references sync to Notion
 
-  REFERENCES: References database page ID or url
+  TEMPLATE: Cloned template page ID or url
 
   When collecitons option is specified Unofficial Notion Api access is
   required
 
 Options:
   --force                 Ensures up to date items are also pushed to Zotero
-  -c, --collections TEXT  Collections database page ID or url to (optionally)
-                          add references to
   --help                  Show this message and exit.
 
 ```
