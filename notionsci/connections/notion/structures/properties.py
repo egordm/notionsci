@@ -42,6 +42,7 @@ class SelectValue:
 class DateValue(ToMarkdownMixin):
     start: str
     end: Undefinable[str] = None
+    time_zone: Undefinable[str] = None
 
     @staticmethod
     def from_date(value: dt.datetime):
