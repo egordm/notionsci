@@ -16,11 +16,11 @@ jobs:
         with:
           python-version: 3.9
       - name: Setup Pipenv
-        run: make setup
+        run: make setup-ci
       - name: Create test config
         run: |
           touch config.yml
-          pipenv run config
+          make config
           sed -i "s/<notion token>/${{ secrets.TEST_NOTION_TOKEN }}/g" config.yml
           sed -i "s/<notion unofficial token_v2>/${{ secrets.TEST_NOTION_TOKEN_V2 }}/g" config.yml
           sed -i "s/<zotero token>/${{ secrets.TEST_ZOTERO_TOKEN }}/g" config.yml

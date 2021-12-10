@@ -16,7 +16,10 @@ setup-ci: setup
 	pip install -r requirements-dev.txt
 
 clean:
-	rm -rf dist build requirements.txt requirements-dev.txt notionsci.egg-info
+	rm -rf dist build notionsci.egg-info
+
+config:
+	python -m notionsci config -f config.yml
 
 #---- Packaging ----
 

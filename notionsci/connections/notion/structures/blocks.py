@@ -161,7 +161,7 @@ class ToggleBlock(ListBlock):
 @dataclass_dict_convert(dict_letter_case=snakecase)
 @dataclass
 class ChildPageBlock:
-    text: str
+    title: str
 
 
 @dataclass
