@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.9
       - name: Setup Pipenv
-        run: make setup
+        run: make setup-ci
       - run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Publish docs
-        run: pipenv run mkdocs gh-deploy --clean --force
+        run: mkdocs gh-deploy --clean --force

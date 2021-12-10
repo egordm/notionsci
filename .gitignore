@@ -142,3 +142,4 @@ cython_debug/
 !.github/workflows/*.yml
 !mkdocs.yml
 scratch
+.secrets
